@@ -1,6 +1,8 @@
-# Rescue & Left Nav (Marvix)
+# Left Nav Revamp (Marvix)
 
-Docs and prototypes for Rescue ongoing recording and Left Nav / Local DB architecture.
+**Repo:** [Left_nav_revamp](https://github.com/sjsaama/Left_nav_revamp) · **Live prototype:** [GitHub Pages](https://sjsaama.github.io/Left_nav_revamp/)
 
-- **Prototype (live):** [Open the Left Nav Filters prototype](./index.html) — consult list, filters, search, view options.
+Docs and prototypes for Left Nav / Local DB architecture and Rescue ongoing recording.
+
+- **Prototype:** [Left Nav Filters](./index.html) — consult list, filters, search, view options.
 - **Docs:** [PRD: Left Nav, Local DB, and API](./docs/PRD_LEFT_NAV_LOCAL_DB_API.md) · [Rescue ongoing recording](./docs/RESCUE_ONGOING_RECORDING.md)

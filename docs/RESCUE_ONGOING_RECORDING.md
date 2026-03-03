@@ -224,13 +224,13 @@ sequenceDiagram
 | Stuck “ongoing” state | No way to access or close stuck recording | **Rescue** action: clear ongoing state, recover partial notes or close out |
 | Situation A (other device) | User can create a new recording but cannot access in-progress recording | Rescue clears state so user can recover partial notes or close that recording |
 
-This document and the prototype in this repo focus on **documenting the problem and prototyping the Rescue flow** (clearing stuck ongoing state + rescue action) for the web product.
+This document and the prototypes in this repo (Left_nav_revamp) focus on **documenting the problem and prototyping the Rescue flow** (clearing stuck ongoing state + rescue action) for the web product.
 
 ---
 
 ## 7. Prototype
 
-- **Location:** `prototype/index.html`
-- **Run:** Open in a browser, or `npx serve prototype` then open the URL.
+- **Left Nav prototype (live):** Root `index.html` — also at [GitHub Pages](https://sjsaama.github.io/Left_nav_revamp/).
+- **Rescue prototype:** `prototype/index.html` (if present). Run: Open in a browser, or `npx serve prototype` then open the URL.
 - **Flow:** Simulated “stuck” state (recording in progress on another device, not accessible) → **Rescue** clears ongoing state and recovers partial notes or closes that recording. Use **Reset simulation** to replay. (The prototype can be extended to show the “cannot access that recording” UX and Rescue from the consult/dictation list.)
 - See `prototype/README.md` for details.

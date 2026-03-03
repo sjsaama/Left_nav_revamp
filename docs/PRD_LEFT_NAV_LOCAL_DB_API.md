@@ -11,7 +11,7 @@
 This PRD defines the product and technical requirements for:
 
 - **Splitting** the single “appointment window” setting into **EHR look-ahead** and **ordering window**
-- **Left nav and date-based navigation** (default view, date strip, removal of “All” infinite scroll)
+- **Left nav and date-based navigation** (default view, window picker via settings icon, removal of “All” infinite scroll)
 - **Local DB retention and eviction** (window guarantee, practice retention ceiling, fetch_filter TTL)
 - **API behavior** for `fetchAll`, `fetchFilter`, and `fetchConsult` (window-aware sync, unified storage, merge awareness)
 
@@ -141,7 +141,7 @@ Reference for the **as-is** contract before the changes in §5–6.
 | Requirement | Description |
 |-------------|-------------|
 | **Search** | When user searches (e.g. by patient name): offline = local only; online = local + server; merge server results into local DB and UI (Gmail-style). |
-| **Date / out-of-window** | When user selects a date outside the ordering window (e.g. date strip or calendar): call with that date range; return consults for that range; results are upserted into the same local consults table. |
+| **Date / out-of-window** | When user selects a date or range outside the ordering window (e.g. via search or date-range filter): call with that date range; return consults for that range; results are upserted into the same local consults table. |
 | **Persistence** | Results from `fetch_filter` are **persisted**. Rows that exist **only** because of a search or date-based fetch (and are **outside** the current ordering window) are **evicted after 3 days** (see §6.4). Rows that fall inside the ordering window are protected by the window guarantee. |
 
 ### 5.4 fetchConsult (merge awareness)
@@ -155,7 +155,7 @@ Reference for the **as-is** contract before the changes in §5–6.
 |--------|-----------------|----------------------|
 | **fetch_all role** | Primary sync; pagination when scrolling past 150 | Window-aware sync; **all** consults in ordering window returned (no count truncation); delta sync retained |
 | **fetch_all local** | Max 150; evict by recency | No eviction for in-window consults; global cap + practice retention + 3-day TTL for fetch_filter-only |
-| **fetch_filter role** | Search/filter beyond 150; online only | Search + date-based fetch (e.g. date strip); same API, results persisted |
+| **fetch_filter role** | Search/filter beyond 150; online only | Search + date-based fetch (e.g. search or date-range filter); same API, results persisted |
 | **fetch_filter local** | Temporary; HOME/SEARCH/HOME_AND_SEARCH flags; cleaned on exit | **Unified table**; upsert into same consults table; out-of-window fetch_filter-only rows **evicted after 3 days** |
 | **Offline** | Local cache only (≤150) | **Full ordering window** always on device; search/out-of-window = local first, then fetch when online |
 
