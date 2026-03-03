@@ -1,0 +1,10 @@
+# Exclude Marvix UI assets folder
+marvix_ui/
+
+# OS and editor
+.DS_Store
+.cursor/
+
+# Optional
+*.log
+node_modules/

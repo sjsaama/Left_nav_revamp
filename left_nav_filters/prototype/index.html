@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Consult — Left pane filters &amp; search (prototype)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --marvix-purple: #5b21b6;
+      --marvix-purple-light: #7c3aed;
+      --marvix-teal: #0d9488;
+      --marvix-teal-light: #14b8a6;
+      --marvix-green: #059669;
+      --marvix-red: #dc2626;
+      --sidebar-bg: #4c1d95;
+      --header-bg: #fafafa;
+      --content-bg: #ffffff;
+      --border: #e5e7eb;
+      --text: #1f2937;
+      --text-muted: #6b7280;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Inter', -apple-system, sans-serif; font-size: 14px; color: var(--text); background: var(--content-bg); }
+
+    .layout { display: flex; min-height: 100vh; }
+
+    /* Left sidebar - purple */
+    .sidebar {
+      width: 72px;
+      background: var(--sidebar-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 0;
+      flex-shrink: 0;
+    }
+    .sidebar-logo {
+      width: 40px; height: 40px;
+      background: var(--marvix-teal-light);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .sidebar-nav { display: flex; flex-direction: column; gap: 4px; }
+    .sidebar-nav a {
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 10px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+    }
+    .sidebar-nav a:hover, .sidebar-nav a.active { background: rgba(255,255,255,0.15); color: #fff; }
+    .sidebar-add {
+      margin-top: auto;
+      width: 48px; height: 48px;
+      background: var(--marvix-teal);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 24px; font-weight: 300;
+      cursor: pointer;
+    }
+    .sidebar-add:hover { background: var(--marvix-teal-light); }
+    .sidebar-settings {
+      margin-top: 12px;
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,0.7);
+      border-radius: 10px;
+    }
+    .sidebar-settings:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* Main area */
+    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    .header-pills {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pill {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .pill-purple { background: var(--marvix-purple); color: #fff; }
+    .pill-gray { background: var(--border); color: var(--text); }
+    .header-patient { font-size: 13px; color: var(--text-muted); }
+    .header-right { font-size: 13px; color: var(--text-muted); }
+
+    /* Content: two columns */
+    .content { display: flex; flex: 1; min-height: 0; }
+
+    /* Left pane - consult list */
+    .pane-left {
+      position: relative;
+      width: 320px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    /* Left pane header (Heidi-style: icon bar) */
+    .pane-left-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .pane-left-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .pane-left-icons {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .pane-left-icons .icon-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      color: var(--text-muted);
+      border-radius: 8px;
+    }
+    .pane-left-icons .icon-btn:hover {
+      color: var(--marvix-purple);
+      background: #f5f3ff;
+    }
+    .pane-left-icons .icon-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+    /* Date filter (first filter - icon only; date bar hidden) */
+    .date-filter-block {
+      flex-shrink: 0;
+      padding: 0;
+      border-bottom: none;
+      height: 0;
+      overflow: visible;
+    }
+    .date-filter-block.open {
+      height: 0;
+      padding: 0;
+    }
+    .date-filter-block .wrap { position: relative; }
+    .date-filter-trigger {
+      display: none !important;
+    }
+    .date-filter-trigger .label { font-weight: 500; color: var(--text-muted); }
+    .date-filter-trigger .value { font-weight: 600; margin-left: 8px; }
+    .date-filter-trigger .value.empty { font-weight: 400; color: var(--text-muted); }
+    .date-filter-trigger .chevron { margin-left: auto; color: var(--text-muted); transition: transform 0.2s; }
+    .date-filter-trigger.open .chevron { transform: rotate(180deg); }
+    .date-filter-dropdown {
+      position: fixed;
+      top: 12px;
+      left: 392px;
+      display: none;
+      flex-direction: column;
+      min-width: 480px;
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      z-index: 100;
+      overflow: hidden;
+    }
+    .date-filter-block.open .date-filter-dropdown { display: flex; }
+    .date-filter-popup-header {
+      padding: 12px 16px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      border-bottom: 1px solid #e5e7eb;
+      background: #fafafa;
+    }
+    .date-filter-popup-header.empty { color: var(--text-muted); font-weight: 500; }
+    .date-filter-dropdown-row { display: flex; flex-direction: row; }
+    .date-filter-presets {
+      width: 180px;
+      flex-shrink: 0;
+      padding: 12px 0 12px 0;
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+    }
+    .date-filter-presets .option {
+      display: block;
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 13px;
+      text-align: left;
+      border: none;
+      background: #f9fafb;
+      cursor: pointer;
+      color: var(--text);
+      border-radius: 6px;
+      margin: 0 12px 4px;
+      border: 1px solid transparent;
+    }
+    .date-filter-presets .option:first-of-type { margin-top: 4px; }
+    .date-filter-presets .option:hover { background: #f5f3ff; color: var(--marvix-purple); border-color: #e5e7eb; }
+    .date-filter-presets .option.selected { background: #eff6ff; color: #1d4ed8; font-weight: 500; }
+    .date-filter-presets .option.selected::after { content: none; }
+    .date-filter-presets .divider { height: 1px; background: #e5e7eb; margin: 8px 16px 12px; }
+    .date-filter-footer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-top: 1px solid #e5e7eb;
+      background: #fff;
+    }
+    .date-filter-time-in-dropdown {
+      padding: 12px 16px 16px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 12px;
+      background: #fafafa;
+    }
+    .date-filter-time-in-dropdown .time-filter-label { font-weight: 500; color: var(--text-muted); margin-bottom: 8px; font-size: 12px; }
+    .date-filter-time-in-dropdown .time-filter-strip { display: none; }
+    .date-filter-time-in-dropdown .time-range-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .date-filter-time-in-dropdown .time-range-slider-wrap input[type="range"] {
+      flex: 1;
+      min-width: 0;
+      height: 8px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #e0e7ff;
+      border-radius: 4px;
+    }
+    .date-filter-time-in-dropdown .time-range-slider-wrap input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #2563eb;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .date-filter-time-in-dropdown .time-range-slider-wrap input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #2563eb;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .date-filter-time-in-dropdown .time-range-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--text-muted); }
+    .date-filter-calendar {
+      display: flex;
+      flex-direction: row;
+      padding: 16px;
+      gap: 16px;
+    }
+    .calendar-month {
+      min-width: 200px;
+    }
+    .calendar-month-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .calendar-month-header button {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      cursor: pointer;
+      padding: 6px 10px;
+      color: var(--text-muted);
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .calendar-month-header button:hover { color: #2563eb; background: #eff6ff; border-color: #bfdbfe; }
+    .calendar-dow {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      margin-bottom: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-align: center;
+    }
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      font-size: 12px;
+    }
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 4px;
+      color: var(--text);
+    }
+    .calendar-day:hover { background: #eff6ff; color: #1d4ed8; }
+    .calendar-day.other-month { color: var(--text-muted); opacity: 0.5; }
+    .calendar-day.range { background: #dbeafe; color: var(--text); }
+    .calendar-day.range-start,
+    .calendar-day.range-end { background: #2563eb; color: #fff; }
+    .calendar-day.range-start.range-end { border-radius: 6px; }
+    .date-filter-dropdown .btn-apply { margin: 0; min-width: fit-content; }
+    .date-filter-dropdown .date-filter-footer .btn-apply { flex: none; }
+    .date-filter-dropdown .date-filter-footer .clear-filters { margin: 0; flex-shrink: 0; width: auto; }
+    .date-filter-footer .btn-apply,
+    .date-filter-footer .clear-filters {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .date-filter-footer-icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+    .date-filter-clear-link {
+      padding: 8px 12px;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .date-filter-clear-link:hover { color: #dc2626; background: #fef2f2; }
+    .date-filter-dropdown .option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      color: var(--text);
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .date-filter-dropdown .option:hover { background: #f5f3ff; }
+    .date-filter-dropdown .option.selected { background: #f5f3ff; color: var(--marvix-purple); font-weight: 600; }
+    .date-filter-dropdown .option.selected::after { content: '\2713'; margin-left: 8px; font-weight: 700; }
+    .date-filter-dropdown .divider { height: 1px; background: var(--border); margin: 8px 0; }
+    .date-filter-dropdown .custom-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .date-filter-dropdown .custom-row input[type="date"] {
+      flex: 1;
+      height: 36px;
+      padding: 0 10px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .date-filter-dropdown .btn-apply {
+      width: auto;
+      min-width: 80px;
+      margin-top: 0;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--marvix-purple);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .date-filter-dropdown .btn-apply:hover { filter: brightness(1.05); }
+    .date-filter-dropdown .clear-filters {
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .date-filter-dropdown .clear-filters:hover { background: #fef2f2; color: var(--marvix-red); }
+    .date-filter-block .wrap { position: relative; }
+
+    .pane-left-search {
+      padding: 6px 12px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .pane-search-input {
+      width: 100%;
+      height: 36px;
+      padding: 0 12px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--content-bg);
+    }
+    .pane-search-input:focus {
+      outline: none;
+      border-color: var(--marvix-purple);
+      box-shadow: 0 0 0 2px rgba(91, 33, 182, 0.2);
+    }
+    .pane-left-search .search-input-wrap { position: relative; }
+    .search-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 4px;
+      max-height: 280px;
+      overflow-y: auto;
+      background: var(--content-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+      z-index: 50;
+    }
+    .search-suggestions[hidden] { display: none !important; }
+    .search-suggestions-section { padding: 6px 0 2px; }
+    .search-suggestions-section-title { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); padding: 4px 12px; }
+    .search-suggestion-item {
+      padding: 8px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      text-align: left;
+      border: none;
+      background: none;
+      color: var(--text);
+    }
+    .search-suggestion-item:hover { background: #f5f3ff; color: var(--marvix-purple); }
+    .search-suggestion-item .name { font-weight: 600; display: block; }
+    .search-suggestion-item .meta { font-size: 11px; color: var(--text-muted); }
+    .tabs {
+      display: flex;
+      gap: 0;
+      padding: 6px 12px 0;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+    }
+    .tabs button {
+      flex: 1;
+      min-width: 0;
+      padding: 8px 8px;
+      border: none;
+      background: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      text-align: center;
+    }
+    .tabs button.active { color: var(--marvix-purple); border-bottom-color: var(--marvix-purple); }
+    .status-pills {
+      display: flex;
+      align-items: center;
+      padding: 6px 12px 8px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .status-pills-label { color: var(--text-muted); margin-right: 6px; font-weight: 500; }
+    .status-pills-list {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex: 1;
+      min-width: 0;
+    }
+    .status-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-width: 0;
+      padding: 4px 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--content-bg);
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .status-pill:hover { border-color: var(--marvix-purple); color: var(--marvix-purple); background: #faf5ff; }
+    .status-pill.active { border-color: var(--marvix-purple); background: #f5f3ff; color: var(--marvix-purple); }
+    .status-pill[data-state-filter="ready"].active { border-color: #16a34a; background: #dcfce7; color: #166534; }
+    .status-pill[data-state-filter="in_progress"].active { border-color: var(--marvix-purple); background: #f5f3ff; color: var(--marvix-purple); }
+    .consult-list { padding: 4px 8px; overflow-y: auto; flex: 1; }
+    .consult-date { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); padding: 6px 8px 2px; }
+    .consult-date .focus-date-tag {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 2px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      border-radius: 4px;
+      background: var(--marvix-purple);
+      color: #fff;
+    }
+    .consult-card {
+      display: grid;
+      grid-template-columns: 1fr 70px;
+      grid-template-rows: auto auto;
+      column-gap: 8px;
+      row-gap: 0;
+      padding: 4px 8px;
+      border-radius: 8px;
+      margin-bottom: 1px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+    }
+    .consult-card:hover { background: #f9fafb; }
+    .consult-card.selected { border-color: var(--marvix-purple); border-style: dashed; background: #faf5ff; }
+    .consult-card[data-state="ready"] { background: #dcfce7; border-color: #bbf7d0; }
+    .consult-card[data-state="ready"]:hover { background: #bbf7d0; }
+    .consult-card[data-state="in_progress"] { background: #f5f3ff; border-color: #e9e5ff; }
+    .consult-card[data-state="in_progress"]:hover { background: #ede9fe; }
+    .consult-card[data-state="planned"] { background: #fff; border: 1px dashed var(--marvix-purple); }
+    .consult-card[data-state="planned"]:hover { background: #faf5ff; }
+    .consult-card-empty .consult-card-empty-lines {
+      grid-column: 1 / -1;
+      grid-row: 1 / -1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      padding: 4px 0;
+    }
+    .consult-card-empty .consult-card-empty-lines::before,
+    .consult-card-empty .consult-card-empty-lines::after {
+      content: '';
+      display: block;
+      height: 0;
+      border-bottom: 1px dashed var(--border);
+      margin: 0 4px;
+    }
+    .consult-card-empty .consult-card-empty-lines::after { width: 60%; }
+    .consult-card .name { grid-column: 1; grid-row: 1; font-size: 13px; font-weight: 600; line-height: 1.2; color: var(--text); }
+    .consult-card .meta { grid-column: 1; grid-row: 2; font-size: 11px; font-weight: 500; line-height: 1.2; color: var(--text-muted); }
+    .consult-state-tag {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: flex-end;
+      align-self: center;
+      display: inline-block;
+      margin: 0;
+      padding: 1px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .consult-state-planned { background: #f3f4f6; color: #6b7280; }
+    .consult-state-ready { background: #dcfce7; color: #166534; }
+    .consult-state-in-progress { background: #fef3c7; color: #b45309; }
+    .consult-card-badges {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: center;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .consult-walkin-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .consult-walkin-icon svg { width: 16px; height: 16px; display: block; }
+    .consult-card[data-source="walkin"] .consult-walkin-icon { color: var(--marvix-red); }
+
+    .consult-ehr-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+    .consult-ehr-icon svg { width: 16px; height: 16px; display: block; }
+    .consult-ehr-icon[data-ehr="pushed"] { color: var(--marvix-green); }
+    .consult-ehr-icon[data-ehr="not_pushed"] { color: var(--text-muted); }
+    .consult-list .add-recording {
+      margin: 12px 8px;
+      width: 48px; height: 48px;
+      background: var(--marvix-green);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 24px; cursor: pointer;
+    }
+    .consult-list .add-recording:hover { filter: brightness(1.05); }
+
+    /* View options modal (Heidi Customize-style) */
+    .view-options-modal .modal-dialog { max-width: 380px; overflow: visible; }
+    .view-options-modal .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .view-options-modal .modal-close-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border: none;
+      background: rgba(255,255,255,0.2);
+      color: #fff;
+      border-radius: 6px;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .view-options-modal .modal-close-btn:hover { background: rgba(255,255,255,0.3); }
+    .view-options-modal .modal-close-btn:focus { outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.5); }
+    .view-options-modal .modal-body { padding: 20px 24px; overflow: visible; }
+    .view-options-field {
+      margin-bottom: 20px;
+    }
+    .view-options-field:last-of-type { margin-bottom: 0; }
+    .view-options-field .label-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      overflow: visible;
+    }
+    .view-options-field .label-row .info-tooltip-wrap { flex-shrink: 0; }
+    .view-options-field .label-row label {
+      display: inline-block;
+      margin-bottom: 0;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .info-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: var(--content-bg);
+      color: var(--text-muted);
+      cursor: help;
+      flex-shrink: 0;
+    }
+    .info-btn svg { width: 12px; height: 12px; display: block; }
+    .info-btn:hover { border-color: var(--marvix-purple); color: var(--marvix-purple); background: #faf5ff; }
+    .info-btn:focus { outline: none; box-shadow: 0 0 0 2px rgba(91, 33, 182, 0.3); }
+    .info-tooltip-wrap { position: relative; display: inline-flex; }
+    .info-tooltip {
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 8px);
+      transform: translateX(-50%);
+      width: max-content;
+      max-width: 260px;
+      padding: 10px 12px;
+      background: #1f2937;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.4;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .info-tooltip-wrap:hover .info-tooltip,
+    .info-tooltip-wrap:focus-within .info-tooltip { opacity: 1; visibility: visible; }
+    .view-options-field .hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .view-options-field select {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      font-size: 13px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--content-bg);
+      color: var(--text);
+    }
+    .view-options-slider-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+      margin-top: 4px;
+    }
+    .view-options-slider-wrap input[type="range"] {
+      width: 100%;
+      height: 6px;
+      accent-color: var(--marvix-purple);
+    }
+    .view-options-slider-wrap .slider-value-block {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--marvix-purple);
+    }
+    .view-options-slider-wrap .slider-value {
+      font-weight: 600;
+      color: var(--marvix-purple);
+    }
+    .view-options-modal .modal-actions {
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 24px 24px;
+    }
+    .view-options-modal .btn-secondary {
+      background: var(--border);
+      color: var(--text);
+    }
+    .view-options-modal .btn-secondary:hover { background: #e0e0e0; }
+
+    /* Date order drag-and-drop list */
+    .order-dnd-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .order-dnd-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--content-bg);
+      border-bottom: 1px solid var(--border);
+      cursor: grab;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      user-select: none;
+    }
+    .order-dnd-item:last-child { border-bottom: none; }
+    .order-dnd-item:hover { background: #f9fafb; }
+    .order-dnd-item.dragging {
+      opacity: 0.6;
+      cursor: grabbing;
+      background: #f5f3ff;
+    }
+    .order-dnd-item.drag-over {
+      border-top: 2px solid var(--marvix-purple);
+      margin-top: -1px;
+    }
+    .order-dnd-item .drag-handle {
+      color: var(--text-muted);
+      flex-shrink: 0;
+      pointer-events: none;
+    }
+    .order-dnd-item .drag-handle svg { width: 18px; height: 18px; display: block; }
+
+    /* Right pane - consult detail */
+    .pane-right { flex: 1; overflow-y: auto; padding: 24px; }
+    .pane-right-context {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pane-right-context .context-left {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .pane-right-context .header-right { font-size: 13px; color: var(--text-muted); }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin: 0 0 12px;
+    }
+
+    /* INPUTS FOR AI - dictation list */
+    .inputs-card {
+      background: var(--content-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+    }
+    .dictation-list { list-style: none; margin: 0; padding: 0; }
+    .dictation-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .dictation-item:last-child { border-bottom: none; }
+    .dictation-item .label { flex: 1; font-size: 14px; min-width: 0; }
+    .dictation-item.stuck .label {
+      border-bottom: 2px dashed var(--marvix-purple-light);
+      padding-bottom: 2px;
+    }
+    .dictation-item .progress { width: 80px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
+    .dictation-item .progress-fill { height: 100%; background: var(--marvix-teal); border-radius: 3px; }
+    .dictation-item.stuck .progress-fill { width: 0; }
+    .dictation-item .item-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .btn {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-rescue { background: var(--marvix-red); color: #fff; }
+    .btn-rescue:hover { filter: brightness(1.08); }
+    .btn-dictation { background: var(--marvix-purple-light); color: #fff; padding: 10px 20px; }
+    .btn-dictation:hover { filter: brightness(1.08); }
+    .btn-add-consult { background: var(--marvix-teal); color: #fff; }
+    .btn-add-consult:hover { filter: brightness(1.08); }
+    .btn-process { background: var(--marvix-green); color: #fff; }
+    .btn-process:hover { filter: brightness(1.08); }
+    .icon-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      color: var(--text-muted);
+      border-radius: 4px;
+    }
+    .icon-btn:hover { color: var(--marvix-red); background: #fef2f2; }
+    .icon-btn svg { width: 18px; height: 18px; display: block; }
+
+    .actions-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; align-items: center; }
+    .actions-row .btn { display: inline-flex; align-items: center; gap: 8px; }
+
+    /* WHAT SHOULD AI GENERATE + OUTPUTS - simplified */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .generate-card, .outputs-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .outputs-card .tabs { padding: 0 0 12px; border: none; }
+    .outputs-card .tabs button { padding: 8px 12px; font-size: 12px; }
+    .outputs-card textarea {
+      width: 100%;
+      min-height: 120px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 13px;
+      resize: vertical;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--text);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 1000;
+      opacity: 0;
+      transition: transform 0.25s, opacity 0.25s;
+    }
+    .toast.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+    /* Rescue confirmation modal - MARVIX style */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      padding: 24px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.2s;
+    }
+    .modal-overlay.visible { opacity: 1; visibility: visible; }
+    .modal-dialog {
+      background: var(--content-bg);
+      border-radius: 12px;
+      box-shadow: 0 24px 48px rgba(0,0,0,0.2);
+      max-width: 420px;
+      width: 100%;
+      overflow: hidden;
+    }
+    .modal-dialog .modal-header {
+      background: var(--marvix-purple);
+      color: #fff;
+      padding: 16px 24px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .modal-dialog .modal-body {
+      padding: 24px;
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .modal-dialog .modal-body p { margin: 0 0 12px; }
+    .modal-dialog .modal-body p:last-child { margin-bottom: 0; }
+    .modal-dialog .modal-actions {
+      padding: 16px 24px 24px;
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+    .modal-dialog .modal-actions .btn-outline {
+      background: transparent;
+      color: var(--marvix-purple);
+      border: 2px solid var(--marvix-purple);
+    }
+    .modal-dialog .modal-actions .btn-outline:hover { background: #faf5ff; }
+
+    /* Active filters bar: show what's applied and how to remove */
+    .active-filters {
+      display: none;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+      padding: 6px 12px 8px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .active-filters.visible { display: flex; }
+    .active-filters-label { color: var(--text-muted); margin-right: 4px; line-height: 1.25; }
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 6px 2px 8px;
+      background: #f5f3ff;
+      color: var(--marvix-purple);
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+    .filter-chip-clear {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      padding: 0;
+      border: none;
+      background: rgba(88, 28, 135, 0.2);
+      color: var(--marvix-purple);
+      border-radius: 50%;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .filter-chip-clear:hover { background: rgba(88, 28, 135, 0.35); }
+    .active-filters-clear {
+      margin-left: auto;
+      padding: 2px 0;
+      border: none;
+      background: none;
+      color: var(--text-muted);
+      font-size: 12px;
+      line-height: 1.25;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .active-filters-clear:hover { color: var(--marvix-purple); }
+
+    /* Date pills: Today / Tomorrow (below status pills) */
+    .date-pills {
+      display: flex;
+      align-items: center;
+      padding: 6px 12px 8px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .date-pills-list {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+    .date-pill {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-width: 0;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--content-bg);
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+    }
+    .date-pill:hover { border-color: var(--marvix-purple); color: var(--marvix-purple); background: #faf5ff; }
+    .date-pill.active { border-color: var(--marvix-purple); background: #f5f3ff; color: var(--marvix-purple); }
+
+    /* Time filter (below date pills) */
+    .time-filter-block {
+      flex-shrink: 0;
+      padding: 8px 12px 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .time-filter-label { color: var(--text-muted); margin-bottom: 4px; font-weight: 500; display: block; }
+    .time-filter-strip {
+      display: block;
+      margin-bottom: 8px;
+      padding: 4px 8px;
+      background: #f5f3ff;
+      border-radius: 6px;
+      font-weight: 600;
+      color: var(--marvix-purple);
+      font-size: 12px;
+    }
+    .time-range-slider-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .time-range-slider-wrap input[type="range"] {
+      flex: 1;
+      min-width: 0;
+      height: 6px;
+      accent-color: var(--marvix-purple);
+    }
+    .time-range-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* Badge on icon when filter is applied */
+    .icon-btn.has-filter { position: relative; }
+    .icon-btn.has-filter::after {
+      content: '';
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 6px;
+      height: 6px;
+      background: var(--marvix-purple);
+      border-radius: 50%;
+      border: 1px solid var(--content-bg);
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- MARVIX left sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo" aria-hidden="true"></div>
+      <nav class="sidebar-nav">
+        <a href="#" class="active" title="Home">⌂</a>
+        <a href="#" title="Macros">⚡</a>
+        <a href="#" title="Refer">👥</a>
+        <a href="#" title="Guide">📖</a>
+        <a href="#" title="Book Training">📕</a>
+      </nav>
+      <div class="sidebar-add" title="Start new recording" id="sidebar-new-recording">+</div>
+      <div class="sidebar-settings" title="Settings">⚙</div>
+    </aside>
+
+    <div class="main">
+      <div class="content">
+        <!-- Left pane - consult list -->
+        <div class="pane-left">
+          <header class="pane-left-header">
+            <span class="pane-left-title">Consults</span>
+            <div class="pane-left-icons">
+              <button type="button" class="icon-btn" id="btn-filter-sort" title="Date filter" aria-label="Date filter">
+                <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              </button>
+              <button type="button" class="icon-btn" id="btn-search" title="Search" aria-label="Search">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+              </button>
+              <button type="button" class="icon-btn" id="btn-refresh" title="Refresh" aria-label="Refresh">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              </button>
+              <button type="button" class="icon-btn" id="btn-view-options" title="Appointments synced: 7 days back → 14 days ahead" aria-label="View options (sync window &amp; default dates)">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </button>
+            </div>
+          </header>
+          <div class="date-filter-block" id="date-filter-block">
+            <div class="wrap">
+              <button type="button" class="date-filter-trigger" id="date-filter-trigger" aria-expanded="false" aria-haspopup="true" aria-label="Filter by date">
+                <span><span class="label">Date</span><span class="value empty" id="date-filter-value">All</span></span>
+                <span class="chevron" aria-hidden="true">▾</span>
+              </button>
+              <div class="date-filter-dropdown" id="date-filter-dropdown" role="menu">
+                <div class="date-filter-popup-header empty" id="date-filter-popup-header">Select date range</div>
+                <div class="date-filter-dropdown-row">
+                  <div class="date-filter-presets">
+                    <button type="button" class="option" role="menuitem" data-preset="today">Today</button>
+                    <button type="button" class="option" role="menuitem" data-preset="yesterday">Yesterday</button>
+                    <button type="button" class="option" role="menuitem" data-preset="7">Last 7 days</button>
+                    <button type="button" class="option" role="menuitem" data-preset="15">Last 15 days</button>
+                    <button type="button" class="option" role="menuitem" data-preset="month">Last month</button>
+                    <div class="divider"></div>
+                    <button type="button" class="option option-custom" role="menuitem" data-preset="custom">Custom</button>
+                  </div>
+                  <div class="date-filter-calendar" id="date-filter-calendar">
+                    <div class="calendar-month" id="calendar-month-1"></div>
+                    <div class="calendar-month" id="calendar-month-2"></div>
+                  </div>
+                </div>
+                <div class="date-filter-time-in-dropdown">
+                  <span class="time-filter-label">Time of day</span>
+                  <span class="time-filter-strip" id="time-filter-strip">06:00 — 18:00</span>
+                  <div class="time-range-slider-wrap">
+                    <input type="range" id="time-filter-start" min="0" max="1440" value="360" step="15" title="Start time" aria-label="Time of day (start)" />
+                    <input type="range" id="time-filter-end" min="0" max="1440" value="1080" step="15" title="End time" aria-label="Time of day (end)" />
+                  </div>
+                  <div class="time-range-labels">
+                    <span>00:00</span>
+                    <span>23:59</span>
+                  </div>
+                </div>
+                <div class="date-filter-footer">
+                  <button type="button" class="clear-filters date-filter-clear-link" id="date-filter-clear">
+                    <svg class="date-filter-footer-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                    <span>Clear filters</span>
+                  </button>
+                  <button type="button" class="btn-apply" id="date-filter-apply">
+                    <svg class="date-filter-footer-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+                    <span>Apply</span>
+                  </button>
+                </div>
+              </div>
+              <input type="hidden" id="date-from" />
+              <input type="hidden" id="date-to" />
+            </div>
+          </div>
+          <div class="pane-left-search" id="pane-left-search" hidden>
+            <div class="search-input-wrap">
+              <input type="search" class="pane-search-input" placeholder="Search by name or date…" aria-label="Search consults by name or date" id="input-search-consults" autocomplete="off" />
+              <div class="search-suggestions" id="search-suggestions" role="listbox" aria-label="Search suggestions" hidden></div>
+            </div>
+          </div>
+          <div class="active-filters" id="active-filters" aria-live="polite">
+            <span class="active-filters-label">Filters:</span>
+            <span class="filter-chip" id="chip-date" hidden>
+              <span id="chip-date-text"></span>
+              <button type="button" class="filter-chip-clear" id="chip-date-clear" aria-label="Remove date filter">×</button>
+            </span>
+            <button type="button" class="active-filters-clear" id="active-filters-clear-all">Clear all</button>
+          </div>
+          <div class="status-pills" role="group" aria-label="Filter by status">
+            <div class="status-pills-list">
+              <button type="button" class="status-pill" id="status-all" data-state-filter="all">All</button>
+              <button type="button" class="status-pill" id="status-planned" data-state-filter="planned">Planned</button>
+              <button type="button" class="status-pill" id="status-ready" data-state-filter="ready">Ready</button>
+              <button type="button" class="status-pill" id="status-in-progress" data-state-filter="in_progress">In progress</button>
+            </div>
+          </div>
+          <div class="date-pills" role="group" aria-label="Filter by day">
+            <div class="date-pills-list">
+              <button type="button" class="date-pill" id="date-pill-today" data-date-filter="today">Today</button>
+              <button type="button" class="date-pill" id="date-pill-tomorrow" data-date-filter="tomorrow">Tomorrow</button>
+              <button type="button" class="date-pill active" id="date-pill-all" data-date-filter="all">All dates</button>
+            </div>
+          </div>
+          <div class="consult-list" id="consult-list">
+            <div class="consult-date" data-date="2025-02-20">20 Feb 2025</div>
+            <div class="consult-card" data-date="2025-02-20" data-state="planned"><div class="name">MARIA GARCIA (E-1201)</div><div class="meta">9:15 AM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-02-20" data-state="ready"><div class="name">DAVID CHEN (E-1202)</div><div class="meta">11:00 AM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-date" data-date="2025-02-22">22 Feb 2025</div>
+            <div class="consult-card" data-date="2025-02-22" data-state="in_progress"><div class="name">EMMA WILSON (E-1203)</div><div class="meta">2:30 PM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
+            <div class="consult-card" data-date="2025-02-22" data-state="planned"><div class="name">JAMES TAYLOR (E-1204)</div><div class="meta">4:00 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-date" data-date="2025-02-24">24 Feb 2025</div>
+            <div class="consult-card" data-date="2025-02-24" data-state="ready"><div class="name">SOPHIA LEE (E-1205)</div><div class="meta">10:00 AM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-02-24" data-state="planned"><div class="name">OLIVER MARTINEZ (E-1206)</div><div class="meta">1:45 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-date" data-date="2025-02-25">25 Feb 2025</div>
+            <div class="consult-card" data-date="2025-02-25" data-state="in_progress"><div class="name">ISABELLA BROWN (E-1207)</div><div class="meta">9:30 AM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
+            <div class="consult-card" data-date="2025-02-25" data-state="ready"><div class="name">LIAM ANDERSON (E-1208)</div><div class="meta">3:15 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-02-25" data-state="in_progress" data-source="walkin">
+              <div class="name">RYAN COOPER</div>
+              <div class="meta">4:45 PM · Walk-in</div>
+              <span class="consult-state-tag consult-state-in-progress">In progress</span>
+              <div class="consult-card-badges">
+                <span class="info-tooltip-wrap">
+                  <span class="consult-walkin-icon" aria-label="Walk-in, not linked to appointment">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 0 1 7 7l-1 1"/><path d="M14 11a5 5 0 0 1 0 7l-1 1a5 5 0 0 1-7-7l1-1"/><path d="M3 3l18 18"/></svg>
+                  </span>
+                  <span class="info-tooltip" role="tooltip">Walk-in: not linked to a scheduled appointment.</span>
+                </span>
+              </div>
+            </div>
+            <div class="consult-date" data-date="2025-02-26">26 Feb 2025</div>
+            <div class="consult-card selected" data-date="2025-02-26" data-state="in_progress">
+              <div class="name">JOHN DOE (E-1209)</div>
+              <div class="meta">10:00 AM</div>
+              <span class="consult-state-tag consult-state-in-progress">In progress</span>
+            </div>
+            <div class="consult-card" data-date="2025-02-26" data-state="planned"><div class="name">JANE SMITH (E-1210)</div><div class="meta">11:30 AM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-02-26" data-state="ready"><div class="name">BOB WILSON (E-1211)</div><div class="meta">2:00 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-02-26" data-state="planned" data-source="walkin">
+              <div class="name">PRIYA SHARMA</div>
+              <div class="meta">3:30 PM · Walk-in</div>
+              <span class="consult-state-tag consult-state-planned">Planned</span>
+              <div class="consult-card-badges">
+                <span class="info-tooltip-wrap">
+                  <span class="consult-walkin-icon" aria-label="Walk-in, not linked to appointment">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 0 1 7 7l-1 1"/><path d="M14 11a5 5 0 0 1 0 7l-1 1a5 5 0 0 1-7-7l1-1"/><path d="M3 3l18 18"/></svg>
+                  </span>
+                  <span class="info-tooltip" role="tooltip">Walk-in: not linked to a scheduled appointment.</span>
+                </span>
+              </div>
+            </div>
+            <div class="consult-date" data-date="2025-02-27">27 Feb 2025</div>
+            <div class="consult-card" data-date="2025-02-27" data-state="planned"><div class="name">ALICE BROWN (E-1212)</div><div class="meta">8:45 AM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-02-27" data-state="ready"><div class="name">CHARLOTTE DAVIS (E-1213)</div><div class="meta">12:00 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-02-27" data-state="ready" data-source="walkin">
+              <div class="name">MARCUS JONES</div>
+              <div class="meta">1:15 PM · Walk-in</div>
+              <span class="consult-state-tag consult-state-ready">Ready</span>
+              <div class="consult-card-badges">
+                <span class="info-tooltip-wrap">
+                  <span class="consult-walkin-icon" aria-label="Walk-in, not linked to appointment">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 0 1 7 7l-1 1"/><path d="M14 11a5 5 0 0 1 0 7l-1 1a5 5 0 0 1-7-7l1-1"/><path d="M3 3l18 18"/></svg>
+                  </span>
+                  <span class="info-tooltip" role="tooltip">Walk-in: not linked to a scheduled appointment.</span>
+                </span>
+              </div>
+            </div>
+            <div class="consult-date" data-date="2025-02-28">28 Feb 2025</div>
+            <div class="consult-card" data-date="2025-02-28" data-state="in_progress"><div class="name">NOAH THOMPSON (E-1214)</div><div class="meta">10:30 AM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
+            <div class="consult-card" data-date="2025-02-28" data-state="planned"><div class="name">AVA JACKSON (E-1215)</div><div class="meta">4:00 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-date" data-date="2025-03-01">1 Mar 2025</div>
+            <div class="consult-card" data-date="2025-03-01" data-state="ready"><div class="name">ELIJAH WHITE (E-1216)</div><div class="meta">9:00 AM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-03-01" data-state="planned"><div class="name">MIA HARRIS (E-1217)</div><div class="meta">1:30 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-date" data-date="2025-03-03">3 Mar 2025</div>
+            <div class="consult-card" data-date="2025-03-03" data-state="in_progress"><div class="name">LUCAS CLARK (E-1218)</div><div class="meta">11:00 AM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
+            <div class="consult-card" data-date="2025-03-03" data-state="ready"><div class="name">AMELIA LEWIS (E-1219)</div><div class="meta">3:45 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-03-03" data-state="planned"><div class="name">BENJAMIN WALKER (E-1220)</div><div class="meta">5:00 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="add-recording" title="Start new recording" id="pane-new-recording">+</div>
+          </div>
+        </div>
+
+        <!-- Right pane - consult detail (INPUTS FOR AI + Rescue) -->
+        <div class="pane-right">
+          <div class="pane-right-context">
+            <div class="context-left">
+              <div class="header-pills">
+                <span class="pill pill-purple">A21-1234</span>
+                <span class="pill pill-purple">First Visit</span>
+                <span class="pill pill-purple">Pronoun: He</span>
+                <span class="pill pill-gray">Link Appointment</span>
+              </div>
+              <span class="header-patient">PATIENT: John Doe DOB: 08/11/72 MRN: 17328u AGE: 52 yrs</span>
+            </div>
+            <div class="header-right">Dr Lisa Mendes · 12:00 PM, 13 Aug 2023</div>
+          </div>
+          <div class="inputs-card">
+            <h2 class="section-title">INPUTS FOR AI FOR JOHN DOE</h2>
+            <ul class="dictation-list">
+              <li id="dictation-ongoing" class="dictation-item stuck">
+                <span class="label">3. Ongoing Dictation by Nicolas at 2:25 PM</span>
+                <div class="progress"><div class="progress-fill" style="width:0"></div></div>
+                <span class="item-actions">
+                  <button type="button" class="btn btn-rescue" id="rescue-btn">Rescue</button>
+                  <button type="button" class="icon-btn" title="Delete" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                </span>
+              </li>
+              <li class="dictation-item">
+                <span class="label">2. Dictation by Nicolas at 2:25 PM</span>
+                <div class="progress"><div class="progress-fill" style="width:18%"></div></div>
+                <span class="item-actions">
+                  <button type="button" class="btn" style="background:#3b82f6;color:#fff;">Resume</button>
+                  <button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                </span>
+              </li>
+              <li class="dictation-item">
+                <span class="label">1. Dictation by Nicolas at 2:25 PM</span>
+                <div class="progress"><div class="progress-fill" style="width:100%"></div></div>
+                <span class="item-actions">
+                  <button type="button" class="btn" style="background:#3b82f6;color:#fff;">Resume</button>
+                  <button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                </span>
+              </li>
+            </ul>
+            <div class="actions-row">
+              <button type="button" class="btn btn-dictation" id="start-recording">🎤 DICTATION</button>
+              <button type="button" class="btn btn-add-consult">ADD CONSULT</button>
+              <button type="button" class="btn btn-process">↑ PROCESS</button>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <div class="generate-card">
+              <h2 class="section-title">WHAT SHOULD AI GENERATE?</h2>
+              <p style="font-size:13px;color:var(--text-muted);margin:0;">Clinical Note: General · Patient Letter: 2 Selected</p>
+              <p style="font-size:13px;margin:8px 0 0;">Note 2 ✓ · AVS 1 · ICD-10 CM · E/M Codes ✓</p>
+            </div>
+            <div class="outputs-card">
+              <h2 class="section-title">OUTPUTS GENERATED BY AI</h2>
+              <div class="tabs"><button type="button" class="active">Note 1</button><button type="button">Transcript</button><button type="button">AVS</button></div>
+              <textarea placeholder="HISTORY OF PRESENT ILLNESS (HPI)&#10;Lorem ipsum dolor sit amet...">Lorem ipsum dolor sit amet</textarea>
+            </div>
+          </div>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:24px;"><button type="button" class="btn" style="padding:4px 10px;font-size:12px;background:var(--border);" onclick="window.resetSimulation()">Reset simulation (stuck again)</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Rescue confirmation modal -->
+  <div id="rescue-modal" class="modal-overlay" role="alertdialog" aria-labelledby="rescue-modal-title" aria-describedby="rescue-modal-desc">
+    <div class="modal-dialog">
+      <div class="modal-header" id="rescue-modal-title">RESCUE RECORDING</div>
+      <div class="modal-body" id="rescue-modal-desc">
+        <p>Looks like this recording is ongoing on a different device or stuck.</p>
+        <p>Rescue will close this recording and mark it as finished. Any partial notes that were uploaded will be available for you to use or process.</p>
+        <p>Do you want to rescue this recording?</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="rescue-modal-cancel">No, keep it</button>
+        <button type="button" class="btn btn-rescue" id="rescue-modal-confirm">Yes, rescue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- View options modal (Heidi Customize-style: window + ordering) -->
+  <div id="view-options-modal" class="modal-overlay view-options-modal" role="dialog" aria-labelledby="view-options-title" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <span id="view-options-title">Appointment sync window</span>
+        <button type="button" class="modal-close-btn" id="view-options-close" aria-label="Close">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="view-options-field">
+          <div class="label-row">
+            <label for="setting-window">Days ahead</label>
+            <span class="info-tooltip-wrap">
+              <button type="button" class="info-btn" aria-label="About appointment sync window"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></button>
+              <span class="info-tooltip" role="tooltip">The sync window is set by <strong>Days ahead</strong> and <strong>Days back</strong>. Appointments within this window are synced and shown in the Appointment list in the left pane and are available when you're offline.</span>
+            </span>
+          </div>
+          <div class="view-options-slider-wrap">
+            <input type="range" id="setting-window" min="7" max="30" value="14" step="1" aria-valuemin="7" aria-valuemax="30" aria-valuenow="14" />
+            <span class="slider-value-block"><span class="slider-value" id="setting-window-value">14</span> days</span>
+          </div>
+          <p class="hint">How far ahead we pull appointments from your schedule.</p>
+        </div>
+        <div class="view-options-field">
+          <div class="label-row">
+            <label for="setting-window-back">Days back</label>
+          </div>
+          <div class="view-options-slider-wrap">
+            <input type="range" id="setting-window-back" min="-30" max="0" value="-7" step="1" aria-valuemin="-30" aria-valuemax="0" aria-valuenow="-7" />
+            <span class="slider-value-block"><span class="slider-value" id="setting-window-back-value">-7</span> days</span>
+          </div>
+          <p class="hint">How far back we pull appointments from your schedule.</p>
+        </div>
+        <div class="view-options-field" id="focus-order-field">
+          <div class="label-row">
+            <label id="order-dnd-label">Focus Appointments order</label>
+            <span class="info-tooltip-wrap">
+              <button type="button" class="info-btn" aria-label="What this order does"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></button>
+              <span class="info-tooltip" role="tooltip">Sets the order in which past, present, and future appointments appear in the list. Drag items—top of the list is first.</span>
+            </span>
+          </div>
+          <p class="hint" style="margin-bottom: 8px;">Drag to reorder. Top = first in list.</p>
+          <ul class="order-dnd-list" id="order-dnd-list" role="list" aria-labelledby="order-dnd-label">
+            <li class="order-dnd-item" draggable="true" data-value="-1" id="order-item--1">
+              <span class="drag-handle" aria-hidden="true"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 6h2v2H8V6zm0 5h2v2H8v-2zm0 5h2v2H8v-2zm4-10h2v2h-2V6zm0 5h2v2h-2v-2zm0 5h2v2h-2v-2z"/></svg></span>
+              Past (-1)
+            </li>
+            <li class="order-dnd-item" draggable="true" data-value="0" id="order-item-0">
+              <span class="drag-handle" aria-hidden="true"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 6h2v2H8V6zm0 5h2v2H8v-2zm0 5h2v2H8v-2zm4-10h2v2h-2V6zm0 5h2v2h-2v-2zm0 5h2v2h-2v-2z"/></svg></span>
+              Today (0)
+            </li>
+            <li class="order-dnd-item" draggable="true" data-value="1" id="order-item-1">
+              <span class="drag-handle" aria-hidden="true"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 6h2v2H8V6zm0 5h2v2H8v-2zm0 5h2v2H8v-2zm4-10h2v2h-2V6zm0 5h2v2h-2v-2zm0 5h2v2h-2v-2z"/></svg></span>
+              Future (1)
+            </li>
+          </ul>
+          <p id="ordering-hint" class="hint">Order of dates in the Focus view: past (-1), today (0), future (1).</p>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" id="view-options-reset">Reset to default</button>
+        <button type="button" class="btn btn-dictation" id="view-options-save">Save as default</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const rescueBtn = document.getElementById('rescue-btn');
+      const startBtn = document.getElementById('start-recording');
+      const sidebarNew = document.getElementById('sidebar-new-recording');
+      const paneNew = document.getElementById('pane-new-recording');
+      const toast = document.getElementById('toast');
+      const dictationOngoing = document.getElementById('dictation-ongoing');
+
+      let hasStuckOngoing = true;
+
+      function showToast(msg) {
+        toast.textContent = msg;
+        toast.classList.add('visible');
+        setTimeout(function () { toast.classList.remove('visible'); }, 3000);
+      }
+
+      function doRescue() {
+        hasStuckOngoing = false;
+        var label = dictationOngoing.querySelector('.label');
+        label.textContent = '3. Rescued — partial notes (was: Ongoing Dictation by Nicolas at 2:25 PM)';
+        dictationOngoing.classList.remove('stuck');
+        dictationOngoing.querySelector('.progress-fill').style.width = '100%';
+        dictationOngoing.querySelector('.item-actions').innerHTML =
+          '<button type="button" class="btn" style="background:#3b82f6;color:#fff;">Resume</button>' +
+          '<button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>';
+        showToast('Stuck recording closed. Partial notes are available.');
+      }
+
+      const rescueModal = document.getElementById('rescue-modal');
+      const rescueModalCancel = document.getElementById('rescue-modal-cancel');
+      const rescueModalConfirm = document.getElementById('rescue-modal-confirm');
+
+      function showRescueModal() {
+        rescueModal.classList.add('visible');
+      }
+      function hideRescueModal() {
+        rescueModal.classList.remove('visible');
+      }
+
+      rescueBtn.addEventListener('click', showRescueModal);
+      rescueModalCancel.addEventListener('click', hideRescueModal);
+      rescueModalConfirm.addEventListener('click', function () {
+        hideRescueModal();
+        doRescue();
+      });
+      rescueModal.addEventListener('click', function (e) {
+        if (e.target === rescueModal) hideRescueModal();
+      });
+
+      startBtn.addEventListener('click', function () { showToast('Starting new recording…'); });
+      sidebarNew.addEventListener('click', function () { showToast('Starting new recording…'); });
+      paneNew.addEventListener('click', function () { showToast('Starting new recording…'); });
+
+      function resetSimulation() {
+        hasStuckOngoing = true;
+        hideRescueModal();
+        var label = dictationOngoing.querySelector('.label');
+        label.textContent = '3. Ongoing Dictation by Nicolas at 2:25 PM';
+        dictationOngoing.classList.add('stuck');
+        dictationOngoing.querySelector('.progress-fill').style.width = '0';
+        dictationOngoing.querySelector('.item-actions').innerHTML =
+          '<button type="button" class="btn btn-rescue" id="rescue-btn">Rescue</button>' +
+          '<button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>';
+        document.getElementById('rescue-btn').addEventListener('click', showRescueModal);
+      }
+      window.resetSimulation = resetSimulation;
+
+      // --- Date filter (first filter - Heidi-style) ---
+      var dateFilterBlock = document.getElementById('date-filter-block');
+      var dateFilterTrigger = document.getElementById('date-filter-trigger');
+      var dateFilterDropdown = document.getElementById('date-filter-dropdown');
+      var dateFilterValue = document.getElementById('date-filter-value');
+      var dateFrom = document.getElementById('date-from');
+      var dateTo = document.getElementById('date-to');
+      var dateFilterApply = document.getElementById('date-filter-apply');
+      var dateFilterClear = document.getElementById('date-filter-clear');
+      var dateFilterPopupHeader = document.getElementById('date-filter-popup-header');
+
+      function updatePopupHeader() {
+        if (!dateFilterPopupHeader) return;
+        var fromStr = dateFrom.value;
+        var toStr = dateTo.value;
+        var label = fromStr && toStr ? formatDateRangeLabel(fromStr, toStr) : (fromStr ? formatDateRangeLabel(fromStr, fromStr) : null);
+        dateFilterPopupHeader.textContent = label || 'Select date range';
+        dateFilterPopupHeader.classList.toggle('empty', !label);
+      }
+
+      function formatDateRangeLabel(fromStr, toStr) {
+        if (!fromStr || !toStr) return null;
+        var a = fromStr.split('-');
+        var b = toStr.split('-');
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var d1 = parseInt(a[2], 10) + ' ' + months[parseInt(a[1], 10) - 1];
+        var d2 = parseInt(b[2], 10) + ' ' + months[parseInt(b[1], 10) - 1];
+        if (a[0] !== b[0] || a[1] !== b[1]) d2 = months[parseInt(b[1], 10) - 1] + ' ' + b[0];
+        return d1 + ' – ' + d2;
+      }
+
+      var activeFilters = document.getElementById('active-filters');
+      var chipDate = document.getElementById('chip-date');
+      var chipDateText = document.getElementById('chip-date-text');
+      var chipDateClear = document.getElementById('chip-date-clear');
+      var activeFiltersClearAll = document.getElementById('active-filters-clear-all');
+
+      function updateDateChip(label) {
+        if (label) {
+          chipDateText.textContent = label;
+          chipDate.removeAttribute('hidden');
+          if (btnFilterSort) btnFilterSort.classList.add('has-filter');
+        } else {
+          chipDate.setAttribute('hidden', '');
+          if (btnFilterSort) btnFilterSort.classList.remove('has-filter');
+        }
+      }
+      function updateActiveFiltersVisibility() {
+        var hasDate = chipDate && !chipDate.hasAttribute('hidden');
+        if (activeFilters) activeFilters.classList.toggle('visible', hasDate);
+      }
+
+      function clearDateFilter(suppressToast) {
+        dateFilterValue.textContent = 'All';
+        dateFilterValue.classList.add('empty');
+        dateFrom.value = '';
+        dateTo.value = '';
+        calendarRangeStart = null;
+        calendarRangeEnd = null;
+        dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
+        dateFilterBlock.classList.remove('open');
+        dateFilterTrigger.setAttribute('aria-expanded', 'false');
+        updateDateChip(null);
+        updateActiveFiltersVisibility();
+        if (!suppressToast) showToast('Date filter cleared.');
+      }
+
+      function applyDateFilter(datetimeFrom, datetimeTo) {
+        var fromStr = datetimeFrom ? datetimeFrom.slice(0, 10) : '';
+        var toStr = datetimeTo ? datetimeTo.slice(0, 10) : '';
+        var label = fromStr && toStr ? formatDateRangeLabel(fromStr, toStr) : null;
+        dateFilterValue.textContent = label || 'All';
+        dateFilterValue.classList.toggle('empty', !label);
+        dateFilterBlock.classList.remove('open');
+        dateFilterTrigger.setAttribute('aria-expanded', 'false');
+        updateDateChip(label);
+        updateActiveFiltersVisibility();
+        showToast('Fetching consults for date range…');
+      }
+
+      dateFilterTrigger.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = dateFilterBlock.classList.toggle('open');
+        dateFilterTrigger.setAttribute('aria-expanded', isOpen);
+        if (isOpen) openDateFilterDropdown();
+      });
+      document.addEventListener('click', function () {
+        dateFilterBlock.classList.remove('open');
+        dateFilterTrigger.setAttribute('aria-expanded', 'false');
+      });
+      dateFilterDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
+
+      dateFilterDropdown.querySelectorAll('.option[data-preset]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var preset = btn.getAttribute('data-preset');
+          if (preset === 'custom') {
+            dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
+            btn.classList.add('selected');
+            return;
+          }
+          var end = new Date();
+          var start = new Date();
+          if (preset === 'today') {
+            start.setHours(0, 0, 0, 0);
+            end.setHours(23, 59, 59, 999);
+            var todayStr = end.toISOString().slice(0, 10);
+            applyDateFilter(todayStr + 'T00:00:00', todayStr + 'T23:59:59');
+          } else if (preset === 'yesterday') {
+            start.setDate(start.getDate() - 1);
+            start.setHours(0, 0, 0, 0);
+            var yesterdayStr = start.toISOString().slice(0, 10);
+            applyDateFilter(yesterdayStr + 'T00:00:00', yesterdayStr + 'T23:59:59');
+          } else if (preset === 'month') {
+            start.setMonth(start.getMonth() - 1);
+            start.setDate(1);
+            start.setHours(0, 0, 0, 0);
+            end.setDate(0);
+            end.setHours(23, 59, 59, 999);
+            var fromStr = start.toISOString().slice(0, 10);
+            var toStr = end.toISOString().slice(0, 10);
+            applyDateFilter(fromStr + 'T00:00:00', toStr + 'T23:59:59');
+          } else {
+            var days = parseInt(preset, 10);
+            if (!isNaN(days)) {
+              start.setDate(start.getDate() - days);
+              var fromStr = start.toISOString().slice(0, 10);
+              var toStr = end.toISOString().slice(0, 10);
+              applyDateFilter(fromStr + 'T00:00:00', toStr + 'T23:59:59');
+            }
+          }
+          dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
+          btn.classList.add('selected');
+        });
+      });
+
+      dateFilterApply.addEventListener('click', function () {
+        var fromStr = dateFrom.value;
+        var toStr = dateTo.value;
+        if (!fromStr || !toStr) {
+          showToast('Please pick both From and To dates.');
+          return;
+        }
+        applyDateFilter(fromStr + 'T00:00:00', toStr + 'T23:59:59');
+        dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
+      });
+
+      dateFilterClear.addEventListener('click', clearDateFilter);
+      if (chipDateClear) chipDateClear.addEventListener('click', clearDateFilter);
+
+      var calendarMonth1 = document.getElementById('calendar-month-1');
+      var calendarMonth2 = document.getElementById('calendar-month-2');
+      var calendarStartMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+      var calendarRangeStart = null;
+      var calendarRangeEnd = null;
+      var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      var DOW = ['S','M','T','W','T','F','S'];
+
+      function dateKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+      function parseDateKey(s) { var p = s.split('-'); return new Date(parseInt(p[0],10), parseInt(p[1],10) - 1, parseInt(p[2],10)); }
+      function inRange(d, start, end) {
+        if (!start || !end) return false;
+        var t = d.getTime();
+        return t >= start.getTime() && t <= end.getTime();
+      }
+      function isSameDay(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
+
+      function renderMonth(container, year, month) {
+        var first = new Date(year, month, 1);
+        var last = new Date(year, month + 1, 0);
+        var startDow = first.getDay();
+        var daysInMonth = last.getDate();
+        var prevMonth = new Date(year, month, 0);
+        var prevDays = prevMonth.getDate();
+        var cells = [];
+        for (var i = 0; i < startDow; i++) {
+          var d = prevDays - startDow + i + 1;
+          cells.push({ date: new Date(prevMonth.getFullYear(), prevMonth.getMonth(), d), other: true });
+        }
+        for (var d = 1; d <= daysInMonth; d++) cells.push({ date: new Date(year, month, d), other: false });
+        var remaining = 42 - cells.length;
+        for (var i = 0; i < remaining; i++) cells.push({ date: new Date(year, month + 1, i + 1), other: true });
+        var html = '<div class="calendar-month-header"><button type="button" class="cal-prev" aria-label="Previous month">&lt;</button><span>' + MONTHS[month] + ' ' + year + '</span><button type="button" class="cal-next" aria-label="Next month">&gt;</button></div>';
+        html += '<div class="calendar-dow">' + DOW.map(function (w) { return '<span>' + w + '</span>'; }).join('') + '</div>';
+        html += '<div class="calendar-days">';
+        var start = calendarRangeStart && calendarRangeEnd ? (calendarRangeStart.getTime() < calendarRangeEnd.getTime() ? calendarRangeStart : calendarRangeEnd) : calendarRangeStart;
+        var end = calendarRangeStart && calendarRangeEnd ? (calendarRangeStart.getTime() > calendarRangeEnd.getTime() ? calendarRangeStart : calendarRangeEnd) : calendarRangeEnd;
+        cells.forEach(function (cell) {
+          var key = dateKey(cell.date);
+          var cls = 'calendar-day' + (cell.other ? ' other-month' : '');
+          if (start && end && inRange(cell.date, start, end)) cls += ' range';
+          if (start && isSameDay(cell.date, start)) cls += ' range-start';
+          if (end && isSameDay(cell.date, end)) cls += ' range-end';
+          html += '<button type="button" class="' + cls + '" data-date="' + key + '">' + cell.date.getDate() + '</button>';
+        });
+        html += '</div>';
+        container.innerHTML = html;
+        container.querySelectorAll('.calendar-day').forEach(function (btn) {
+          if (btn.classList.contains('other-month')) return;
+          btn.addEventListener('click', function () {
+            var d = parseDateKey(btn.getAttribute('data-date'));
+            if (!calendarRangeStart || (calendarRangeStart && calendarRangeEnd)) {
+              calendarRangeStart = d;
+              calendarRangeEnd = null;
+              dateFrom.value = dateKey(d);
+              dateTo.value = '';
+            } else {
+              calendarRangeEnd = d;
+              if (calendarRangeEnd.getTime() < calendarRangeStart.getTime()) { var t = calendarRangeStart; calendarRangeStart = calendarRangeEnd; calendarRangeEnd = t; }
+              dateFrom.value = dateKey(calendarRangeStart);
+              dateTo.value = dateKey(calendarRangeEnd);
+            }
+            updatePopupHeader();
+            dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
+            var optCustom = dateFilterDropdown.querySelector('.option[data-preset="custom"]');
+            if (optCustom) optCustom.classList.add('selected');
+            renderCalendar();
+          });
+        });
+        var prevBtn = container.querySelector('.cal-prev');
+        var nextBtn = container.querySelector('.cal-next');
+        if (prevBtn) prevBtn.addEventListener('click', function () { calendarStartMonth.setMonth(calendarStartMonth.getMonth() - 1); renderCalendar(); });
+        if (nextBtn) nextBtn.addEventListener('click', function () { calendarStartMonth.setMonth(calendarStartMonth.getMonth() + 1); renderCalendar(); });
+      }
+
+      function renderCalendar() {
+        var y1 = calendarStartMonth.getFullYear();
+        var m1 = calendarStartMonth.getMonth();
+        var y2 = m1 === 11 ? y1 + 1 : y1;
+        var m2 = m1 === 11 ? 0 : m1 + 1;
+        renderMonth(calendarMonth1, y1, m1);
+        renderMonth(calendarMonth2, y2, m2);
+      }
+
+      function openDateFilterDropdown() {
+        calendarStartMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        if (dateFrom.value && dateTo.value) {
+          calendarRangeStart = parseDateKey(dateFrom.value);
+          calendarRangeEnd = parseDateKey(dateTo.value);
+        } else {
+          calendarRangeStart = null;
+          calendarRangeEnd = null;
+        }
+        renderCalendar();
+        updatePopupHeader();
+        dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
+        var optCustom = dateFilterDropdown.querySelector('.option[data-preset="custom"]');
+        if (dateFrom.value && dateTo.value && optCustom) optCustom.classList.add('selected');
+      }
+
+      dateFilterApply.addEventListener('click', function () {
+        if (calendarRangeStart && calendarRangeEnd) {
+          dateFrom.value = dateKey(calendarRangeStart);
+          dateTo.value = dateKey(calendarRangeEnd);
+        }
+        var fromStr = dateFrom.value;
+        var toStr = dateTo.value;
+        if (!fromStr || !toStr) {
+          showToast('Select a date range on the calendar.');
+          return;
+        }
+        applyDateFilter(fromStr + 'T00:00:00', toStr + 'T23:59:59');
+        dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
+      });
+
+      // --- Left pane: filter, search, refresh, view options (Heidi-style) ---
+      var btnFilterSort = document.getElementById('btn-filter-sort');
+      var btnSearch = document.getElementById('btn-search');
+      var btnRefresh = document.getElementById('btn-refresh');
+      var btnViewOptions = document.getElementById('btn-view-options');
+      var paneSearch = document.getElementById('pane-left-search');
+      var inputSearch = document.getElementById('input-search-consults');
+      var viewOptionsModal = document.getElementById('view-options-modal');
+      var settingWindow = document.getElementById('setting-window');
+      var settingWindowValue = document.getElementById('setting-window-value');
+      var settingWindowBack = document.getElementById('setting-window-back');
+      var settingWindowBackValue = document.getElementById('setting-window-back-value');
+      var viewOptionsReset = document.getElementById('view-options-reset');
+      var viewOptionsClose = document.getElementById('view-options-close');
+      var viewOptionsSave = document.getElementById('view-options-save');
+      var consultList = document.getElementById('consult-list');
+      var searchSuggestions = document.getElementById('search-suggestions');
+
+      var EHR_ICON_SVG = '<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">' +
+        '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>' +
+        '<path d="M14 2v6h6"/>' +
+        '<path d="M10 14h8"/>' +
+        '<path d="M15 11l3 3-3 3"/>' +
+      '</svg>';
+
+      function getEhrStateForCard(card) {
+        var explicit = card.getAttribute('data-ehr');
+        if (explicit === 'pushed' || explicit === 'not_pushed') return explicit;
+        var state = card.getAttribute('data-state');
+        return (state === 'ready' || state === 'in_progress') ? 'pushed' : 'not_pushed';
+      }
+
+      function ensureBadgesContainer(card) {
+        var badges = card.querySelector('.consult-card-badges');
+        if (badges) return badges;
+        badges = document.createElement('div');
+        badges.className = 'consult-card-badges';
+        card.appendChild(badges);
+        return badges;
+      }
+
+      function ensureEhrIcon(badges, ehrState) {
+        if (!badges || badges.querySelector('.consult-ehr-icon')) return;
+        var label = ehrState === 'pushed' ? 'Pushed to EHR' : 'Not yet pushed to EHR';
+        var wrap = document.createElement('span');
+        wrap.className = 'info-tooltip-wrap';
+
+        var icon = document.createElement('span');
+        icon.className = 'consult-ehr-icon';
+        icon.setAttribute('data-ehr', ehrState);
+        icon.setAttribute('aria-label', label);
+        icon.innerHTML = EHR_ICON_SVG;
+
+        var tip = document.createElement('span');
+        tip.className = 'info-tooltip';
+        tip.setAttribute('role', 'tooltip');
+        tip.innerHTML = ehrState === 'pushed'
+          ? 'This appointment has been pushed to the EHR.'
+          : 'This appointment has not yet been pushed to the EHR.';
+
+        wrap.appendChild(icon);
+        wrap.appendChild(tip);
+        badges.appendChild(wrap);
+      }
+
+      function normalizeConsultCardBadges() {
+        if (!consultList) return;
+        consultList.querySelectorAll('.consult-card').forEach(function (card) {
+          // Skip empty skeleton cards
+          if (card.classList.contains('consult-card-empty')) return;
+          var badges = ensureBadgesContainer(card);
+          ensureEhrIcon(badges, getEhrStateForCard(card));
+        });
+      }
+
+      normalizeConsultCardBadges();
+
+      function showViewOptionsModal() {
+        viewOptionsModal.classList.add('visible');
+      }
+      function hideViewOptionsModal() {
+        viewOptionsModal.classList.remove('visible');
+      }
+
+      btnFilterSort.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dateFilterBlock.classList.add('open');
+        dateFilterTrigger.setAttribute('aria-expanded', 'true');
+        openDateFilterDropdown();
+      });
+      if (activeFiltersClearAll) {
+        activeFiltersClearAll.addEventListener('click', function () {
+          clearDateFilter(true);
+          currentStateFilter = null;
+          currentDateQuickFilter = 'all';
+          searchQuery = null;
+          if (inputSearch) inputSearch.value = '';
+          if (searchSuggestions) searchSuggestions.setAttribute('hidden', '');
+          updateDatePills();
+          applyListFilters(null);
+          updateActiveFiltersVisibility();
+          showToast('All filters cleared.');
+        });
+      }
+      btnViewOptions.addEventListener('click', showViewOptionsModal);
+      btnSearch.addEventListener('click', function () {
+        var isHidden = paneSearch.hasAttribute('hidden');
+        if (isHidden) {
+          paneSearch.removeAttribute('hidden');
+          inputSearch.focus();
+        } else {
+          paneSearch.setAttribute('hidden', '');
+          inputSearch.value = '';
+          searchQuery = null;
+          if (searchSuggestions) searchSuggestions.setAttribute('hidden', '');
+          applyListFilters(currentStateFilter);
+        }
+      });
+
+      function applySearchFromInput() {
+        var q = inputSearch ? inputSearch.value.trim() : '';
+        if (!q) {
+          searchQuery = null;
+        } else {
+          var parsed = parseQueryAsDate(q);
+          if (parsed) {
+            searchQuery = { type: 'date', value: parsed };
+          } else {
+            searchQuery = { type: 'name', value: q };
+          }
+        }
+        applyListFilters(currentStateFilter);
+      }
+
+      function hideSearchSuggestions() {
+        if (searchSuggestions) searchSuggestions.setAttribute('hidden', '');
+      }
+
+      function showSearchSuggestions(query) {
+        if (!searchSuggestions) return;
+        var q = (query || '').toLowerCase().trim();
+        var dateItems = getDatesForSearch();
+        var nameItems = getConsultNamesForSearch();
+        if (q) {
+          dateItems = dateItems.filter(function (x) {
+            return x.label.toLowerCase().indexOf(q) !== -1 || x.date.indexOf(q) !== -1;
+          });
+          nameItems = nameItems.filter(function (x) {
+            return x.name.toLowerCase().indexOf(q) !== -1;
+          });
+        }
+        var maxSuggestions = 8;
+        var dateSuggestions = dateItems.slice(0, maxSuggestions);
+        var nameSuggestions = nameItems.slice(0, maxSuggestions);
+        if (dateSuggestions.length === 0 && nameSuggestions.length === 0) {
+          searchSuggestions.setAttribute('hidden', '');
+          return;
+        }
+        searchSuggestions.innerHTML = '';
+        if (dateSuggestions.length > 0) {
+          var sec = document.createElement('div');
+          sec.className = 'search-suggestions-section';
+          sec.innerHTML = '<div class="search-suggestions-section-title">Dates</div>';
+          dateSuggestions.forEach(function (x) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'search-suggestion-item';
+            btn.role = 'option';
+            btn.setAttribute('data-type', 'date');
+            btn.setAttribute('data-value', x.date);
+            btn.innerHTML = '<span class="name">' + escapeHtml(x.label) + '</span>';
+            sec.appendChild(btn);
+          });
+          searchSuggestions.appendChild(sec);
+        }
+        if (nameSuggestions.length > 0) {
+          var sec2 = document.createElement('div');
+          sec2.className = 'search-suggestions-section';
+          sec2.innerHTML = '<div class="search-suggestions-section-title">People</div>';
+          nameSuggestions.forEach(function (x) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'search-suggestion-item';
+            btn.role = 'option';
+            btn.setAttribute('data-type', 'name');
+            btn.setAttribute('data-value', x.name);
+            btn.innerHTML = '<span class="name">' + escapeHtml(x.name) + '</span>' + (x.date ? '<span class="meta">' + escapeHtml(formatDateString(x.date)) + '</span>' : '');
+            sec2.appendChild(btn);
+          });
+          searchSuggestions.appendChild(sec2);
+        }
+        searchSuggestions.removeAttribute('hidden');
+      }
+
+      function escapeHtml(s) {
+        if (!s) return '';
+        var div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      var searchSuggestionsBlurTimer = null;
+      if (inputSearch) {
+        inputSearch.addEventListener('input', function () {
+          applySearchFromInput();
+          showSearchSuggestions(inputSearch.value);
+        });
+        inputSearch.addEventListener('focus', function () {
+          if (searchSuggestionsBlurTimer) clearTimeout(searchSuggestionsBlurTimer);
+          showSearchSuggestions(inputSearch.value);
+        });
+        inputSearch.addEventListener('blur', function () {
+          searchSuggestionsBlurTimer = setTimeout(function () { hideSearchSuggestions(); }, 200);
+        });
+      }
+      if (searchSuggestions) {
+        searchSuggestions.addEventListener('click', function (e) {
+          var btn = e.target && e.target.closest && e.target.closest('.search-suggestion-item');
+          if (!btn) return;
+          var type = btn.getAttribute('data-type');
+          var value = btn.getAttribute('data-value');
+          if (type && value) {
+            if (type === 'date') {
+              inputSearch.value = formatDateString(value);
+              searchQuery = { type: 'date', value: value };
+            } else {
+              inputSearch.value = value;
+              searchQuery = { type: 'name', value: value };
+            }
+            applyListFilters(currentStateFilter);
+            hideSearchSuggestions();
+          }
+        });
+      }
+
+      btnRefresh.addEventListener('click', function () {
+        showToast('Refreshing list…');
+      });
+
+      settingWindow.addEventListener('input', function () {
+        settingWindowValue.textContent = settingWindow.value;
+        settingWindow.setAttribute('aria-valuenow', settingWindow.value);
+        updateSyncStrip();
+        applyListFilters(currentStateFilter);
+      });
+      if (settingWindowBack && settingWindowBackValue) {
+        settingWindowBack.addEventListener('input', function () {
+          settingWindowBackValue.textContent = settingWindowBack.value;
+          settingWindowBack.setAttribute('aria-valuenow', settingWindowBack.value);
+          updateSyncStrip();
+          applyListFilters(currentStateFilter);
+        });
+      }
+
+      if (viewOptionsClose) viewOptionsClose.addEventListener('click', hideViewOptionsModal);
+      viewOptionsSave.addEventListener('click', function () {
+        hideViewOptionsModal();
+        updateSyncStrip();
+        showToast('View options saved.');
+      });
+      viewOptionsReset.addEventListener('click', function () {
+        settingWindow.value = 14;
+        settingWindowValue.textContent = '14';
+        settingWindow.setAttribute('aria-valuenow', '14');
+        if (settingWindowBack && settingWindowBackValue) {
+          settingWindowBack.value = -7;
+          settingWindowBackValue.textContent = '-7';
+          settingWindowBack.setAttribute('aria-valuenow', '-7');
+        }
+        updateSyncStrip();
+        showToast('Reset to default.');
+        applyListFilters(currentStateFilter);
+      });
+      viewOptionsModal.addEventListener('click', function (e) {
+        if (e.target === viewOptionsModal) hideViewOptionsModal();
+      });
+
+      var timeFilterStartInput = document.getElementById('time-filter-start');
+      var timeFilterEndInput = document.getElementById('time-filter-end');
+      var timeFilterStripEl = document.getElementById('time-filter-strip');
+
+      function updateSyncStrip() {
+        if (!btnViewOptions) return;
+        var back = settingWindowBack ? Math.abs(parseInt(settingWindowBack.value, 10)) : 7;
+        var ahead = settingWindow ? parseInt(settingWindow.value, 10) : 14;
+        var text = 'Appointments synced: ' + back + ' days back → ' + ahead + ' days ahead';
+        btnViewOptions.setAttribute('title', text);
+      }
+
+      var focusReferenceDate = new Date('2025-02-26');
+      var currentStateFilter = null;
+      var currentDateQuickFilter = 'all'; // 'all' | 'today' | 'tomorrow'
+      var searchQuery = null; // { type: 'name'|'date', value: string } or null
+      var STATE_LABELS = { all: 'All', planned: 'Planned', ready: 'Ready', in_progress: 'In progress' };
+
+      function getSyncWindowRange() {
+        var today = new Date(focusReferenceDate);
+        var daysBack = settingWindowBack ? parseInt(settingWindowBack.value, 10) : -7;
+        var daysAhead = settingWindow ? parseInt(settingWindow.value, 10) : 14;
+        var start = new Date(today);
+        start.setDate(start.getDate() + daysBack);
+        var end = new Date(today);
+        end.setDate(end.getDate() + daysAhead);
+        return [start.toISOString().slice(0, 10), end.toISOString().slice(0, 10)];
+      }
+
+      function getEffectiveDateRange() {
+        if (currentDateQuickFilter === 'today') {
+          var s = focusReferenceDate.toISOString().slice(0, 10);
+          return [s, s];
+        }
+        if (currentDateQuickFilter === 'tomorrow') {
+          var d = new Date(focusReferenceDate);
+          d.setDate(d.getDate() + 1);
+          var t = d.toISOString().slice(0, 10);
+          return [t, t];
+        }
+        return getSyncWindowRange();
+      }
+
+      function minutesToTimeStr(minutes) {
+        var h = Math.floor(minutes / 60);
+        var m = minutes % 60;
+        return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+      }
+
+      function parseMetaTimeToMinutes(metaText) {
+        if (!metaText || typeof metaText !== 'string') return null;
+        var s = metaText.trim();
+        var match = /(\d{1,2}):(\d{2})\s*(AM|PM)/i.exec(s);
+        if (!match) return null;
+        var h = parseInt(match[1], 10);
+        var m = parseInt(match[2], 10);
+        if (match[3].toUpperCase() === 'PM' && h !== 12) h += 12;
+        if (match[3].toUpperCase() === 'AM' && h === 12) h = 0;
+        if (h < 0 || h > 23 || m < 0 || m > 59) return null;
+        return h * 60 + m;
+      }
+
+      function updateTimeFilterStrip() {
+        if (!timeFilterStripEl || !timeFilterStartInput || !timeFilterEndInput) return;
+        var start = parseInt(timeFilterStartInput.value, 10);
+        var end = parseInt(timeFilterEndInput.value, 10);
+        timeFilterStripEl.textContent = minutesToTimeStr(start) + ' — ' + minutesToTimeStr(end);
+      }
+
+      function formatDateString(dateStr) {
+        if (!dateStr) return '';
+        var parts = dateStr.split('-');
+        if (parts.length !== 3) return dateStr;
+        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        var d = parseInt(parts[2], 10);
+        var m = months[parseInt(parts[1], 10) - 1] || parts[1];
+        var y = parts[0];
+        return d + ' ' + m + ' ' + y;
+      }
+
+      function parseQueryAsDate(q) {
+        if (!q || typeof q !== 'string') return null;
+        var s = q.trim().toLowerCase();
+        if (s === 'today') return focusReferenceDate.toISOString().slice(0, 10);
+        if (s === 'yesterday') {
+          var d = new Date(focusReferenceDate);
+          d.setDate(d.getDate() - 1);
+          return d.toISOString().slice(0, 10);
+        }
+        var ymd = /^(\d{4})-(\d{2})-(\d{2})$/.exec(q.trim());
+        if (ymd) return ymd[0];
+        var months = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+        var parts = s.split(/\s+/);
+        var day, monthIdx, year = focusReferenceDate.getFullYear();
+        if (parts.length >= 2) {
+          var first = parts[0];
+          var second = parts[1];
+          if (/^\d{1,2}$/.test(first) && months.indexOf(second) !== -1) {
+            day = parseInt(first, 10);
+            monthIdx = months.indexOf(second);
+            if (parts.length >= 3 && /^\d{4}$/.test(parts[2])) year = parseInt(parts[2], 10);
+          } else if (months.indexOf(first) !== -1 && /^\d{1,2}$/.test(second)) {
+            monthIdx = months.indexOf(first);
+            day = parseInt(second, 10);
+            if (parts.length >= 3 && /^\d{4}$/.test(parts[2])) year = parseInt(parts[2], 10);
+          }
+        }
+        if (day >= 1 && day <= 31 && monthIdx >= 0) {
+          var m = (monthIdx + 1) < 10 ? '0' + (monthIdx + 1) : String(monthIdx + 1);
+          var dd = day < 10 ? '0' + day : String(day);
+          return year + '-' + m + '-' + dd;
+        }
+        return null;
+      }
+
+      function getConsultNamesForSearch() {
+        var items = [];
+        if (!consultList) return items;
+        consultList.querySelectorAll('.consult-card').forEach(function (card) {
+          var nameEl = card.querySelector('.name');
+          var name = nameEl ? nameEl.textContent.trim() : '';
+          var date = card.getAttribute('data-date');
+          if (name) items.push({ name: name, date: date, card: card });
+        });
+        return items;
+      }
+
+      function getDatesForSearch() {
+        var seen = {};
+        var out = [];
+        if (!consultList) return out;
+        consultList.querySelectorAll('.consult-date').forEach(function (el) {
+          var d = el.getAttribute('data-date');
+          if (d && !seen[d]) { seen[d] = true; out.push({ date: d, label: formatDateString(d) }); }
+        });
+        var todayStr = focusReferenceDate.toISOString().slice(0, 10);
+        var yesterday = new Date(focusReferenceDate);
+        yesterday.setDate(yesterday.getDate() - 1);
+        var yesterdayStr = yesterday.toISOString().slice(0, 10);
+        if (todayStr && !seen[todayStr]) out.push({ date: todayStr, label: 'Today' });
+        if (yesterdayStr && !seen[yesterdayStr]) out.push({ date: yesterdayStr, label: 'Yesterday' });
+        out.sort(function (a, b) { return a.date.localeCompare(b.date); });
+        return out;
+      }
+
+      function getCardsUnderDate(dateEl) {
+        var cards = [];
+        var el = dateEl.nextSibling;
+        while (el) {
+          if (el.classList && el.classList.contains('consult-date')) break;
+          if (el.classList && el.classList.contains('add-recording')) break;
+          if (el.classList && el.classList.contains('consult-card')) cards.push(el);
+          el = el.nextSibling;
+        }
+        return cards;
+      }
+
+      function reorderConsultListByDates(orderedDates, insertAtStart) {
+        var addRecording = consultList.querySelector('.add-recording');
+        if (!addRecording) return;
+        var nodesToMove = [];
+        orderedDates.forEach(function (date) {
+          var dateEl = consultList.querySelector('.consult-date[data-date="' + date + '"]');
+          if (!dateEl) return;
+          nodesToMove.push(dateEl);
+          getCardsUnderDate(dateEl).forEach(function (card) { nodesToMove.push(card); });
+        });
+        nodesToMove.forEach(function (n) { n.remove(); });
+        if (insertAtStart) {
+          var insertAfter = null;
+          nodesToMove.forEach(function (n) {
+            if (insertAfter === null) consultList.insertBefore(n, consultList.firstChild);
+            else consultList.insertBefore(n, insertAfter.nextSibling);
+            insertAfter = n;
+          });
+        } else {
+          nodesToMove.forEach(function (n) { consultList.insertBefore(n, addRecording); });
+        }
+      }
+
+      function cardMatchesSearch(card) {
+        if (!searchQuery) return true;
+        if (searchQuery.type === 'name') {
+          var nameEl = card.querySelector('.name');
+          var name = nameEl ? nameEl.textContent : '';
+          return name.toLowerCase().indexOf(searchQuery.value.toLowerCase()) !== -1;
+        }
+        return searchQuery.type === 'date' && card.getAttribute('data-date') === searchQuery.value;
+      }
+
+      function applyListFilters(stateFilter) {
+        if (!consultList) return;
+        var range = getEffectiveDateRange();
+        var startStr = range[0];
+        var endStr = range[1];
+        var timeStart = timeFilterStartInput ? parseInt(timeFilterStartInput.value, 10) : 0;
+        var timeEnd = timeFilterEndInput ? parseInt(timeFilterEndInput.value, 10) : 1440;
+        if (timeStart > timeEnd) { timeStart = timeEnd; timeEnd = timeFilterStartInput ? parseInt(timeFilterStartInput.value, 10) : 1440; }
+        consultList.querySelectorAll('.consult-card').forEach(function (card) {
+          var date = card.getAttribute('data-date');
+          var inScope = date && date >= startStr && date <= endStr;
+          var stateMatch = !stateFilter || stateFilter === 'all' || card.getAttribute('data-state') === stateFilter;
+          var searchMatch = cardMatchesSearch(card);
+          var metaEl = card.querySelector('.meta');
+          var metaText = metaEl ? metaEl.textContent : '';
+          var cardMinutes = parseMetaTimeToMinutes(metaText);
+          var timeMatch = cardMinutes == null || (cardMinutes >= timeStart && cardMinutes <= timeEnd);
+          card.style.display = (inScope && stateMatch && searchMatch && timeMatch) ? '' : 'none';
+        });
+        consultList.querySelectorAll('.consult-date').forEach(function (dateEl) {
+          var date = dateEl.getAttribute('data-date');
+          if (!date || date < startStr || date > endStr) {
+            dateEl.style.display = 'none';
+            return;
+          }
+          var cardsUnder = getCardsUnderDate(dateEl);
+          var anyMatch = cardsUnder.some(function (card) { return card.style.display !== 'none'; });
+          dateEl.style.display = anyMatch ? '' : 'none';
+        });
+        var allDates = [];
+        consultList.querySelectorAll('.consult-date').forEach(function (dateEl) {
+          var d = dateEl.getAttribute('data-date');
+          if (d && dateEl.style.display !== 'none') allDates.push(d);
+        });
+        allDates.sort();
+        reorderConsultListByDates(allDates, false);
+        consultList.querySelectorAll('.consult-date').forEach(function (dateEl) {
+          if (dateEl.style.display === 'none') return;
+          var date = dateEl.getAttribute('data-date');
+          dateEl.textContent = formatDateString(date);
+        });
+      }
+
+      function updateStatusPills() {
+        consultList.parentElement.querySelectorAll('.status-pill[data-state-filter]').forEach(function (pill) {
+          var filter = pill.getAttribute('data-state-filter');
+          var isActive = filter === 'all'
+            ? (!currentStateFilter || currentStateFilter === 'all')
+            : filter === currentStateFilter;
+          pill.classList.toggle('active', isActive);
+        });
+      }
+
+      function setStatusFilter(stateFilter) {
+        currentStateFilter = stateFilter;
+        applyListFilters(currentStateFilter);
+        updateStatusPills();
+      }
+
+      consultList.parentElement.querySelectorAll('.status-pill[data-state-filter]').forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          var filter = pill.getAttribute('data-state-filter');
+          if (filter === 'all' || filter === currentStateFilter) {
+            currentStateFilter = null;
+            applyListFilters(null);
+            updateStatusPills();
+            showToast('Showing all.');
+          } else {
+            setStatusFilter(filter);
+            showToast('Showing ' + (STATE_LABELS[filter] || filter) + '.');
+          }
+        });
+      });
+
+      function updateDatePills() {
+        consultList.parentElement.querySelectorAll('.date-pill[data-date-filter]').forEach(function (pill) {
+          var filter = pill.getAttribute('data-date-filter');
+          pill.classList.toggle('active', filter === currentDateQuickFilter);
+        });
+      }
+      consultList.parentElement.querySelectorAll('.date-pill[data-date-filter]').forEach(function (pill) {
+        pill.addEventListener('click', function () {
+          currentDateQuickFilter = pill.getAttribute('data-date-filter');
+          updateDatePills();
+          applyListFilters(currentStateFilter);
+          if (currentDateQuickFilter === 'today') showToast('Showing today.');
+          else if (currentDateQuickFilter === 'tomorrow') showToast('Showing tomorrow.');
+          else showToast('Showing all dates.');
+        });
+      });
+
+      if (timeFilterStartInput) {
+        timeFilterStartInput.addEventListener('input', function () {
+          var start = parseInt(timeFilterStartInput.value, 10);
+          var end = parseInt(timeFilterEndInput.value, 10);
+          if (start > end) timeFilterEndInput.value = start;
+          updateTimeFilterStrip();
+          applyListFilters(currentStateFilter);
+        });
+      }
+      if (timeFilterEndInput) {
+        timeFilterEndInput.addEventListener('input', function () {
+          var start = parseInt(timeFilterStartInput.value, 10);
+          var end = parseInt(timeFilterEndInput.value, 10);
+          if (end < start) timeFilterStartInput.value = end;
+          updateTimeFilterStrip();
+          applyListFilters(currentStateFilter);
+        });
+      }
+
+      updateSyncStrip();
+      updateTimeFilterStrip();
+      applyListFilters(currentStateFilter);
+      updateStatusPills();
+      updateDatePills();
+    })();
+  </script>
+</body>
+</html>
