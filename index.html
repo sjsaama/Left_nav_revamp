@@ -139,275 +139,7 @@
       width: 20px;
       height: 20px;
     }
-    /* Date filter (first filter - icon only; date bar hidden) */
-    .date-filter-block {
-      flex-shrink: 0;
-      padding: 0;
-      border-bottom: none;
-      height: 0;
-      overflow: visible;
-    }
-    .date-filter-block.open {
-      height: 0;
-      padding: 0;
-    }
-    .date-filter-block .wrap { position: relative; }
-    .date-filter-trigger {
-      display: none !important;
-    }
-    .date-filter-trigger .label { font-weight: 500; color: var(--text-muted); }
-    .date-filter-trigger .value { font-weight: 600; margin-left: 8px; }
-    .date-filter-trigger .value.empty { font-weight: 400; color: var(--text-muted); }
-    .date-filter-trigger .chevron { margin-left: auto; color: var(--text-muted); transition: transform 0.2s; }
-    .date-filter-trigger.open .chevron { transform: rotate(180deg); }
-    .date-filter-dropdown {
-      position: fixed;
-      top: 12px;
-      left: 392px;
-      display: none;
-      flex-direction: column;
-      min-width: 480px;
-      background: #fff;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-      z-index: 100;
-      overflow: hidden;
-    }
-    .date-filter-block.open .date-filter-dropdown { display: flex; }
-    .date-filter-popup-header {
-      padding: 12px 16px;
-      text-align: center;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text);
-      border-bottom: 1px solid #e5e7eb;
-      background: #fafafa;
-    }
-    .date-filter-popup-header.empty { color: var(--text-muted); font-weight: 500; }
-    .date-filter-dropdown-row { display: flex; flex-direction: row; }
-    .date-filter-presets {
-      width: 180px;
-      flex-shrink: 0;
-      padding: 12px 0 12px 0;
-      border-right: 1px solid #e5e7eb;
-      display: flex;
-      flex-direction: column;
-      background: #fff;
-    }
-    .date-filter-presets .option {
-      display: block;
-      width: 100%;
-      padding: 12px 16px;
-      font-size: 13px;
-      text-align: left;
-      border: none;
-      background: #f9fafb;
-      cursor: pointer;
-      color: var(--text);
-      border-radius: 6px;
-      margin: 0 12px 4px;
-      border: 1px solid transparent;
-    }
-    .date-filter-presets .option:first-of-type { margin-top: 4px; }
-    .date-filter-presets .option:hover { background: #f5f3ff; color: var(--marvix-purple); border-color: #e5e7eb; }
-    .date-filter-presets .option.selected { background: #eff6ff; color: #1d4ed8; font-weight: 500; }
-    .date-filter-presets .option.selected::after { content: none; }
-    .date-filter-presets .divider { height: 1px; background: #e5e7eb; margin: 8px 16px 12px; }
-    .date-filter-footer {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px 16px;
-      border-top: 1px solid #e5e7eb;
-      background: #fff;
-    }
-    .date-filter-time-in-dropdown {
-      padding: 12px 16px 16px;
-      border-top: 1px solid #e5e7eb;
-      font-size: 12px;
-      background: #fafafa;
-    }
-    .date-filter-time-in-dropdown .time-filter-label { font-weight: 500; color: var(--text-muted); margin-bottom: 8px; font-size: 12px; }
-    .date-filter-time-in-dropdown .time-filter-strip { display: none; }
-    .date-filter-time-in-dropdown .time-range-slider-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-top: 8px;
-    }
-    .date-filter-time-in-dropdown .time-range-slider-wrap input[type="range"] {
-      flex: 1;
-      min-width: 0;
-      height: 8px;
-      -webkit-appearance: none;
-      appearance: none;
-      background: #e0e7ff;
-      border-radius: 4px;
-    }
-    .date-filter-time-in-dropdown .time-range-slider-wrap input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #2563eb;
-      cursor: pointer;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
-    .date-filter-time-in-dropdown .time-range-slider-wrap input[type="range"]::-moz-range-thumb {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #2563eb;
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
-    .date-filter-time-in-dropdown .time-range-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--text-muted); }
-    .date-filter-calendar {
-      display: flex;
-      flex-direction: row;
-      padding: 16px;
-      gap: 16px;
-    }
-    .calendar-month {
-      min-width: 200px;
-    }
-    .calendar-month-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-    }
-    .calendar-month-header button {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      cursor: pointer;
-      padding: 6px 10px;
-      color: var(--text-muted);
-      border-radius: 6px;
-      font-size: 12px;
-    }
-    .calendar-month-header button:hover { color: #2563eb; background: #eff6ff; border-color: #bfdbfe; }
-    .calendar-dow {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-      margin-bottom: 8px;
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-align: center;
-    }
-    .calendar-days {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
-      font-size: 12px;
-    }
-    .calendar-day {
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: none;
-      cursor: pointer;
-      border-radius: 4px;
-      color: var(--text);
-    }
-    .calendar-day:hover { background: #eff6ff; color: #1d4ed8; }
-    .calendar-day.other-month { color: var(--text-muted); opacity: 0.5; }
-    .calendar-day.range { background: #dbeafe; color: var(--text); }
-    .calendar-day.range-start,
-    .calendar-day.range-end { background: #2563eb; color: #fff; }
-    .calendar-day.range-start.range-end { border-radius: 6px; }
-    .date-filter-dropdown .btn-apply { margin: 0; min-width: fit-content; }
-    .date-filter-dropdown .date-filter-footer .btn-apply { flex: none; }
-    .date-filter-dropdown .date-filter-footer .clear-filters { margin: 0; flex-shrink: 0; width: auto; }
-    .date-filter-footer .btn-apply,
-    .date-filter-footer .clear-filters {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .date-filter-footer-icon {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
-    .date-filter-clear-link {
-      padding: 8px 12px;
-      font-size: 12px;
-      color: var(--text-muted);
-      background: none;
-      border: none;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-    .date-filter-clear-link:hover { color: #dc2626; background: #fef2f2; }
-    .date-filter-dropdown .option {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      font-size: 13px;
-      cursor: pointer;
-      color: var(--text);
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-    }
-    .date-filter-dropdown .option:hover { background: #f5f3ff; }
-    .date-filter-dropdown .option.selected { background: #f5f3ff; color: var(--marvix-purple); font-weight: 600; }
-    .date-filter-dropdown .option.selected::after { content: '\2713'; margin-left: 8px; font-weight: 700; }
-    .date-filter-dropdown .divider { height: 1px; background: var(--border); margin: 8px 0; }
-    .date-filter-dropdown .custom-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-    .date-filter-dropdown .custom-row input[type="date"] {
-      flex: 1;
-      height: 36px;
-      padding: 0 10px;
-      font-size: 13px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-    }
-    .date-filter-dropdown .btn-apply {
-      width: auto;
-      min-width: 80px;
-      margin-top: 0;
-      padding: 10px 16px;
-      font-size: 13px;
-      font-weight: 600;
-      background: var(--marvix-purple);
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .date-filter-dropdown .btn-apply:hover { filter: brightness(1.05); }
-    .date-filter-dropdown .clear-filters {
-      padding: 10px 14px;
-      font-size: 12px;
-      color: var(--text-muted);
-      cursor: pointer;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-    }
-    .date-filter-dropdown .clear-filters:hover { background: #fef2f2; color: var(--marvix-red); }
-    .date-filter-block .wrap { position: relative; }
+    /* Date selector removed - compact flight-style date bar is used below */
 
     .pane-left-search {
       padding: 6px 12px;
@@ -520,6 +252,152 @@
     .status-pill.active { border-color: var(--marvix-purple); background: #f5f3ff; color: var(--marvix-purple); }
     .status-pill[data-state-filter="ready"].active { border-color: #16a34a; background: #dcfce7; color: #166534; }
     .status-pill[data-state-filter="in_progress"].active { border-color: var(--marvix-purple); background: #f5f3ff; color: var(--marvix-purple); }
+    .left-filter-block {
+      padding: 6px 12px 8px;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .left-filter-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    .provider-multiselect {
+      position: relative;
+    }
+    .provider-multiselect-toggle {
+      width: 100%;
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--content-bg);
+      color: var(--text);
+      font-size: 12px;
+      font-family: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+    .provider-multiselect-toggle:hover {
+      border-color: var(--marvix-purple);
+    }
+    .provider-multiselect-toggle:focus {
+      outline: none;
+      border-color: var(--marvix-purple);
+      box-shadow: 0 0 0 2px #ede9fe;
+    }
+    .provider-multiselect-menu {
+      margin-top: 6px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--content-bg);
+      max-height: 150px;
+      overflow-y: auto;
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .provider-multiselect-menu[hidden] {
+      display: none !important;
+    }
+    .provider-option-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text);
+      cursor: pointer;
+    }
+    .provider-option-row input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--marvix-purple);
+    }
+    .assigned-checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text);
+    }
+    .assigned-checkbox-row input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--marvix-purple);
+    }
+    .more-filters-shell {
+      padding: 6px 12px 8px;
+      border-bottom: 1px solid var(--border);
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .more-filters-toggle {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 6px 8px;
+      background: var(--content-bg);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .more-filters-toggle:hover { border-color: var(--marvix-purple); color: var(--marvix-purple); }
+    .more-filters-chevron {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .more-filters-shell.expanded .more-filters-chevron {
+      transform: rotate(180deg);
+    }
+    .secondary-filter-summary {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .secondary-filter-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid #d8b4fe;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: #faf5ff;
+      color: #6d28d9;
+      font-size: 10px;
+      font-weight: 600;
+    }
+    .secondary-filter-chip button {
+      border: none;
+      background: transparent;
+      color: inherit;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 0;
+    }
+    .more-filters-content {
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .more-filters-content .left-filter-block {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .more-filters-content .left-filter-block:last-child {
+      border-bottom: none;
+    }
     .consult-list { padding: 4px 8px; overflow-y: auto; flex: 1; }
     .consult-date { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); padding: 6px 8px 2px; }
     .consult-date .focus-date-tag {
@@ -636,69 +514,6 @@
     }
     .consult-list .add-recording:hover { filter: brightness(1.05); }
 
-    /* View options modal (Heidi Customize-style) */
-    .view-options-modal .modal-dialog { max-width: 380px; overflow: visible; }
-    .view-options-modal .modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      font-size: 13px;
-    }
-    .view-options-modal .modal-close-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      border: none;
-      background: rgba(255,255,255,0.2);
-      color: #fff;
-      border-radius: 6px;
-      font-size: 20px;
-      line-height: 1;
-      cursor: pointer;
-    }
-    .view-options-modal .modal-close-btn:hover { background: rgba(255,255,255,0.3); }
-    .view-options-modal .modal-close-btn:focus { outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.5); }
-    .view-options-modal .modal-body { padding: 20px 24px; overflow: visible; }
-    .view-options-field {
-      margin-bottom: 20px;
-    }
-    .view-options-field:last-of-type { margin-bottom: 0; }
-    .view-options-field .label-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 8px;
-      overflow: visible;
-    }
-    .view-options-field .label-row .info-tooltip-wrap { flex-shrink: 0; }
-    .view-options-field .label-row label {
-      display: inline-block;
-      margin-bottom: 0;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text);
-    }
-    .info-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 20px;
-      height: 20px;
-      padding: 0;
-      border: 1px solid var(--border);
-      border-radius: 50%;
-      background: var(--content-bg);
-      color: var(--text-muted);
-      cursor: help;
-      flex-shrink: 0;
-    }
-    .info-btn svg { width: 12px; height: 12px; display: block; }
-    .info-btn:hover { border-color: var(--marvix-purple); color: var(--marvix-purple); background: #faf5ff; }
-    .info-btn:focus { outline: none; box-shadow: 0 0 0 2px rgba(91, 33, 182, 0.3); }
     .info-tooltip-wrap { position: relative; display: inline-flex; }
     .info-tooltip {
       position: absolute;
@@ -723,96 +538,6 @@
     }
     .info-tooltip-wrap:hover .info-tooltip,
     .info-tooltip-wrap:focus-within .info-tooltip { opacity: 1; visibility: visible; }
-    .view-options-field .hint {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-    .view-options-field select {
-      width: 100%;
-      height: 40px;
-      padding: 0 12px;
-      font-size: 13px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      background: var(--content-bg);
-      color: var(--text);
-    }
-    .view-options-slider-wrap {
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      gap: 4px;
-      margin-top: 4px;
-    }
-    .view-options-slider-wrap input[type="range"] {
-      width: 100%;
-      height: 6px;
-      accent-color: var(--marvix-purple);
-    }
-    .view-options-slider-wrap .slider-value-block {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--marvix-purple);
-    }
-    .view-options-slider-wrap .slider-value {
-      font-weight: 600;
-      color: var(--marvix-purple);
-    }
-    .view-options-modal .modal-actions {
-      display: flex;
-      flex-wrap: nowrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 24px 24px;
-    }
-    .view-options-modal .btn-secondary {
-      background: var(--border);
-      color: var(--text);
-    }
-    .view-options-modal .btn-secondary:hover { background: #e0e0e0; }
-
-    /* Date order drag-and-drop list */
-    .order-dnd-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    .order-dnd-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      background: var(--content-bg);
-      border-bottom: 1px solid var(--border);
-      cursor: grab;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text);
-      user-select: none;
-    }
-    .order-dnd-item:last-child { border-bottom: none; }
-    .order-dnd-item:hover { background: #f9fafb; }
-    .order-dnd-item.dragging {
-      opacity: 0.6;
-      cursor: grabbing;
-      background: #f5f3ff;
-    }
-    .order-dnd-item.drag-over {
-      border-top: 2px solid var(--marvix-purple);
-      margin-top: -1px;
-    }
-    .order-dnd-item .drag-handle {
-      color: var(--text-muted);
-      flex-shrink: 0;
-      pointer-events: none;
-    }
-    .order-dnd-item .drag-handle svg { width: 18px; height: 18px; display: block; }
-
     /* Right pane - consult detail */
     .pane-right { flex: 1; overflow-y: auto; padding: 24px; }
     .pane-right-context {
@@ -842,32 +567,129 @@
       margin: 0 0 12px;
     }
 
-    /* INPUTS FOR AI - dictation list */
+    /* INPUTS FOR AI - app-like upload list */
     .inputs-card {
       background: var(--content-bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px 24px;
-      margin-bottom: 24px;
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
     }
     .dictation-list { list-style: none; margin: 0; padding: 0; }
     .dictation-item {
-      display: flex;
-      align-items: center;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 92px auto;
       gap: 12px;
+      align-items: center;
       padding: 12px 0;
       border-bottom: 1px solid var(--border);
     }
     .dictation-item:last-child { border-bottom: none; }
-    .dictation-item .label { flex: 1; font-size: 14px; min-width: 0; }
+    .dictation-main {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .dictation-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: var(--marvix-purple);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .dictation-icon.uploading {
+      background: #ecfeff;
+      color: #0f766e;
+    }
+    .dictation-copy { min-width: 0; }
+    .dictation-item .label {
+      display: block;
+      font-size: 14px;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .dictation-item.stuck .label {
-      border-bottom: 2px dashed var(--marvix-purple-light);
+      border-bottom: 2px dashed #c4b5fd;
       padding-bottom: 2px;
     }
-    .dictation-item .progress { width: 80px; height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; flex-shrink: 0; }
-    .dictation-item .progress-fill { height: 100%; background: var(--marvix-teal); border-radius: 3px; }
-    .dictation-item.stuck .progress-fill { width: 0; }
-    .dictation-item .item-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .dictation-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+    .progress {
+      position: relative;
+      width: 92px;
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #22c55e, #2dd4bf);
+      border-radius: 999px;
+    }
+    .progress-text {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #14b8a6;
+      font-weight: 600;
+      text-align: right;
+      min-width: 36px;
+    }
+    .dictation-item .item-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: flex-end;
+      flex-shrink: 0;
+    }
+    .mini-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 8px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4f46e5;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #dbeafe;
+    }
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #0f766e;
+      background: #ecfeff;
+      border: 1px solid #a5f3fc;
+      border-radius: 999px;
+      padding: 4px 8px;
+    }
+    .status-chip.partial {
+      color: #9a3412;
+      background: #fff7ed;
+      border-color: #fdba74;
+    }
     .btn {
       font-family: inherit;
       font-size: 13px;
@@ -878,14 +700,24 @@
       cursor: pointer;
       transition: background 0.15s;
     }
-    .btn-rescue { background: var(--marvix-red); color: #fff; }
-    .btn-rescue:hover { filter: brightness(1.08); }
     .btn-dictation { background: var(--marvix-purple-light); color: #fff; padding: 10px 20px; }
     .btn-dictation:hover { filter: brightness(1.08); }
     .btn-add-consult { background: var(--marvix-teal); color: #fff; }
     .btn-add-consult:hover { filter: brightness(1.08); }
-    .btn-process { background: var(--marvix-green); color: #fff; }
+    .btn-process { background: var(--marvix-green); color: #fff; flex: 1; justify-content: center; min-width: 180px; }
     .btn-process:hover { filter: brightness(1.08); }
+    .btn-upload {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--marvix-teal);
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
     .icon-btn {
       background: none;
       border: none;
@@ -897,28 +729,161 @@
     .icon-btn:hover { color: var(--marvix-red); background: #fef2f2; }
     .icon-btn svg { width: 18px; height: 18px; display: block; }
 
-    .actions-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; align-items: center; }
+    .top-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 20px;
+    }
+    .top-grid .inputs-card,
+    .top-grid .generate-card {
+      margin-bottom: 0;
+      height: 100%;
+    }
+    .actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+      align-items: center;
+    }
     .actions-row .btn { display: inline-flex; align-items: center; gap: 8px; }
+    .generate-card .actions-row {
+      margin-top: 18px;
+      justify-content: flex-end;
+    }
 
-    /* WHAT SHOULD AI GENERATE + OUTPUTS - simplified */
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    /* WHAT SHOULD AI GENERATE + OUTPUTS - app-like */
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 20px; }
     .generate-card, .outputs-card {
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
+      border-radius: 10px;
+      padding: 16px;
+      background: var(--content-bg);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
     }
-    .outputs-card .tabs { padding: 0 0 12px; border: none; }
-    .outputs-card .tabs button { padding: 8px 12px; font-size: 12px; }
+    .generate-list { display: flex; flex-direction: column; gap: 10px; }
+    .generate-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .generate-item:last-child { border-bottom: none; }
+    .generate-item strong {
+      display: block;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .generate-item span {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .generate-status {
+      font-size: 12px;
+      font-weight: 600;
+      color: #14b8a6;
+      white-space: nowrap;
+    }
+    .generate-status.done { color: #22c55e; }
+    .outputs-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .output-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .output-toolbar .icon-btn {
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--marvix-purple);
+    }
+    .outputs-card .tabs {
+      padding: 0;
+      border: none;
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      margin-bottom: 12px;
+    }
+    .outputs-card .tabs button {
+      padding: 10px 12px;
+      font-size: 12px;
+      border-radius: 8px 8px 0 0;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+    }
+    .note-banner {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #fff7ed;
+      color: #9a3412;
+      border: 1px solid #fdba74;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .note-banner.visible { display: flex; }
+    .note-banner.ready {
+      background: #ecfeff;
+      color: #0f766e;
+      border-color: #67e8f9;
+    }
+    .editor-shell {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .editor-heading {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
     .outputs-card textarea {
       width: 100%;
-      min-height: 120px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 12px;
+      min-height: 220px;
+      border: none;
+      border-radius: 0;
+      padding: 16px 14px;
       font-family: inherit;
       font-size: 13px;
+      line-height: 1.6;
       resize: vertical;
     }
+    .output-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      padding-top: 14px;
+      color: var(--marvix-purple);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .output-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: inherit;
+      text-decoration: none;
+    }
+    .output-action.danger { color: #ef4444; }
 
     .toast {
       position: fixed;
@@ -937,7 +902,7 @@
     }
     .toast.visible { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-    /* Rescue confirmation modal - MARVIX style */
+    /* Process warning modal - MARVIX style */
     .modal-overlay {
       position: fixed;
       inset: 0;
@@ -983,67 +948,28 @@
       justify-content: flex-end;
     }
     .modal-dialog .modal-actions .btn-outline {
-      background: transparent;
+      background: #fff;
       color: var(--marvix-purple);
-      border: 2px solid var(--marvix-purple);
+      border: 1px solid var(--border);
     }
     .modal-dialog .modal-actions .btn-outline:hover { background: #faf5ff; }
+    .btn-confirm-process {
+      background: var(--marvix-green);
+      color: #fff;
+    }
 
-    /* Active filters bar: show what's applied and how to remove */
-    .active-filters {
-      display: none;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px 10px;
-      padding: 6px 12px 8px;
-      border-bottom: 1px solid var(--border);
-      font-size: 12px;
+    @media (max-width: 1100px) {
+      .top-grid { grid-template-columns: 1fr; }
+      .grid-2 { grid-template-columns: 1fr; }
     }
-    .active-filters.visible { display: flex; }
-    .active-filters-label { color: var(--text-muted); margin-right: 4px; line-height: 1.25; }
-    .filter-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 6px 2px 8px;
-      background: #f5f3ff;
-      color: var(--marvix-purple);
-      border-radius: 6px;
-      font-weight: 500;
-      font-size: 12px;
-      line-height: 1.25;
+    @media (max-width: 760px) {
+      .dictation-item { grid-template-columns: 1fr; }
+      .progress { width: 100%; }
+      .dictation-item .item-actions { justify-content: flex-start; }
     }
-    .filter-chip-clear {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 14px;
-      height: 14px;
-      padding: 0;
-      border: none;
-      background: rgba(88, 28, 135, 0.2);
-      color: var(--marvix-purple);
-      border-radius: 50%;
-      font-size: 12px;
-      line-height: 1;
-      cursor: pointer;
-    }
-    .filter-chip-clear:hover { background: rgba(88, 28, 135, 0.35); }
-    .active-filters-clear {
-      margin-left: auto;
-      padding: 2px 0;
-      border: none;
-      background: none;
-      color: var(--text-muted);
-      font-size: 12px;
-      line-height: 1.25;
-      cursor: pointer;
-      text-decoration: underline;
-    }
-    .active-filters-clear:hover { color: var(--marvix-purple); }
 
-    /* Date pills: Today / Tomorrow (below status pills) */
-    .date-pills {
+    /* Flight-style date bar */
+    .date-bar {
       display: flex;
       align-items: center;
       padding: 6px 12px 8px;
@@ -1052,19 +978,21 @@
       width: 100%;
       box-sizing: border-box;
     }
-    .date-pills-list {
+    .date-bar-list {
       display: flex;
       align-items: center;
       gap: 6px;
       flex: 1;
       min-width: 0;
+      overflow-x: auto;
+      scrollbar-width: thin;
     }
-    .date-pill {
+    .date-bar-chip {
       display: flex;
       align-items: center;
       justify-content: center;
-      flex: 1;
-      min-width: 0;
+      flex: 0 0 auto;
+      min-width: 70px;
       padding: 6px 8px;
       border: 1px solid var(--border);
       border-radius: 999px;
@@ -1075,11 +1003,11 @@
       cursor: pointer;
       text-align: center;
     }
-    .date-pill:hover { border-color: var(--marvix-purple); color: var(--marvix-purple); background: #faf5ff; }
-    .date-pill.active { border-color: var(--marvix-purple); background: #f5f3ff; color: var(--marvix-purple); }
+    .date-bar-chip:hover { border-color: var(--marvix-purple); color: var(--marvix-purple); background: #faf5ff; }
+    .date-bar-chip.active { border-color: var(--marvix-purple); background: #f5f3ff; color: var(--marvix-purple); font-weight: 700; }
 
-    /* Time filter (below date pills) */
-    .time-filter-block {
+    /* Time-of-day segmentation */
+    .time-segment-block {
       flex-shrink: 0;
       padding: 8px 12px 10px;
       border-bottom: 1px solid var(--border);
@@ -1087,34 +1015,42 @@
       width: 100%;
       box-sizing: border-box;
     }
-    .time-filter-label { color: var(--text-muted); margin-bottom: 4px; font-weight: 500; display: block; }
-    .time-filter-strip {
-      display: block;
-      margin-bottom: 8px;
-      padding: 4px 8px;
-      background: #f5f3ff;
-      border-radius: 6px;
-      font-weight: 600;
-      color: var(--marvix-purple);
-      font-size: 12px;
-    }
-    .time-range-slider-wrap {
+    .time-filter-label { color: var(--text-muted); margin-bottom: 6px; font-weight: 500; display: block; }
+    .time-segment-list {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      flex-wrap: wrap;
     }
-    .time-range-slider-wrap input[type="range"] {
-      flex: 1;
-      min-width: 0;
-      height: 6px;
-      accent-color: var(--marvix-purple);
-    }
-    .time-range-labels {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 4px;
-      font-size: 10px;
+    .time-segment-chip {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: #fff;
       color: var(--text-muted);
+      padding: 5px 10px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .time-segment-chip.active {
+      border-color: var(--marvix-purple);
+      background: #f5f3ff;
+      color: var(--marvix-purple);
+      font-weight: 600;
+    }
+    .consult-card.bucket-start {
+      margin-top: 18px;
+      position: relative;
+    }
+    .consult-card.bucket-start::before {
+      content: attr(data-bucket-label);
+      position: absolute;
+      top: -14px;
+      left: 0;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
     }
 
     /* Badge on icon when filter is applied */
@@ -1155,83 +1091,33 @@
           <header class="pane-left-header">
             <span class="pane-left-title">Consults</span>
             <div class="pane-left-icons">
-              <button type="button" class="icon-btn" id="btn-filter-sort" title="Date filter" aria-label="Date filter">
-                <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              </button>
               <button type="button" class="icon-btn" id="btn-search" title="Search" aria-label="Search">
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
               </button>
               <button type="button" class="icon-btn" id="btn-refresh" title="Refresh" aria-label="Refresh">
                 <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
               </button>
-              <button type="button" class="icon-btn" id="btn-view-options" title="Appointments synced: 7 days back → 14 days ahead" aria-label="View options (sync window &amp; default dates)">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <button type="button" class="icon-btn" id="btn-more-filters" title="More filters" aria-label="More filters">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="3"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
               </button>
             </div>
           </header>
-          <div class="date-filter-block" id="date-filter-block">
-            <div class="wrap">
-              <button type="button" class="date-filter-trigger" id="date-filter-trigger" aria-expanded="false" aria-haspopup="true" aria-label="Filter by date">
-                <span><span class="label">Date</span><span class="value empty" id="date-filter-value">All</span></span>
-                <span class="chevron" aria-hidden="true">▾</span>
-              </button>
-              <div class="date-filter-dropdown" id="date-filter-dropdown" role="menu">
-                <div class="date-filter-popup-header empty" id="date-filter-popup-header">Select date range</div>
-                <div class="date-filter-dropdown-row">
-                  <div class="date-filter-presets">
-                    <button type="button" class="option" role="menuitem" data-preset="today">Today</button>
-                    <button type="button" class="option" role="menuitem" data-preset="yesterday">Yesterday</button>
-                    <button type="button" class="option" role="menuitem" data-preset="7">Last 7 days</button>
-                    <button type="button" class="option" role="menuitem" data-preset="15">Last 15 days</button>
-                    <button type="button" class="option" role="menuitem" data-preset="month">Last month</button>
-                    <div class="divider"></div>
-                    <button type="button" class="option option-custom" role="menuitem" data-preset="custom">Custom</button>
-                  </div>
-                  <div class="date-filter-calendar" id="date-filter-calendar">
-                    <div class="calendar-month" id="calendar-month-1"></div>
-                    <div class="calendar-month" id="calendar-month-2"></div>
-                  </div>
-                </div>
-                <div class="date-filter-time-in-dropdown">
-                  <span class="time-filter-label">Time of day</span>
-                  <span class="time-filter-strip" id="time-filter-strip">06:00 — 18:00</span>
-                  <div class="time-range-slider-wrap">
-                    <input type="range" id="time-filter-start" min="0" max="1440" value="360" step="15" title="Start time" aria-label="Time of day (start)" />
-                    <input type="range" id="time-filter-end" min="0" max="1440" value="1080" step="15" title="End time" aria-label="Time of day (end)" />
-                  </div>
-                  <div class="time-range-labels">
-                    <span>00:00</span>
-                    <span>23:59</span>
-                  </div>
-                </div>
-                <div class="date-filter-footer">
-                  <button type="button" class="clear-filters date-filter-clear-link" id="date-filter-clear">
-                    <svg class="date-filter-footer-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                    <span>Clear filters</span>
-                  </button>
-                  <button type="button" class="btn-apply" id="date-filter-apply">
-                    <svg class="date-filter-footer-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-                    <span>Apply</span>
-                  </button>
-                </div>
-              </div>
-              <input type="hidden" id="date-from" />
-              <input type="hidden" id="date-to" />
-            </div>
-          </div>
+          <input type="hidden" id="active-date" />
           <div class="pane-left-search" id="pane-left-search" hidden>
             <div class="search-input-wrap">
               <input type="search" class="pane-search-input" placeholder="Search by name or date…" aria-label="Search consults by name or date" id="input-search-consults" autocomplete="off" />
               <div class="search-suggestions" id="search-suggestions" role="listbox" aria-label="Search suggestions" hidden></div>
             </div>
           </div>
-          <div class="active-filters" id="active-filters" aria-live="polite">
-            <span class="active-filters-label">Filters:</span>
-            <span class="filter-chip" id="chip-date" hidden>
-              <span id="chip-date-text"></span>
-              <button type="button" class="filter-chip-clear" id="chip-date-clear" aria-label="Remove date filter">×</button>
-            </span>
-            <button type="button" class="active-filters-clear" id="active-filters-clear-all">Clear all</button>
+          <div class="date-bar" role="group" aria-label="Select appointment date">
+            <div class="date-bar-list" id="date-bar-list"></div>
+          </div>
+          <div class="time-segment-block" role="group" aria-label="Filter by time of day">
+            <div class="time-segment-list" id="time-segment-list">
+              <button type="button" class="time-segment-chip active" data-time-bucket="before_10">Before 10 AM</button>
+              <button type="button" class="time-segment-chip active" data-time-bucket="ten_to_two">10 AM to 2 PM</button>
+              <button type="button" class="time-segment-chip active" data-time-bucket="after_2">After 2 PM</button>
+            </div>
           </div>
           <div class="status-pills" role="group" aria-label="Filter by status">
             <div class="status-pills-list">
@@ -1241,27 +1127,38 @@
               <button type="button" class="status-pill" id="status-in-progress" data-state-filter="in_progress">In progress</button>
             </div>
           </div>
-          <div class="date-pills" role="group" aria-label="Filter by day">
-            <div class="date-pills-list">
-              <button type="button" class="date-pill" id="date-pill-today" data-date-filter="today">Today</button>
-              <button type="button" class="date-pill" id="date-pill-tomorrow" data-date-filter="tomorrow">Tomorrow</button>
-              <button type="button" class="date-pill active" id="date-pill-all" data-date-filter="all">All dates</button>
+          <div class="more-filters-shell" id="more-filters-shell">
+            <div class="secondary-filter-summary" id="secondary-filter-summary"></div>
+            <div class="more-filters-content" id="more-filters-content" hidden>
+              <div class="left-filter-block" id="provider-filter-block" aria-label="Filter by provider" hidden>
+                <label class="left-filter-label" for="provider-multiselect-toggle">Provider</label>
+                <div class="provider-multiselect" id="provider-multiselect">
+                  <button type="button" class="provider-multiselect-toggle" id="provider-multiselect-toggle" aria-haspopup="listbox" aria-expanded="false">All providers</button>
+                  <div class="provider-multiselect-menu" id="provider-multiselect-menu" role="listbox" aria-multiselectable="true" hidden></div>
+                </div>
+              </div>
+              <div class="left-filter-block" id="assigned-filter-block" aria-label="Filter by assignment">
+                <label class="assigned-checkbox-row" for="assigned-to-me-only">
+                  <input type="checkbox" id="assigned-to-me-only" />
+                  <span>Only show consults assigned to me</span>
+                </label>
+              </div>
             </div>
           </div>
           <div class="consult-list" id="consult-list">
             <div class="consult-date" data-date="2025-02-20">20 Feb 2025</div>
-            <div class="consult-card" data-date="2025-02-20" data-state="planned"><div class="name">MARIA GARCIA (E-1201)</div><div class="meta">9:15 AM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
-            <div class="consult-card" data-date="2025-02-20" data-state="ready"><div class="name">DAVID CHEN (E-1202)</div><div class="meta">11:00 AM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-02-20" data-state="planned" data-provider-id="p1" data-assigned-to-me="true" data-done-by-me="false"><div class="name">MARIA GARCIA (E-1201)</div><div class="meta">9:15 AM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-02-20" data-state="ready" data-provider-id="p2" data-assigned-to-me="false" data-done-by-me="true"><div class="name">DAVID CHEN (E-1202)</div><div class="meta">11:00 AM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
             <div class="consult-date" data-date="2025-02-22">22 Feb 2025</div>
-            <div class="consult-card" data-date="2025-02-22" data-state="in_progress"><div class="name">EMMA WILSON (E-1203)</div><div class="meta">2:30 PM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
-            <div class="consult-card" data-date="2025-02-22" data-state="planned"><div class="name">JAMES TAYLOR (E-1204)</div><div class="meta">4:00 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-02-22" data-state="in_progress" data-provider-id="p3" data-assigned-to-me="false" data-done-by-me="false"><div class="name">EMMA WILSON (E-1203)</div><div class="meta">2:30 PM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
+            <div class="consult-card" data-date="2025-02-22" data-state="planned" data-provider-id="p1" data-assigned-to-me="true" data-done-by-me="false"><div class="name">JAMES TAYLOR (E-1204)</div><div class="meta">4:00 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
             <div class="consult-date" data-date="2025-02-24">24 Feb 2025</div>
-            <div class="consult-card" data-date="2025-02-24" data-state="ready"><div class="name">SOPHIA LEE (E-1205)</div><div class="meta">10:00 AM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
-            <div class="consult-card" data-date="2025-02-24" data-state="planned"><div class="name">OLIVER MARTINEZ (E-1206)</div><div class="meta">1:45 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-02-24" data-state="ready" data-provider-id="p2" data-assigned-to-me="false" data-done-by-me="true"><div class="name">SOPHIA LEE (E-1205)</div><div class="meta">10:00 AM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-02-24" data-state="planned" data-provider-id="p3" data-assigned-to-me="false" data-done-by-me="false"><div class="name">OLIVER MARTINEZ (E-1206)</div><div class="meta">1:45 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
             <div class="consult-date" data-date="2025-02-25">25 Feb 2025</div>
-            <div class="consult-card" data-date="2025-02-25" data-state="in_progress"><div class="name">ISABELLA BROWN (E-1207)</div><div class="meta">9:30 AM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
-            <div class="consult-card" data-date="2025-02-25" data-state="ready"><div class="name">LIAM ANDERSON (E-1208)</div><div class="meta">3:15 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
-            <div class="consult-card" data-date="2025-02-25" data-state="in_progress" data-source="walkin">
+            <div class="consult-card" data-date="2025-02-25" data-state="in_progress" data-provider-id="p1" data-assigned-to-me="true" data-done-by-me="true"><div class="name">ISABELLA BROWN (E-1207)</div><div class="meta">9:30 AM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
+            <div class="consult-card" data-date="2025-02-25" data-state="ready" data-provider-id="p2" data-assigned-to-me="false" data-done-by-me="true"><div class="name">LIAM ANDERSON (E-1208)</div><div class="meta">3:15 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-02-25" data-state="in_progress" data-source="walkin" data-provider-id="p3" data-assigned-to-me="false" data-done-by-me="false">
               <div class="name">RYAN COOPER</div>
               <div class="meta">4:45 PM · Walk-in</div>
               <span class="consult-state-tag consult-state-in-progress">In progress</span>
@@ -1275,14 +1172,14 @@
               </div>
             </div>
             <div class="consult-date" data-date="2025-02-26">26 Feb 2025</div>
-            <div class="consult-card selected" data-date="2025-02-26" data-state="in_progress">
+            <div class="consult-card selected" data-date="2025-02-26" data-state="in_progress" data-provider-id="p1" data-assigned-to-me="true" data-done-by-me="true">
               <div class="name">JOHN DOE (E-1209)</div>
               <div class="meta">10:00 AM</div>
               <span class="consult-state-tag consult-state-in-progress">In progress</span>
             </div>
-            <div class="consult-card" data-date="2025-02-26" data-state="planned"><div class="name">JANE SMITH (E-1210)</div><div class="meta">11:30 AM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
-            <div class="consult-card" data-date="2025-02-26" data-state="ready"><div class="name">BOB WILSON (E-1211)</div><div class="meta">2:00 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
-            <div class="consult-card" data-date="2025-02-26" data-state="planned" data-source="walkin">
+            <div class="consult-card" data-date="2025-02-26" data-state="planned" data-provider-id="p2" data-assigned-to-me="false" data-done-by-me="false"><div class="name">JANE SMITH (E-1210)</div><div class="meta">11:30 AM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-02-26" data-state="ready" data-provider-id="p1" data-assigned-to-me="true" data-done-by-me="true"><div class="name">BOB WILSON (E-1211)</div><div class="meta">2:00 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-02-26" data-state="planned" data-source="walkin" data-provider-id="p2" data-assigned-to-me="false" data-done-by-me="false">
               <div class="name">PRIYA SHARMA</div>
               <div class="meta">3:30 PM · Walk-in</div>
               <span class="consult-state-tag consult-state-planned">Planned</span>
@@ -1296,9 +1193,9 @@
               </div>
             </div>
             <div class="consult-date" data-date="2025-02-27">27 Feb 2025</div>
-            <div class="consult-card" data-date="2025-02-27" data-state="planned"><div class="name">ALICE BROWN (E-1212)</div><div class="meta">8:45 AM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
-            <div class="consult-card" data-date="2025-02-27" data-state="ready"><div class="name">CHARLOTTE DAVIS (E-1213)</div><div class="meta">12:00 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
-            <div class="consult-card" data-date="2025-02-27" data-state="ready" data-source="walkin">
+            <div class="consult-card" data-date="2025-02-27" data-state="planned" data-provider-id="p3" data-assigned-to-me="false" data-done-by-me="false"><div class="name">ALICE BROWN (E-1212)</div><div class="meta">8:45 AM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-02-27" data-state="ready" data-provider-id="p1" data-assigned-to-me="true" data-done-by-me="true"><div class="name">CHARLOTTE DAVIS (E-1213)</div><div class="meta">12:00 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-02-27" data-state="ready" data-source="walkin" data-provider-id="p2" data-assigned-to-me="false" data-done-by-me="false">
               <div class="name">MARCUS JONES</div>
               <div class="meta">1:15 PM · Walk-in</div>
               <span class="consult-state-tag consult-state-ready">Ready</span>
@@ -1312,20 +1209,20 @@
               </div>
             </div>
             <div class="consult-date" data-date="2025-02-28">28 Feb 2025</div>
-            <div class="consult-card" data-date="2025-02-28" data-state="in_progress"><div class="name">NOAH THOMPSON (E-1214)</div><div class="meta">10:30 AM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
-            <div class="consult-card" data-date="2025-02-28" data-state="planned"><div class="name">AVA JACKSON (E-1215)</div><div class="meta">4:00 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-02-28" data-state="in_progress" data-provider-id="p2" data-assigned-to-me="false" data-done-by-me="true"><div class="name">NOAH THOMPSON (E-1214)</div><div class="meta">10:30 AM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
+            <div class="consult-card" data-date="2025-02-28" data-state="planned" data-provider-id="p1" data-assigned-to-me="true" data-done-by-me="false"><div class="name">AVA JACKSON (E-1215)</div><div class="meta">4:00 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
             <div class="consult-date" data-date="2025-03-01">1 Mar 2025</div>
-            <div class="consult-card" data-date="2025-03-01" data-state="ready"><div class="name">ELIJAH WHITE (E-1216)</div><div class="meta">9:00 AM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
-            <div class="consult-card" data-date="2025-03-01" data-state="planned"><div class="name">MIA HARRIS (E-1217)</div><div class="meta">1:30 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-03-01" data-state="ready" data-provider-id="p3" data-assigned-to-me="false" data-done-by-me="true"><div class="name">ELIJAH WHITE (E-1216)</div><div class="meta">9:00 AM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-03-01" data-state="planned" data-provider-id="p1" data-assigned-to-me="true" data-done-by-me="false"><div class="name">MIA HARRIS (E-1217)</div><div class="meta">1:30 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
             <div class="consult-date" data-date="2025-03-03">3 Mar 2025</div>
-            <div class="consult-card" data-date="2025-03-03" data-state="in_progress"><div class="name">LUCAS CLARK (E-1218)</div><div class="meta">11:00 AM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
-            <div class="consult-card" data-date="2025-03-03" data-state="ready"><div class="name">AMELIA LEWIS (E-1219)</div><div class="meta">3:45 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
-            <div class="consult-card" data-date="2025-03-03" data-state="planned"><div class="name">BENJAMIN WALKER (E-1220)</div><div class="meta">5:00 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
+            <div class="consult-card" data-date="2025-03-03" data-state="in_progress" data-provider-id="p2" data-assigned-to-me="false" data-done-by-me="true"><div class="name">LUCAS CLARK (E-1218)</div><div class="meta">11:00 AM</div><span class="consult-state-tag consult-state-in-progress">In progress</span></div>
+            <div class="consult-card" data-date="2025-03-03" data-state="ready" data-provider-id="p1" data-assigned-to-me="true" data-done-by-me="true"><div class="name">AMELIA LEWIS (E-1219)</div><div class="meta">3:45 PM</div><span class="consult-state-tag consult-state-ready">Ready</span></div>
+            <div class="consult-card" data-date="2025-03-03" data-state="planned" data-provider-id="p3" data-assigned-to-me="false" data-done-by-me="false"><div class="name">BENJAMIN WALKER (E-1220)</div><div class="meta">5:00 PM</div><span class="consult-state-tag consult-state-planned">Planned</span></div>
             <div class="add-recording" title="Start new recording" id="pane-new-recording">+</div>
           </div>
         </div>
 
-        <!-- Right pane - consult detail (INPUTS FOR AI + Rescue) -->
+        <!-- Right pane - consult detail -->
         <div class="pane-right">
           <div class="pane-right-context">
             <div class="context-left">
@@ -1333,60 +1230,156 @@
                 <span class="pill pill-purple">A21-1234</span>
                 <span class="pill pill-purple">First Visit</span>
                 <span class="pill pill-purple">Pronoun: He</span>
-                <span class="pill pill-gray">Link Appointment</span>
+                <span class="pill pill-gray">Link with EHR</span>
               </div>
               <span class="header-patient">PATIENT: John Doe DOB: 08/11/72 MRN: 17328u AGE: 52 yrs</span>
             </div>
             <div class="header-right">Dr Lisa Mendes · 12:00 PM, 13 Aug 2023</div>
           </div>
-          <div class="inputs-card">
-            <h2 class="section-title">INPUTS FOR AI FOR JOHN DOE</h2>
-            <ul class="dictation-list">
-              <li id="dictation-ongoing" class="dictation-item stuck">
-                <span class="label">3. Ongoing Dictation by Nicolas at 2:25 PM</span>
-                <div class="progress"><div class="progress-fill" style="width:0"></div></div>
-                <span class="item-actions">
-                  <button type="button" class="btn btn-rescue" id="rescue-btn">Rescue</button>
-                  <button type="button" class="icon-btn" title="Delete" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-                </span>
-              </li>
-              <li class="dictation-item">
-                <span class="label">2. Dictation by Nicolas at 2:25 PM</span>
-                <div class="progress"><div class="progress-fill" style="width:18%"></div></div>
-                <span class="item-actions">
-                  <button type="button" class="btn" style="background:#3b82f6;color:#fff;">Resume</button>
-                  <button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-                </span>
-              </li>
-              <li class="dictation-item">
-                <span class="label">1. Dictation by Nicolas at 2:25 PM</span>
-                <div class="progress"><div class="progress-fill" style="width:100%"></div></div>
-                <span class="item-actions">
-                  <button type="button" class="btn" style="background:#3b82f6;color:#fff;">Resume</button>
-                  <button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
-                </span>
-              </li>
-            </ul>
-            <div class="actions-row">
-              <button type="button" class="btn btn-dictation" id="start-recording">🎤 DICTATION</button>
-              <button type="button" class="btn btn-add-consult">ADD CONSULT</button>
-              <button type="button" class="btn btn-process">↑ PROCESS</button>
+          <div class="top-grid">
+            <div class="inputs-card">
+              <h2 class="section-title">INPUTS FOR AI FOR JOHN DOE</h2>
+              <ul class="dictation-list">
+                <li id="dictation-ongoing" class="dictation-item stuck">
+                  <div class="dictation-main">
+                    <span class="dictation-icon uploading">...</span>
+                    <div class="dictation-copy">
+                      <span class="label">3. Ongoing Dictation by Nicolas at 2:25 PM</span>
+                      <div class="dictation-meta">
+                        <span class="status-chip">Uploading audio</span>
+                        <span>Some audio is still uploading</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="progress"><div class="progress-fill" style="width:23%"></div></div>
+                    <div class="progress-text">23%</div>
+                  </div>
+                  <span class="item-actions">
+                    <button type="button" class="icon-btn" title="Delete" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                  </span>
+                </li>
+                <li class="dictation-item">
+                  <div class="dictation-main">
+                    <span class="dictation-icon">▶</span>
+                    <div class="dictation-copy">
+                      <span class="label">2. Dictation by Nicolas at 2:25 PM</span>
+                      <div class="dictation-meta">
+                        <span>11:30</span>
+                        <span class="status-chip partial">Generated from partial audio</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="progress"><div class="progress-fill" style="width:18%"></div></div>
+                    <div class="progress-text">18%</div>
+                  </div>
+                  <span class="item-actions">
+                    <span class="mini-pill">E</span>
+                    <span class="mini-pill">M</span>
+                    <button type="button" class="btn" style="background:#ede9fe;color:#5b21b6;">Resume</button>
+                    <button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                  </span>
+                </li>
+                <li class="dictation-item">
+                  <div class="dictation-main">
+                    <span class="dictation-icon">▶</span>
+                    <div class="dictation-copy">
+                      <span class="label">1. Dictation by Nicolas at 2:25 PM</span>
+                      <div class="dictation-meta">
+                        <span>11:30</span>
+                        <span>All audio uploaded</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="progress"><div class="progress-fill" style="width:100%"></div></div>
+                    <div class="progress-text">100%</div>
+                  </div>
+                  <span class="item-actions">
+                    <button type="button" class="btn" style="background:#ede9fe;color:#5b21b6;">Resume</button>
+                    <button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>
+                  </span>
+                </li>
+              </ul>
+              <div class="actions-row">
+                <button type="button" class="btn btn-dictation" id="start-recording">🎤 DICTATION</button>
+                <button type="button" class="btn btn-add-consult">ADD CONSULT</button>
+                <button type="button" class="btn btn-upload" id="upload-files" aria-label="Upload files">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 15v4H5v-4H3v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4z"/><path d="M11 16h2V7h3l-4-4-4 4h3z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="generate-card">
+              <h2 class="section-title">WHAT SHOULD AI GENERATE?</h2>
+              <div class="generate-list">
+                <div class="generate-item">
+                  <div><strong>9. General</strong><span>(Clinical Note)</span></div>
+                  <div class="generate-status">23%</div>
+                </div>
+                <div class="generate-item">
+                  <div><strong>8. General</strong><span>(Clinical Note)</span></div>
+                  <div class="generate-status done">Processed</div>
+                </div>
+                <div class="generate-item">
+                  <div><strong>7. AVS</strong><span>(Patient Letter)</span></div>
+                  <div class="generate-status done">Processed</div>
+                </div>
+                <div class="generate-item">
+                  <div><strong>6. ICD 10-CM</strong><span>(Coding)</span></div>
+                  <div class="generate-status done">Processed</div>
+                </div>
+              </div>
+              <div class="actions-row">
+                <button type="button" class="btn btn-process" id="process-note">↑ PROCESS</button>
+              </div>
             </div>
           </div>
 
           <div class="grid-2">
-            <div class="generate-card">
-              <h2 class="section-title">WHAT SHOULD AI GENERATE?</h2>
-              <p style="font-size:13px;color:var(--text-muted);margin:0;">Clinical Note: General · Patient Letter: 2 Selected</p>
-              <p style="font-size:13px;margin:8px 0 0;">Note 2 ✓ · AVS 1 · ICD-10 CM · E/M Codes ✓</p>
-            </div>
             <div class="outputs-card">
-              <h2 class="section-title">OUTPUTS GENERATED BY AI</h2>
-              <div class="tabs"><button type="button" class="active">Note 1</button><button type="button">Transcript</button><button type="button">AVS</button></div>
-              <textarea placeholder="HISTORY OF PRESENT ILLNESS (HPI)&#10;Lorem ipsum dolor sit amet...">Lorem ipsum dolor sit amet</textarea>
+              <div class="outputs-header">
+                <h2 class="section-title" style="margin:0;">OUTPUTS GENERATED BY AI</h2>
+                <div class="output-toolbar">
+                  <button type="button" class="icon-btn" aria-label="Copy output"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v12h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg></button>
+                  <button type="button" class="icon-btn" aria-label="Duplicate output"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M10 3H5c-1.1 0-2 .9-2 2v11h2V5h5V3zm9 4h-8c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 12h-8V9h8v10z"/></svg></button>
+                </div>
+              </div>
+              <div class="tabs" id="output-tabs">
+                <button type="button" class="active">Transcript</button>
+                <button type="button">Note 1</button>
+                <button type="button">AVS</button>
+                <button type="button">ICD 10-CM</button>
+                <button type="button">E/M Codes</button>
+                <button type="button">Letter: gyn</button>
+                <button type="button">Letter: pod</button>
+              </div>
+              <div class="note-banner visible" id="note-status-banner">
+                <span id="note-status-text">Generated from partial audio</span>
+                <button type="button" class="btn btn-outline" id="reprocess-note" style="padding:6px 10px;font-size:12px;">Reprocess</button>
+              </div>
+              <div class="editor-shell">
+                <div class="editor-heading">History of present illness (HPI)</div>
+                <textarea id="output-editor" placeholder="Generated note content will appear here.">Lorem ipsum dolor sit amet
+
+Patient completed a first-visit consult. Some dictation is still uploading, so this note may miss details from the end of the encounter.
+
+Assessment:
+- Follow-up findings are partially captured.
+- Reprocess after upload completes for a fuller note.</textarea>
+              </div>
+              <div class="output-actions">
+                <a href="#" class="output-action">COPY NOTE</a>
+                <a href="#" class="output-action">SAVE</a>
+                <a href="#" class="output-action">DOWNLOAD</a>
+                <a href="#" class="output-action">PRINT</a>
+                <a href="#" class="output-action">PUSH TO EHR</a>
+                <a href="#" class="output-action">TRANSLATE</a>
+                <a href="#" class="output-action danger">DELETE</a>
+              </div>
             </div>
           </div>
-          <p style="font-size:12px;color:var(--text-muted);margin-top:24px;"><button type="button" class="btn" style="padding:4px 10px;font-size:12px;background:var(--border);" onclick="window.resetSimulation()">Reset simulation (stuck again)</button></p>
+          <p style="font-size:12px;color:var(--text-muted);margin-top:24px;"><button type="button" class="btn" style="padding:4px 10px;font-size:12px;background:var(--border);" onclick="window.resetSimulation()">Reset simulation</button></p>
         </div>
       </div>
     </div>
@@ -1394,97 +1387,38 @@
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <!-- Rescue confirmation modal -->
-  <div id="rescue-modal" class="modal-overlay" role="alertdialog" aria-labelledby="rescue-modal-title" aria-describedby="rescue-modal-desc">
+  <!-- Process warning modal -->
+  <div id="process-modal" class="modal-overlay" role="alertdialog" aria-labelledby="process-modal-title" aria-describedby="process-modal-desc">
     <div class="modal-dialog">
-      <div class="modal-header" id="rescue-modal-title">RESCUE RECORDING</div>
-      <div class="modal-body" id="rescue-modal-desc">
-        <p>Looks like this recording is ongoing on a different device or stuck.</p>
-        <p>Rescue will close this recording and mark it as finished. Any partial notes that were uploaded will be available for you to use or process.</p>
-        <p>Do you want to rescue this recording?</p>
+      <div class="modal-header" id="process-modal-title">Audio upload still in progress</div>
+      <div class="modal-body" id="process-modal-desc">
+        <p>Some audio has not uploaded yet. If you continue now, the note may miss information.</p>
+        <p>You can process now or wait for upload to finish.</p>
       </div>
       <div class="modal-actions">
-        <button type="button" class="btn btn-outline" id="rescue-modal-cancel">No, keep it</button>
-        <button type="button" class="btn btn-rescue" id="rescue-modal-confirm">Yes, rescue</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- View options modal (Heidi Customize-style: window + ordering) -->
-  <div id="view-options-modal" class="modal-overlay view-options-modal" role="dialog" aria-labelledby="view-options-title" aria-modal="true">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <span id="view-options-title">Appointment sync window</span>
-        <button type="button" class="modal-close-btn" id="view-options-close" aria-label="Close">×</button>
-      </div>
-      <div class="modal-body">
-        <div class="view-options-field">
-          <div class="label-row">
-            <label for="setting-window">Days ahead</label>
-            <span class="info-tooltip-wrap">
-              <button type="button" class="info-btn" aria-label="About appointment sync window"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></button>
-              <span class="info-tooltip" role="tooltip">The sync window is set by <strong>Days ahead</strong> and <strong>Days back</strong>. Appointments within this window are synced and shown in the Appointment list in the left pane and are available when you're offline.</span>
-            </span>
-          </div>
-          <div class="view-options-slider-wrap">
-            <input type="range" id="setting-window" min="7" max="30" value="14" step="1" aria-valuemin="7" aria-valuemax="30" aria-valuenow="14" />
-            <span class="slider-value-block"><span class="slider-value" id="setting-window-value">14</span> days</span>
-          </div>
-          <p class="hint">How far ahead we pull appointments from your schedule.</p>
-        </div>
-        <div class="view-options-field">
-          <div class="label-row">
-            <label for="setting-window-back">Days back</label>
-          </div>
-          <div class="view-options-slider-wrap">
-            <input type="range" id="setting-window-back" min="-30" max="0" value="-7" step="1" aria-valuemin="-30" aria-valuemax="0" aria-valuenow="-7" />
-            <span class="slider-value-block"><span class="slider-value" id="setting-window-back-value">-7</span> days</span>
-          </div>
-          <p class="hint">How far back we pull appointments from your schedule.</p>
-        </div>
-        <div class="view-options-field" id="focus-order-field">
-          <div class="label-row">
-            <label id="order-dnd-label">Focus Appointments order</label>
-            <span class="info-tooltip-wrap">
-              <button type="button" class="info-btn" aria-label="What this order does"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></button>
-              <span class="info-tooltip" role="tooltip">Sets the order in which past, present, and future appointments appear in the list. Drag items—top of the list is first.</span>
-            </span>
-          </div>
-          <p class="hint" style="margin-bottom: 8px;">Drag to reorder. Top = first in list.</p>
-          <ul class="order-dnd-list" id="order-dnd-list" role="list" aria-labelledby="order-dnd-label">
-            <li class="order-dnd-item" draggable="true" data-value="-1" id="order-item--1">
-              <span class="drag-handle" aria-hidden="true"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 6h2v2H8V6zm0 5h2v2H8v-2zm0 5h2v2H8v-2zm4-10h2v2h-2V6zm0 5h2v2h-2v-2zm0 5h2v2h-2v-2z"/></svg></span>
-              Past (-1)
-            </li>
-            <li class="order-dnd-item" draggable="true" data-value="0" id="order-item-0">
-              <span class="drag-handle" aria-hidden="true"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 6h2v2H8V6zm0 5h2v2H8v-2zm0 5h2v2H8v-2zm4-10h2v2h-2V6zm0 5h2v2h-2v-2zm0 5h2v2h-2v-2z"/></svg></span>
-              Today (0)
-            </li>
-            <li class="order-dnd-item" draggable="true" data-value="1" id="order-item-1">
-              <span class="drag-handle" aria-hidden="true"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M8 6h2v2H8V6zm0 5h2v2H8v-2zm0 5h2v2H8v-2zm4-10h2v2h-2V6zm0 5h2v2h-2v-2zm0 5h2v2h-2v-2z"/></svg></span>
-              Future (1)
-            </li>
-          </ul>
-          <p id="ordering-hint" class="hint">Order of dates in the Focus view: past (-1), today (0), future (1).</p>
-        </div>
-      </div>
-      <div class="modal-actions">
-        <button type="button" class="btn btn-secondary" id="view-options-reset">Reset to default</button>
-        <button type="button" class="btn btn-dictation" id="view-options-save">Save as default</button>
+        <button type="button" class="btn btn-outline" id="process-modal-cancel">Wait</button>
+        <button type="button" class="btn btn-confirm-process" id="process-modal-confirm">Process now</button>
       </div>
     </div>
   </div>
 
   <script>
     (function () {
-      const rescueBtn = document.getElementById('rescue-btn');
       const startBtn = document.getElementById('start-recording');
+      const uploadBtn = document.getElementById('upload-files');
+      const processBtn = document.getElementById('process-note');
+      const reprocessBtn = document.getElementById('reprocess-note');
       const sidebarNew = document.getElementById('sidebar-new-recording');
-      const paneNew = document.getElementById('pane-new-recording');
+      let paneNew = document.getElementById('pane-new-recording');
       const toast = document.getElementById('toast');
       const dictationOngoing = document.getElementById('dictation-ongoing');
-
-      let hasStuckOngoing = true;
+      const noteStatusBanner = document.getElementById('note-status-banner');
+      const noteStatusText = document.getElementById('note-status-text');
+      const outputEditor = document.getElementById('output-editor');
+      const outputTabs = document.getElementById('output-tabs');
+      const processModal = document.getElementById('process-modal');
+      const processModalCancel = document.getElementById('process-modal-cancel');
+      const processModalConfirm = document.getElementById('process-modal-confirm');
 
       function showToast(msg) {
         toast.textContent = msg;
@@ -1492,338 +1426,125 @@
         setTimeout(function () { toast.classList.remove('visible'); }, 3000);
       }
 
-      function doRescue() {
-        hasStuckOngoing = false;
-        var label = dictationOngoing.querySelector('.label');
-        label.textContent = '3. Rescued — partial notes (was: Ongoing Dictation by Nicolas at 2:25 PM)';
+      function showProcessModal() {
+        processModal.classList.add('visible');
+      }
+      function hideProcessModal() {
+        processModal.classList.remove('visible');
+      }
+
+      function setPartialState() {
+        processBtn.textContent = '↑ REPROCESS';
+        noteStatusBanner.classList.add('visible');
+        noteStatusBanner.classList.remove('ready');
+        noteStatusText.textContent = 'Generated from partial audio';
+        outputEditor.value = 'HISTORY OF PRESENT ILLNESS (HPI)\n\nPatient completed a first-visit consult. Some dictation is still uploading, so this note may miss details from the end of the encounter.\n\nAssessment:\n- Follow-up findings are partially captured.\n- Reprocess after upload completes for a fuller note.';
+        showToast('Generated note using audio available now.');
+      }
+
+      function setReadyForReprocessState() {
         dictationOngoing.classList.remove('stuck');
         dictationOngoing.querySelector('.progress-fill').style.width = '100%';
-        dictationOngoing.querySelector('.item-actions').innerHTML =
-          '<button type="button" class="btn" style="background:#3b82f6;color:#fff;">Resume</button>' +
-          '<button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>';
-        showToast('Stuck recording closed. Partial notes are available.');
+        dictationOngoing.querySelector('.progress-text').textContent = '100%';
+        dictationOngoing.querySelector('.status-chip').textContent = 'All audio uploaded';
+        dictationOngoing.querySelector('.dictation-meta span:last-child').textContent = 'More audio uploaded. Reprocess for a fuller note';
+        noteStatusBanner.classList.add('visible', 'ready');
+        noteStatusText.textContent = 'More audio uploaded. Reprocess for a fuller note';
       }
 
-      const rescueModal = document.getElementById('rescue-modal');
-      const rescueModalCancel = document.getElementById('rescue-modal-cancel');
-      const rescueModalConfirm = document.getElementById('rescue-modal-confirm');
-
-      function showRescueModal() {
-        rescueModal.classList.add('visible');
-      }
-      function hideRescueModal() {
-        rescueModal.classList.remove('visible');
+      function setFullState() {
+        processBtn.textContent = '↑ REPROCESS';
+        noteStatusBanner.classList.add('visible', 'ready');
+        noteStatusText.textContent = 'All audio uploaded';
+        outputEditor.value = 'HISTORY OF PRESENT ILLNESS (HPI)\n\nPatient completed a first-visit consult. Additional uploaded audio was included after reprocessing, and the note now reflects the full encounter.\n\nAssessment:\n- Full visit summary generated.\n- Ready for review, save, and push to EHR.';
+        showToast('Note reprocessed with fuller audio.');
       }
 
-      rescueBtn.addEventListener('click', showRescueModal);
-      rescueModalCancel.addEventListener('click', hideRescueModal);
-      rescueModalConfirm.addEventListener('click', function () {
-        hideRescueModal();
-        doRescue();
+      processBtn.addEventListener('click', showProcessModal);
+      processModalCancel.addEventListener('click', hideProcessModal);
+      processModalConfirm.addEventListener('click', function () {
+        hideProcessModal();
+        setPartialState();
+        setTimeout(setReadyForReprocessState, 1500);
       });
-      rescueModal.addEventListener('click', function (e) {
-        if (e.target === rescueModal) hideRescueModal();
+      processModal.addEventListener('click', function (e) {
+        if (e.target === processModal) hideProcessModal();
       });
 
       startBtn.addEventListener('click', function () { showToast('Starting new recording…'); });
+      uploadBtn.addEventListener('click', function () { showToast('Upload files flow opened.'); });
+      reprocessBtn.addEventListener('click', function () { setFullState(); });
       sidebarNew.addEventListener('click', function () { showToast('Starting new recording…'); });
       paneNew.addEventListener('click', function () { showToast('Starting new recording…'); });
+      outputTabs.addEventListener('click', function (event) {
+        if (event.target.tagName !== 'BUTTON') return;
+        Array.prototype.forEach.call(outputTabs.querySelectorAll('button'), function (button) {
+          button.classList.remove('active');
+        });
+        event.target.classList.add('active');
+      });
 
       function resetSimulation() {
-        hasStuckOngoing = true;
-        hideRescueModal();
-        var label = dictationOngoing.querySelector('.label');
-        label.textContent = '3. Ongoing Dictation by Nicolas at 2:25 PM';
+        hideProcessModal();
+        processBtn.textContent = '↑ PROCESS';
         dictationOngoing.classList.add('stuck');
-        dictationOngoing.querySelector('.progress-fill').style.width = '0';
-        dictationOngoing.querySelector('.item-actions').innerHTML =
-          '<button type="button" class="btn btn-rescue" id="rescue-btn">Rescue</button>' +
-          '<button type="button" class="icon-btn" aria-label="Delete"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg></button>';
-        document.getElementById('rescue-btn').addEventListener('click', showRescueModal);
+        dictationOngoing.querySelector('.progress-fill').style.width = '23%';
+        dictationOngoing.querySelector('.progress-text').textContent = '23%';
+        dictationOngoing.querySelector('.status-chip').textContent = 'Uploading audio';
+        dictationOngoing.querySelector('.dictation-meta span:last-child').textContent = 'Some audio is still uploading';
+        noteStatusBanner.classList.add('visible');
+        noteStatusBanner.classList.remove('ready');
+        noteStatusText.textContent = 'Generated from partial audio';
+        outputEditor.value = 'Lorem ipsum dolor sit amet\n\nPatient completed a first-visit consult. Some dictation is still uploading, so this note may miss details from the end of the encounter.\n\nAssessment:\n- Follow-up findings are partially captured.\n- Reprocess after upload completes for a fuller note.';
       }
       window.resetSimulation = resetSimulation;
 
-      // --- Date filter (first filter - Heidi-style) ---
-      var dateFilterBlock = document.getElementById('date-filter-block');
-      var dateFilterTrigger = document.getElementById('date-filter-trigger');
-      var dateFilterDropdown = document.getElementById('date-filter-dropdown');
-      var dateFilterValue = document.getElementById('date-filter-value');
-      var dateFrom = document.getElementById('date-from');
-      var dateTo = document.getElementById('date-to');
-      var dateFilterApply = document.getElementById('date-filter-apply');
-      var dateFilterClear = document.getElementById('date-filter-clear');
-      var dateFilterPopupHeader = document.getElementById('date-filter-popup-header');
+      // --- Single-date state (date selector removed) ---
+      var activeDateInput = document.getElementById('active-date');
+      var dateBarList = document.getElementById('date-bar-list');
+      var DATE_LABEL_MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-      function updatePopupHeader() {
-        if (!dateFilterPopupHeader) return;
-        var fromStr = dateFrom.value;
-        var toStr = dateTo.value;
-        var label = fromStr && toStr ? formatDateRangeLabel(fromStr, toStr) : (fromStr ? formatDateRangeLabel(fromStr, fromStr) : null);
-        dateFilterPopupHeader.textContent = label || 'Select date range';
-        dateFilterPopupHeader.classList.toggle('empty', !label);
+      function formatSingleDateLabel(dateStr) {
+        if (!dateStr) return null;
+        var parts = dateStr.split('-');
+        if (parts.length !== 3) return null;
+        return parseInt(parts[2], 10) + ' ' + DATE_LABEL_MONTHS[parseInt(parts[1], 10) - 1] + ' ' + parts[0];
       }
 
-      function formatDateRangeLabel(fromStr, toStr) {
-        if (!fromStr || !toStr) return null;
-        var a = fromStr.split('-');
-        var b = toStr.split('-');
-        var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        var d1 = parseInt(a[2], 10) + ' ' + months[parseInt(a[1], 10) - 1];
-        var d2 = parseInt(b[2], 10) + ' ' + months[parseInt(b[1], 10) - 1];
-        if (a[0] !== b[0] || a[1] !== b[1]) d2 = months[parseInt(b[1], 10) - 1] + ' ' + b[0];
-        return d1 + ' – ' + d2;
+      function onDateSelected(dateStr) {
+        document.dispatchEvent(new CustomEvent('left-nav:date-selected', { detail: { date: dateStr } }));
       }
 
-      var activeFilters = document.getElementById('active-filters');
-      var chipDate = document.getElementById('chip-date');
-      var chipDateText = document.getElementById('chip-date-text');
-      var chipDateClear = document.getElementById('chip-date-clear');
-      var activeFiltersClearAll = document.getElementById('active-filters-clear-all');
-
-      function updateDateChip(label) {
-        if (label) {
-          chipDateText.textContent = label;
-          chipDate.removeAttribute('hidden');
-          if (btnFilterSort) btnFilterSort.classList.add('has-filter');
-        } else {
-          chipDate.setAttribute('hidden', '');
-          if (btnFilterSort) btnFilterSort.classList.remove('has-filter');
-        }
-      }
-      function updateActiveFiltersVisibility() {
-        var hasDate = chipDate && !chipDate.hasAttribute('hidden');
-        if (activeFilters) activeFilters.classList.toggle('visible', hasDate);
+      function setActiveDate(dateStr, options) {
+        var opts = options || {};
+        if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) dateStr = focusReferenceDate.toISOString().slice(0, 10);
+        if (activeDateInput) activeDateInput.value = dateStr;
+        currentActiveDate = dateStr;
+        var label = formatSingleDateLabel(dateStr);
+        updateDatePills();
+        applyListFilters(currentStateFilter);
+        onDateSelected(dateStr);
+        if (!opts.suppressToast) showToast(opts.toastText || ('Showing ' + label + '.'));
       }
 
-      function clearDateFilter(suppressToast) {
-        dateFilterValue.textContent = 'All';
-        dateFilterValue.classList.add('empty');
-        dateFrom.value = '';
-        dateTo.value = '';
-        calendarRangeStart = null;
-        calendarRangeEnd = null;
-        dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
-        dateFilterBlock.classList.remove('open');
-        dateFilterTrigger.setAttribute('aria-expanded', 'false');
-        updateDateChip(null);
-        updateActiveFiltersVisibility();
-        if (!suppressToast) showToast('Date filter cleared.');
-      }
-
-      function applyDateFilter(datetimeFrom, datetimeTo) {
-        var fromStr = datetimeFrom ? datetimeFrom.slice(0, 10) : '';
-        var toStr = datetimeTo ? datetimeTo.slice(0, 10) : '';
-        var label = fromStr && toStr ? formatDateRangeLabel(fromStr, toStr) : null;
-        dateFilterValue.textContent = label || 'All';
-        dateFilterValue.classList.toggle('empty', !label);
-        dateFilterBlock.classList.remove('open');
-        dateFilterTrigger.setAttribute('aria-expanded', 'false');
-        updateDateChip(label);
-        updateActiveFiltersVisibility();
-        showToast('Fetching consults for date range…');
-      }
-
-      dateFilterTrigger.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var isOpen = dateFilterBlock.classList.toggle('open');
-        dateFilterTrigger.setAttribute('aria-expanded', isOpen);
-        if (isOpen) openDateFilterDropdown();
-      });
-      document.addEventListener('click', function () {
-        dateFilterBlock.classList.remove('open');
-        dateFilterTrigger.setAttribute('aria-expanded', 'false');
-      });
-      dateFilterDropdown.addEventListener('click', function (e) { e.stopPropagation(); });
-
-      dateFilterDropdown.querySelectorAll('.option[data-preset]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-          var preset = btn.getAttribute('data-preset');
-          if (preset === 'custom') {
-            dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
-            btn.classList.add('selected');
-            return;
-          }
-          var end = new Date();
-          var start = new Date();
-          if (preset === 'today') {
-            start.setHours(0, 0, 0, 0);
-            end.setHours(23, 59, 59, 999);
-            var todayStr = end.toISOString().slice(0, 10);
-            applyDateFilter(todayStr + 'T00:00:00', todayStr + 'T23:59:59');
-          } else if (preset === 'yesterday') {
-            start.setDate(start.getDate() - 1);
-            start.setHours(0, 0, 0, 0);
-            var yesterdayStr = start.toISOString().slice(0, 10);
-            applyDateFilter(yesterdayStr + 'T00:00:00', yesterdayStr + 'T23:59:59');
-          } else if (preset === 'month') {
-            start.setMonth(start.getMonth() - 1);
-            start.setDate(1);
-            start.setHours(0, 0, 0, 0);
-            end.setDate(0);
-            end.setHours(23, 59, 59, 999);
-            var fromStr = start.toISOString().slice(0, 10);
-            var toStr = end.toISOString().slice(0, 10);
-            applyDateFilter(fromStr + 'T00:00:00', toStr + 'T23:59:59');
-          } else {
-            var days = parseInt(preset, 10);
-            if (!isNaN(days)) {
-              start.setDate(start.getDate() - days);
-              var fromStr = start.toISOString().slice(0, 10);
-              var toStr = end.toISOString().slice(0, 10);
-              applyDateFilter(fromStr + 'T00:00:00', toStr + 'T23:59:59');
-            }
-          }
-          dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
-          btn.classList.add('selected');
-        });
-      });
-
-      dateFilterApply.addEventListener('click', function () {
-        var fromStr = dateFrom.value;
-        var toStr = dateTo.value;
-        if (!fromStr || !toStr) {
-          showToast('Please pick both From and To dates.');
-          return;
-        }
-        applyDateFilter(fromStr + 'T00:00:00', toStr + 'T23:59:59');
-        dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
-      });
-
-      dateFilterClear.addEventListener('click', clearDateFilter);
-      if (chipDateClear) chipDateClear.addEventListener('click', clearDateFilter);
-
-      var calendarMonth1 = document.getElementById('calendar-month-1');
-      var calendarMonth2 = document.getElementById('calendar-month-2');
-      var calendarStartMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-      var calendarRangeStart = null;
-      var calendarRangeEnd = null;
-      var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-      var DOW = ['S','M','T','W','T','F','S'];
-
-      function dateKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
-      function parseDateKey(s) { var p = s.split('-'); return new Date(parseInt(p[0],10), parseInt(p[1],10) - 1, parseInt(p[2],10)); }
-      function inRange(d, start, end) {
-        if (!start || !end) return false;
-        var t = d.getTime();
-        return t >= start.getTime() && t <= end.getTime();
-      }
-      function isSameDay(a, b) { return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate(); }
-
-      function renderMonth(container, year, month) {
-        var first = new Date(year, month, 1);
-        var last = new Date(year, month + 1, 0);
-        var startDow = first.getDay();
-        var daysInMonth = last.getDate();
-        var prevMonth = new Date(year, month, 0);
-        var prevDays = prevMonth.getDate();
-        var cells = [];
-        for (var i = 0; i < startDow; i++) {
-          var d = prevDays - startDow + i + 1;
-          cells.push({ date: new Date(prevMonth.getFullYear(), prevMonth.getMonth(), d), other: true });
-        }
-        for (var d = 1; d <= daysInMonth; d++) cells.push({ date: new Date(year, month, d), other: false });
-        var remaining = 42 - cells.length;
-        for (var i = 0; i < remaining; i++) cells.push({ date: new Date(year, month + 1, i + 1), other: true });
-        var html = '<div class="calendar-month-header"><button type="button" class="cal-prev" aria-label="Previous month">&lt;</button><span>' + MONTHS[month] + ' ' + year + '</span><button type="button" class="cal-next" aria-label="Next month">&gt;</button></div>';
-        html += '<div class="calendar-dow">' + DOW.map(function (w) { return '<span>' + w + '</span>'; }).join('') + '</div>';
-        html += '<div class="calendar-days">';
-        var start = calendarRangeStart && calendarRangeEnd ? (calendarRangeStart.getTime() < calendarRangeEnd.getTime() ? calendarRangeStart : calendarRangeEnd) : calendarRangeStart;
-        var end = calendarRangeStart && calendarRangeEnd ? (calendarRangeStart.getTime() > calendarRangeEnd.getTime() ? calendarRangeStart : calendarRangeEnd) : calendarRangeEnd;
-        cells.forEach(function (cell) {
-          var key = dateKey(cell.date);
-          var cls = 'calendar-day' + (cell.other ? ' other-month' : '');
-          if (start && end && inRange(cell.date, start, end)) cls += ' range';
-          if (start && isSameDay(cell.date, start)) cls += ' range-start';
-          if (end && isSameDay(cell.date, end)) cls += ' range-end';
-          html += '<button type="button" class="' + cls + '" data-date="' + key + '">' + cell.date.getDate() + '</button>';
-        });
-        html += '</div>';
-        container.innerHTML = html;
-        container.querySelectorAll('.calendar-day').forEach(function (btn) {
-          if (btn.classList.contains('other-month')) return;
-          btn.addEventListener('click', function () {
-            var d = parseDateKey(btn.getAttribute('data-date'));
-            if (!calendarRangeStart || (calendarRangeStart && calendarRangeEnd)) {
-              calendarRangeStart = d;
-              calendarRangeEnd = null;
-              dateFrom.value = dateKey(d);
-              dateTo.value = '';
-            } else {
-              calendarRangeEnd = d;
-              if (calendarRangeEnd.getTime() < calendarRangeStart.getTime()) { var t = calendarRangeStart; calendarRangeStart = calendarRangeEnd; calendarRangeEnd = t; }
-              dateFrom.value = dateKey(calendarRangeStart);
-              dateTo.value = dateKey(calendarRangeEnd);
-            }
-            updatePopupHeader();
-            dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
-            var optCustom = dateFilterDropdown.querySelector('.option[data-preset="custom"]');
-            if (optCustom) optCustom.classList.add('selected');
-            renderCalendar();
-          });
-        });
-        var prevBtn = container.querySelector('.cal-prev');
-        var nextBtn = container.querySelector('.cal-next');
-        if (prevBtn) prevBtn.addEventListener('click', function () { calendarStartMonth.setMonth(calendarStartMonth.getMonth() - 1); renderCalendar(); });
-        if (nextBtn) nextBtn.addEventListener('click', function () { calendarStartMonth.setMonth(calendarStartMonth.getMonth() + 1); renderCalendar(); });
-      }
-
-      function renderCalendar() {
-        var y1 = calendarStartMonth.getFullYear();
-        var m1 = calendarStartMonth.getMonth();
-        var y2 = m1 === 11 ? y1 + 1 : y1;
-        var m2 = m1 === 11 ? 0 : m1 + 1;
-        renderMonth(calendarMonth1, y1, m1);
-        renderMonth(calendarMonth2, y2, m2);
-      }
-
-      function openDateFilterDropdown() {
-        calendarStartMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-        if (dateFrom.value && dateTo.value) {
-          calendarRangeStart = parseDateKey(dateFrom.value);
-          calendarRangeEnd = parseDateKey(dateTo.value);
-        } else {
-          calendarRangeStart = null;
-          calendarRangeEnd = null;
-        }
-        renderCalendar();
-        updatePopupHeader();
-        dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
-        var optCustom = dateFilterDropdown.querySelector('.option[data-preset="custom"]');
-        if (dateFrom.value && dateTo.value && optCustom) optCustom.classList.add('selected');
-      }
-
-      dateFilterApply.addEventListener('click', function () {
-        if (calendarRangeStart && calendarRangeEnd) {
-          dateFrom.value = dateKey(calendarRangeStart);
-          dateTo.value = dateKey(calendarRangeEnd);
-        }
-        var fromStr = dateFrom.value;
-        var toStr = dateTo.value;
-        if (!fromStr || !toStr) {
-          showToast('Select a date range on the calendar.');
-          return;
-        }
-        applyDateFilter(fromStr + 'T00:00:00', toStr + 'T23:59:59');
-        dateFilterDropdown.querySelectorAll('.option').forEach(function (o) { o.classList.remove('selected'); });
-      });
-
-      // --- Left pane: filter, search, refresh, view options (Heidi-style) ---
-      var btnFilterSort = document.getElementById('btn-filter-sort');
+      // --- Left pane: filter, search, refresh ---
       var btnSearch = document.getElementById('btn-search');
       var btnRefresh = document.getElementById('btn-refresh');
-      var btnViewOptions = document.getElementById('btn-view-options');
+      var btnMoreFilters = document.getElementById('btn-more-filters');
       var paneSearch = document.getElementById('pane-left-search');
       var inputSearch = document.getElementById('input-search-consults');
-      var viewOptionsModal = document.getElementById('view-options-modal');
-      var settingWindow = document.getElementById('setting-window');
-      var settingWindowValue = document.getElementById('setting-window-value');
-      var settingWindowBack = document.getElementById('setting-window-back');
-      var settingWindowBackValue = document.getElementById('setting-window-back-value');
-      var viewOptionsReset = document.getElementById('view-options-reset');
-      var viewOptionsClose = document.getElementById('view-options-close');
-      var viewOptionsSave = document.getElementById('view-options-save');
       var consultList = document.getElementById('consult-list');
       var searchSuggestions = document.getElementById('search-suggestions');
+      var moreFiltersShell = document.getElementById('more-filters-shell');
+      var moreFiltersToggle = document.getElementById('more-filters-toggle');
+      var moreFiltersContent = document.getElementById('more-filters-content');
+      var secondaryFilterSummary = document.getElementById('secondary-filter-summary');
+      var providerFilterBlock = document.getElementById('provider-filter-block');
+      var providerMultiselectToggle = document.getElementById('provider-multiselect-toggle');
+      var providerMultiselectMenu = document.getElementById('provider-multiselect-menu');
+      var assignedToMeOnlyCheckbox = document.getElementById('assigned-to-me-only');
+      var paneNewRecordingTemplate = paneNew ? paneNew.outerHTML : '<div class="add-recording" title="Start new recording" id="pane-new-recording">+</div>';
+      var emptyStateEl = null;
 
       var EHR_ICON_SVG = '<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">' +
         '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>' +
@@ -1882,61 +1603,330 @@
         });
       }
 
-      normalizeConsultCardBadges();
-
-      function showViewOptionsModal() {
-        viewOptionsModal.classList.add('visible');
+      function inferConsultId(card) {
+        if (!card) return null;
+        var explicitId = card.getAttribute('data-consult-id');
+        if (explicitId) return explicitId;
+        var nameEl = card.querySelector('.name');
+        var nameText = nameEl ? nameEl.textContent : '';
+        var idMatch = /\(([A-Za-z0-9-]+)\)/.exec(nameText || '');
+        if (idMatch && idMatch[1]) return idMatch[1];
+        return null;
       }
-      function hideViewOptionsModal() {
-        viewOptionsModal.classList.remove('visible');
+
+      function getCardRecord(card, sourceMode) {
+        if (!card) return null;
+        var nameEl = card.querySelector('.name');
+        var stateEl = card.querySelector('.consult-state-tag');
+        return {
+          consultId: inferConsultId(card) || ('CONSULT-' + Math.random().toString(36).slice(2, 10).toUpperCase()),
+          name: nameEl ? nameEl.textContent.trim() : '',
+          date: card.getAttribute('data-date') || '',
+          time: ((card.querySelector('.meta') || {}).textContent || '').trim(),
+          state: card.getAttribute('data-state') || 'planned',
+          providerId: card.getAttribute('data-provider-id') || 'p1',
+          assignedToMe: card.getAttribute('data-assigned-to-me') === 'true',
+          doneByMe: card.getAttribute('data-done-by-me') === 'true',
+          source: card.getAttribute('data-source') || '',
+          ehr: card.getAttribute('data-ehr') || '',
+          stateLabel: stateEl ? stateEl.textContent.trim() : 'Planned',
+          fetchedViaFilterAt: sourceMode === 'search_server' ? new Date().toISOString() : null,
+          sourceMode: sourceMode || 'default_local',
+          persistedFromSearch: sourceMode === 'search_server'
+        };
       }
 
-      btnFilterSort.addEventListener('click', function (e) {
-        e.stopPropagation();
-        dateFilterBlock.classList.add('open');
-        dateFilterTrigger.setAttribute('aria-expanded', 'true');
-        openDateFilterDropdown();
-      });
-      if (activeFiltersClearAll) {
-        activeFiltersClearAll.addEventListener('click', function () {
-          clearDateFilter(true);
-          currentStateFilter = null;
-          currentDateQuickFilter = 'all';
-          searchQuery = null;
-          if (inputSearch) inputSearch.value = '';
-          if (searchSuggestions) searchSuggestions.setAttribute('hidden', '');
-          updateDatePills();
-          applyListFilters(null);
-          updateActiveFiltersVisibility();
-          showToast('All filters cleared.');
+      function createCardFromRecord(record) {
+        var card = document.createElement('div');
+        card.className = 'consult-card';
+        card.setAttribute('data-date', record.date);
+        card.setAttribute('data-state', record.state || 'planned');
+        card.setAttribute('data-provider-id', record.providerId || 'p1');
+        card.setAttribute('data-assigned-to-me', record.assignedToMe ? 'true' : 'false');
+        card.setAttribute('data-done-by-me', record.doneByMe ? 'true' : 'false');
+        card.setAttribute('data-consult-id', record.consultId || '');
+        if (record.source) card.setAttribute('data-source', record.source);
+        if (record.ehr) card.setAttribute('data-ehr', record.ehr);
+        card.innerHTML = '<div class="name">' + escapeHtml(record.name || 'Unknown Patient') + '</div>' +
+          '<div class="meta">' + escapeHtml(record.time || '') + '</div>' +
+          '<span class="consult-state-tag consult-state-' + escapeHtml((record.state || 'planned').replace('_', '-')) + '">' + escapeHtml(record.stateLabel || 'Planned') + '</span>';
+        return card;
+      }
+
+      function buildDateHeader(dateStr) {
+        var dateEl = document.createElement('div');
+        dateEl.className = 'consult-date';
+        dateEl.setAttribute('data-date', dateStr);
+        dateEl.textContent = formatDateString(dateStr);
+        return dateEl;
+      }
+
+      var localDbConsults = [];
+      var baseLocalConsults = [];
+      var serverSearchCorpus = [];
+      var listMode = 'default_local';
+      var serverSearchResults = [];
+      var isSearchActive = false;
+      var clickedSearchConsultMap = {};
+      var searchSelectedDate = null;
+      var PRACTICE_LOOKBACK_DAYS = 10;
+      var PRACTICE_LOOKAHEAD_DAYS = 10;
+
+      function refreshLocalDbFromDom() {
+        localDbConsults = [];
+        consultList.querySelectorAll('.consult-card').forEach(function (card) {
+          var record = getCardRecord(card, 'default_local');
+          if (record) localDbConsults.push(record);
+          card.setAttribute('data-consult-id', record.consultId);
         });
       }
-      btnViewOptions.addEventListener('click', showViewOptionsModal);
+
+      function seedDummyLocalConsults() {
+        var names = [
+          'AARAV SHARMA', 'MEERA IYER', 'VIHAAN GUPTA', 'ANAYA VERMA', 'REYANSH KAPOOR',
+          'SIYA NAIR', 'ADVAIT MENON', 'KIARA PATEL', 'ARJUN REDDY', 'MYRA SINGH',
+          'DEV MALHOTRA', 'ISHA KHAN', 'KRISH RAO', 'TARA JOSHI', 'NEIL DUTTA',
+          'RHEA CHOPRA', 'YASH KHANNA', 'DIYA BANSAL', 'KABIR OBEROI', 'AHANA DAS',
+          'ROHAN PILLAI', 'NAINA GARG'
+        ];
+        var slotTimes = ['9:00 AM', '11:30 AM', '2:15 PM'];
+        var slotStates = ['planned', 'ready', 'in_progress'];
+        var slotStateLabels = ['Planned', 'Ready', 'In progress'];
+        var baseDate = new Date('2025-02-24T00:00:00');
+        var nameIndex = 0;
+        for (var dayOffset = 0; dayOffset < 7; dayOffset++) {
+          var day = new Date(baseDate);
+          day.setDate(day.getDate() + dayOffset);
+          var dateKey = day.toISOString().slice(0, 10);
+          for (var slot = 0; slot < 3; slot++) {
+            var suffix = 3000 + (dayOffset * 10) + slot;
+            var consultId = 'E-' + suffix;
+            var name = names[nameIndex % names.length] + ' (' + consultId + ')';
+            nameIndex += 1;
+            localDbConsults.push({
+              consultId: consultId,
+              name: name,
+              date: dateKey,
+              time: slotTimes[slot],
+              state: slotStates[slot],
+              stateLabel: slotStateLabels[slot],
+              providerId: slot === 0 ? 'p1' : (slot === 1 ? 'p2' : 'p3'),
+              assignedToMe: slot !== 1,
+              doneByMe: slot === 1 || slot === 2,
+              source: slot === 2 ? 'walkin' : '',
+              ehr: slot === 0 ? 'not_pushed' : 'pushed',
+              fetchedViaFilterAt: null,
+              sourceMode: 'default_local',
+              persistedFromSearch: false
+            });
+          }
+        }
+      }
+
+      function ensureSearchCorpusSeeded() {
+        if (serverSearchCorpus.length > 0) return;
+        var synthetic = [];
+        var searchNames = [
+          'NORA EVANS', 'RYAN KING', 'LUNA HALL', 'ETHAN SCOTT', 'RILEY BAKER',
+          'ZOE TURNER', 'LEO PERRY', 'MILA WARD', 'IVAN COOPER', 'SARA PRICE',
+          'OMAR DIAZ', 'NEHA SHAH', 'VICTOR CHEN', 'PIPER GRAY', 'ARIA FLORES'
+        ];
+        var slotTimes = ['8:40 AM', '10:15 AM', '12:30 PM', '2:10 PM', '4:20 PM'];
+        var states = ['planned', 'ready', 'in_progress'];
+        var labels = { planned: 'Planned', ready: 'Ready', in_progress: 'In progress' };
+        var startDate = new Date(focusReferenceDate);
+        startDate.setDate(startDate.getDate() - PRACTICE_LOOKBACK_DAYS);
+        for (var i = 0; i < 15; i++) {
+          var day = new Date(startDate);
+          day.setDate(day.getDate() + i);
+          var dateKey = day.toISOString().slice(0, 10);
+          var state = states[i % states.length];
+          var consultId = 'S-' + String(5001 + i);
+          synthetic.push({
+            consultId: consultId,
+            name: searchNames[i] + ' (' + consultId + ')',
+            date: dateKey,
+            time: slotTimes[i % slotTimes.length],
+            state: state,
+            stateLabel: labels[state],
+            providerId: i % 3 === 0 ? 'p1' : (i % 3 === 1 ? 'p2' : 'p3'),
+            assignedToMe: i % 2 === 0,
+            doneByMe: i % 3 !== 0,
+            source: i % 4 === 0 ? 'walkin' : '',
+            ehr: state === 'planned' ? 'not_pushed' : 'pushed'
+          });
+        }
+        serverSearchCorpus = localDbConsults.concat(synthetic);
+      }
+
+      function updateEmptyStateMessage(message, visible) {
+        if (!emptyStateEl) {
+          emptyStateEl = document.createElement('div');
+          emptyStateEl.className = 'consult-date';
+          emptyStateEl.id = 'consult-empty-state';
+          consultList.insertBefore(emptyStateEl, consultList.querySelector('.add-recording') || null);
+        }
+        emptyStateEl.textContent = message || '';
+        emptyStateEl.style.display = visible ? '' : 'none';
+      }
+
+      function renderConsultData(records) {
+        var grouped = {};
+        (records || []).forEach(function (record) {
+          if (!record || !record.date) return;
+          if (!grouped[record.date]) grouped[record.date] = [];
+          grouped[record.date].push(record);
+        });
+        var orderedDates = Object.keys(grouped).sort();
+        consultList.innerHTML = '';
+        orderedDates.forEach(function (date) {
+          consultList.appendChild(buildDateHeader(date));
+          grouped[date].forEach(function (record) {
+            consultList.appendChild(createCardFromRecord(record));
+          });
+        });
+        consultList.insertAdjacentHTML('beforeend', paneNewRecordingTemplate);
+        paneNew = document.getElementById('pane-new-recording');
+        if (paneNew) {
+          paneNew.addEventListener('click', function () { showToast('Starting new recording…'); });
+        }
+        normalizeConsultCardBadges();
+      }
+
+      function mockFetchSearchResults(search) {
+        ensureSearchCorpusSeeded();
+        if (!search || !search.value) return [];
+        var value = String(search.value).toLowerCase().trim();
+        if (search.type === 'date') {
+          return serverSearchCorpus.filter(function (item) { return item.date === search.value; });
+        }
+        if (search.type === 'id') {
+          return serverSearchCorpus.filter(function (item) { return (item.consultId || '').toLowerCase() === value; });
+        }
+        return serverSearchCorpus.filter(function (item) {
+          return (item.name || '').toLowerCase().indexOf(value) !== -1;
+        });
+      }
+
+      function setListMode(nextMode) {
+        listMode = nextMode;
+        updateDatePills();
+      }
+
+      function rebuildLocalDbAfterSearchClear() {
+        var rebuilt = baseLocalConsults.slice();
+        Object.keys(clickedSearchConsultMap).forEach(function (consultId) {
+          var record = clickedSearchConsultMap[consultId];
+          var existsAt = -1;
+          for (var i = 0; i < rebuilt.length; i++) {
+            if (rebuilt[i].consultId === consultId) {
+              existsAt = i;
+              break;
+            }
+          }
+          if (existsAt >= 0) rebuilt[existsAt] = Object.assign({}, rebuilt[existsAt], record);
+          else rebuilt.push(record);
+        });
+        localDbConsults = rebuilt;
+      }
+
+      function resetFiltersForSearchStart() {
+        currentStateFilter = null;
+        activeTimeBuckets.before_10 = true;
+        activeTimeBuckets.ten_to_two = true;
+        activeTimeBuckets.after_2 = true;
+        currentProviderFilters = [];
+        assignedToMeOnly = false;
+        searchSelectedDate = null;
+        if (providerMultiselectMenu) providerMultiselectMenu.querySelectorAll('input[type="checkbox"]').forEach(function (cb) { cb.checked = false; });
+        if (assignedToMeOnlyCheckbox) assignedToMeOnlyCheckbox.checked = false;
+        updateDatePills();
+        updateTimeSegmentChips();
+        updateStatusPills();
+        renderSecondaryFilterSummary();
+      }
+
+      function upsertIntoLocalDb(record) {
+        if (!record || !record.consultId) return;
+        var idx = -1;
+        for (var i = 0; i < localDbConsults.length; i++) {
+          if (localDbConsults[i].consultId === record.consultId) {
+            idx = i;
+            break;
+          }
+        }
+        var merged = Object.assign({}, record, {
+          fetchedViaFilterAt: record.fetchedViaFilterAt || new Date().toISOString(),
+          persistedFromSearch: true
+        });
+        if (idx >= 0) localDbConsults[idx] = merged;
+        else localDbConsults.push(merged);
+      }
+
+      function parseQueryAsId(q) {
+        if (!q || typeof q !== 'string') return null;
+        var s = q.trim();
+        if (!s) return null;
+        var plain = /^([A-Za-z]{1,3}-?\d{3,})$/.exec(s);
+        if (plain) return plain[1].toUpperCase();
+        var bracketed = /\(([A-Za-z]{1,3}-?\d{3,})\)$/.exec(s);
+        if (bracketed) return bracketed[1].toUpperCase();
+        return null;
+      }
+
+      refreshLocalDbFromDom();
+      seedDummyLocalConsults();
+      baseLocalConsults = localDbConsults.slice();
+      renderConsultData(localDbConsults);
+
+      normalizeConsultCardBadges();
+
       btnSearch.addEventListener('click', function () {
         var isHidden = paneSearch.hasAttribute('hidden');
         if (isHidden) {
           paneSearch.removeAttribute('hidden');
           inputSearch.focus();
         } else {
+          setListMode('default_local');
+          isSearchActive = false;
           paneSearch.setAttribute('hidden', '');
           inputSearch.value = '';
           searchQuery = null;
+          serverSearchResults = [];
+          rebuildLocalDbAfterSearchClear();
+          renderConsultData(localDbConsults);
           if (searchSuggestions) searchSuggestions.setAttribute('hidden', '');
           applyListFilters(currentStateFilter);
+          updateEmptyStateMessage('', false);
         }
       });
 
       function applySearchFromInput() {
         var q = inputSearch ? inputSearch.value.trim() : '';
         if (!q) {
+          isSearchActive = false;
+          setListMode('default_local');
           searchQuery = null;
+          serverSearchResults = [];
+          rebuildLocalDbAfterSearchClear();
+          renderConsultData(localDbConsults);
         } else {
+          if (!isSearchActive) {
+            resetFiltersForSearchStart();
+            isSearchActive = true;
+          }
+          var parsedId = parseQueryAsId(q);
           var parsed = parseQueryAsDate(q);
-          if (parsed) {
+          if (parsedId) {
+            searchQuery = { type: 'id', value: parsedId };
+          } else if (parsed) {
             searchQuery = { type: 'date', value: parsed };
           } else {
             searchQuery = { type: 'name', value: q };
           }
+          setListMode('search_server');
+          serverSearchResults = mockFetchSearchResults(searchQuery);
+          renderConsultData(serverSearchResults);
         }
         applyListFilters(currentStateFilter);
       }
@@ -1948,16 +1938,19 @@
       function showSearchSuggestions(query) {
         if (!searchSuggestions) return;
         var q = (query || '').toLowerCase().trim();
+        if (!q) {
+          searchSuggestions.setAttribute('hidden', '');
+          searchSuggestions.innerHTML = '';
+          return;
+        }
         var dateItems = getDatesForSearch();
         var nameItems = getConsultNamesForSearch();
-        if (q) {
-          dateItems = dateItems.filter(function (x) {
-            return x.label.toLowerCase().indexOf(q) !== -1 || x.date.indexOf(q) !== -1;
-          });
-          nameItems = nameItems.filter(function (x) {
-            return x.name.toLowerCase().indexOf(q) !== -1;
-          });
-        }
+        dateItems = dateItems.filter(function (x) {
+          return x.label.toLowerCase().indexOf(q) !== -1 || x.date.indexOf(q) !== -1;
+        });
+        nameItems = nameItems.filter(function (x) {
+          return x.name.toLowerCase().indexOf(q) !== -1;
+        });
         var maxSuggestions = 8;
         var dateSuggestions = dateItems.slice(0, maxSuggestions);
         var nameSuggestions = nameItems.slice(0, maxSuggestions);
@@ -2016,7 +2009,12 @@
         });
         inputSearch.addEventListener('focus', function () {
           if (searchSuggestionsBlurTimer) clearTimeout(searchSuggestionsBlurTimer);
-          showSearchSuggestions(inputSearch.value);
+          var q = inputSearch.value.trim();
+          if (!q) {
+            hideSearchSuggestions();
+            return;
+          }
+          showSearchSuggestions(q);
         });
         inputSearch.addEventListener('blur', function () {
           searchSuggestionsBlurTimer = setTimeout(function () { hideSearchSuggestions(); }, 200);
@@ -2031,12 +2029,10 @@
           if (type && value) {
             if (type === 'date') {
               inputSearch.value = formatDateString(value);
-              searchQuery = { type: 'date', value: value };
             } else {
               inputSearch.value = value;
-              searchQuery = { type: 'name', value: value };
             }
-            applyListFilters(currentStateFilter);
+            applySearchFromInput();
             hideSearchSuggestions();
           }
         });
@@ -2046,91 +2042,33 @@
         showToast('Refreshing list…');
       });
 
-      settingWindow.addEventListener('input', function () {
-        settingWindowValue.textContent = settingWindow.value;
-        settingWindow.setAttribute('aria-valuenow', settingWindow.value);
-        updateSyncStrip();
-        applyListFilters(currentStateFilter);
-      });
-      if (settingWindowBack && settingWindowBackValue) {
-        settingWindowBack.addEventListener('input', function () {
-          settingWindowBackValue.textContent = settingWindowBack.value;
-          settingWindowBack.setAttribute('aria-valuenow', settingWindowBack.value);
-          updateSyncStrip();
-          applyListFilters(currentStateFilter);
-        });
-      }
-
-      if (viewOptionsClose) viewOptionsClose.addEventListener('click', hideViewOptionsModal);
-      viewOptionsSave.addEventListener('click', function () {
-        hideViewOptionsModal();
-        updateSyncStrip();
-        showToast('View options saved.');
-      });
-      viewOptionsReset.addEventListener('click', function () {
-        settingWindow.value = 14;
-        settingWindowValue.textContent = '14';
-        settingWindow.setAttribute('aria-valuenow', '14');
-        if (settingWindowBack && settingWindowBackValue) {
-          settingWindowBack.value = -7;
-          settingWindowBackValue.textContent = '-7';
-          settingWindowBack.setAttribute('aria-valuenow', '-7');
-        }
-        updateSyncStrip();
-        showToast('Reset to default.');
-        applyListFilters(currentStateFilter);
-      });
-      viewOptionsModal.addEventListener('click', function (e) {
-        if (e.target === viewOptionsModal) hideViewOptionsModal();
-      });
-
-      var timeFilterStartInput = document.getElementById('time-filter-start');
-      var timeFilterEndInput = document.getElementById('time-filter-end');
-      var timeFilterStripEl = document.getElementById('time-filter-strip');
-
-      function updateSyncStrip() {
-        if (!btnViewOptions) return;
-        var back = settingWindowBack ? Math.abs(parseInt(settingWindowBack.value, 10)) : 7;
-        var ahead = settingWindow ? parseInt(settingWindow.value, 10) : 14;
-        var text = 'Appointments synced: ' + back + ' days back → ' + ahead + ' days ahead';
-        btnViewOptions.setAttribute('title', text);
-      }
+      var timeSegmentList = document.getElementById('time-segment-list');
+      var activeTimeBuckets = { before_10: true, ten_to_two: true, after_2: true };
 
       var focusReferenceDate = new Date('2025-02-26');
       var currentStateFilter = null;
-      var currentDateQuickFilter = 'all'; // 'all' | 'today' | 'tomorrow'
+      var currentActiveDate = focusReferenceDate.toISOString().slice(0, 10);
       var searchQuery = null; // { type: 'name'|'date', value: string } or null
       var STATE_LABELS = { all: 'All', planned: 'Planned', ready: 'Ready', in_progress: 'In progress' };
-
-      function getSyncWindowRange() {
-        var today = new Date(focusReferenceDate);
-        var daysBack = settingWindowBack ? parseInt(settingWindowBack.value, 10) : -7;
-        var daysAhead = settingWindow ? parseInt(settingWindow.value, 10) : 14;
-        var start = new Date(today);
-        start.setDate(start.getDate() + daysBack);
-        var end = new Date(today);
-        end.setDate(end.getDate() + daysAhead);
-        return [start.toISOString().slice(0, 10), end.toISOString().slice(0, 10)];
-      }
+      var linkedProviders = [
+        { id: 'p1', name: 'Dr. John Doe' },
+        { id: 'p2', name: 'Dr. Maya Singh' },
+        { id: 'p3', name: 'Dr. Liam Carter' }
+      ];
+      var isMoreFiltersExpanded = false;
+      var currentProviderFilters = [];
+      var assignedToMeOnly = false;
 
       function getEffectiveDateRange() {
-        if (currentDateQuickFilter === 'today') {
-          var s = focusReferenceDate.toISOString().slice(0, 10);
-          return [s, s];
+        if (listMode === 'search_server') {
+          if (searchSelectedDate) return [searchSelectedDate, searchSelectedDate];
+          var start = new Date(focusReferenceDate);
+          start.setDate(start.getDate() - PRACTICE_LOOKBACK_DAYS);
+          var end = new Date(focusReferenceDate);
+          end.setDate(end.getDate() + PRACTICE_LOOKAHEAD_DAYS);
+          return [start.toISOString().slice(0, 10), end.toISOString().slice(0, 10)];
         }
-        if (currentDateQuickFilter === 'tomorrow') {
-          var d = new Date(focusReferenceDate);
-          d.setDate(d.getDate() + 1);
-          var t = d.toISOString().slice(0, 10);
-          return [t, t];
-        }
-        return getSyncWindowRange();
-      }
-
-      function minutesToTimeStr(minutes) {
-        var h = Math.floor(minutes / 60);
-        var m = minutes % 60;
-        return (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m;
+        return [currentActiveDate, currentActiveDate];
       }
 
       function parseMetaTimeToMinutes(metaText) {
@@ -2146,11 +2084,25 @@
         return h * 60 + m;
       }
 
-      function updateTimeFilterStrip() {
-        if (!timeFilterStripEl || !timeFilterStartInput || !timeFilterEndInput) return;
-        var start = parseInt(timeFilterStartInput.value, 10);
-        var end = parseInt(timeFilterEndInput.value, 10);
-        timeFilterStripEl.textContent = minutesToTimeStr(start) + ' — ' + minutesToTimeStr(end);
+      function getTimeBucket(minutes) {
+        if (minutes == null) return null;
+        if (minutes < 10 * 60) return 'before_10';
+        if (minutes < 14 * 60) return 'ten_to_two';
+        return 'after_2';
+      }
+
+      function getTimeBucketLabel(bucket) {
+        if (bucket === 'before_10') return 'Before 10 AM';
+        if (bucket === 'ten_to_two') return '10 AM to 2 PM';
+        return 'After 2 PM';
+      }
+
+      function updateTimeSegmentChips() {
+        if (!timeSegmentList) return;
+        timeSegmentList.querySelectorAll('.time-segment-chip[data-time-bucket]').forEach(function (chip) {
+          var bucket = chip.getAttribute('data-time-bucket');
+          chip.classList.toggle('active', !!activeTimeBuckets[bucket]);
+        });
       }
 
       function formatDateString(dateStr) {
@@ -2241,6 +2193,77 @@
         return cards;
       }
 
+      function updateProviderFilterVisibility() {
+        if (!providerFilterBlock) return;
+        var showProvider = !!linkedProviders && linkedProviders.length > 1;
+        providerFilterBlock.hidden = !showProvider;
+        if (!showProvider) currentProviderFilters = [];
+      }
+
+      function updateProviderMultiselectLabel() {
+        if (!providerMultiselectToggle) return;
+        if (!currentProviderFilters.length) {
+          providerMultiselectToggle.textContent = 'All providers';
+          return;
+        }
+        providerMultiselectToggle.textContent = currentProviderFilters.length + ' provider(s) selected';
+      }
+
+      function populateProviderFilterOptions() {
+        if (!providerMultiselectMenu) return;
+        var rows = [];
+        linkedProviders.forEach(function (provider) {
+          var checked = currentProviderFilters.indexOf(provider.id) !== -1 ? ' checked' : '';
+          rows.push('<label class="provider-option-row"><input type="checkbox" data-provider-id="' + provider.id + '"' + checked + ' /><span>' + provider.name + '</span></label>');
+        });
+        providerMultiselectMenu.innerHTML = rows.join('');
+        updateProviderMultiselectLabel();
+      }
+
+      function getProviderLabel(providerId) {
+        if (!providerId) return null;
+        for (var i = 0; i < linkedProviders.length; i++) {
+          if (linkedProviders[i].id === providerId) return linkedProviders[i].name;
+        }
+        return providerId;
+      }
+
+      function renderSecondaryFilterSummary() {
+        if (!secondaryFilterSummary) return;
+        var chips = [];
+        if (providerFilterBlock && !providerFilterBlock.hidden && currentProviderFilters.length > 0) {
+          var labels = currentProviderFilters.map(function (providerId) {
+            return getProviderLabel(providerId) || providerId;
+          });
+          chips.push('<span class="secondary-filter-chip">Provider: ' + escapeHtml(labels.join(', ')) + ' <button type="button" data-clear-secondary="provider" aria-label="Clear provider filter">×</button></span>');
+        }
+        if (assignedToMeOnly) {
+          chips.push('<span class="secondary-filter-chip">Assigned to me <button type="button" data-clear-secondary="assigned" aria-label="Clear assigned to me filter">×</button></span>');
+        }
+        secondaryFilterSummary.innerHTML = chips.join('');
+      }
+
+      function setMoreFiltersExpanded(nextExpanded) {
+        if (!moreFiltersContent || !moreFiltersShell) return;
+        isMoreFiltersExpanded = !!nextExpanded;
+        moreFiltersContent.hidden = !isMoreFiltersExpanded;
+        if (moreFiltersToggle) {
+          moreFiltersToggle.setAttribute('aria-expanded', isMoreFiltersExpanded ? 'true' : 'false');
+        }
+        moreFiltersShell.classList.toggle('expanded', isMoreFiltersExpanded);
+      }
+
+      function cardMatchesProvider(card) {
+        if (!providerFilterBlock || providerFilterBlock.hidden) return true;
+        if (!currentProviderFilters || currentProviderFilters.length === 0) return true;
+        return currentProviderFilters.indexOf(card.getAttribute('data-provider-id')) !== -1;
+      }
+
+      function cardMatchesAssignedToMe(card) {
+        if (!assignedToMeOnly) return true;
+        return card.getAttribute('data-assigned-to-me') === 'true';
+      }
+
       function reorderConsultListByDates(orderedDates, insertAtStart) {
         var addRecording = consultList.querySelector('.add-recording');
         if (!addRecording) return;
@@ -2265,11 +2288,14 @@
       }
 
       function cardMatchesSearch(card) {
-        if (!searchQuery) return true;
+        if (!searchQuery || listMode === 'search_server') return true;
         if (searchQuery.type === 'name') {
           var nameEl = card.querySelector('.name');
           var name = nameEl ? nameEl.textContent : '';
           return name.toLowerCase().indexOf(searchQuery.value.toLowerCase()) !== -1;
+        }
+        if (searchQuery.type === 'id') {
+          return (inferConsultId(card) || '').toLowerCase() === String(searchQuery.value || '').toLowerCase();
         }
         return searchQuery.type === 'date' && card.getAttribute('data-date') === searchQuery.value;
       }
@@ -2279,19 +2305,27 @@
         var range = getEffectiveDateRange();
         var startStr = range[0];
         var endStr = range[1];
-        var timeStart = timeFilterStartInput ? parseInt(timeFilterStartInput.value, 10) : 0;
-        var timeEnd = timeFilterEndInput ? parseInt(timeFilterEndInput.value, 10) : 1440;
-        if (timeStart > timeEnd) { timeStart = timeEnd; timeEnd = timeFilterStartInput ? parseInt(timeFilterStartInput.value, 10) : 1440; }
+        var bucketFirstShown = {};
         consultList.querySelectorAll('.consult-card').forEach(function (card) {
           var date = card.getAttribute('data-date');
           var inScope = date && date >= startStr && date <= endStr;
           var stateMatch = !stateFilter || stateFilter === 'all' || card.getAttribute('data-state') === stateFilter;
           var searchMatch = cardMatchesSearch(card);
+          var providerMatch = cardMatchesProvider(card);
+          var assignedMatch = cardMatchesAssignedToMe(card);
           var metaEl = card.querySelector('.meta');
           var metaText = metaEl ? metaEl.textContent : '';
           var cardMinutes = parseMetaTimeToMinutes(metaText);
-          var timeMatch = cardMinutes == null || (cardMinutes >= timeStart && cardMinutes <= timeEnd);
-          card.style.display = (inScope && stateMatch && searchMatch && timeMatch) ? '' : 'none';
+          var cardBucket = getTimeBucket(cardMinutes);
+          var timeMatch = cardBucket == null || !!activeTimeBuckets[cardBucket];
+          card.classList.remove('bucket-start');
+          card.removeAttribute('data-bucket-label');
+          card.style.display = (inScope && stateMatch && searchMatch && timeMatch && providerMatch && assignedMatch) ? '' : 'none';
+          if (card.style.display !== 'none' && cardBucket && !bucketFirstShown[cardBucket]) {
+            bucketFirstShown[cardBucket] = true;
+            card.classList.add('bucket-start');
+            card.setAttribute('data-bucket-label', getTimeBucketLabel(cardBucket));
+          }
         });
         consultList.querySelectorAll('.consult-date').forEach(function (dateEl) {
           var date = dateEl.getAttribute('data-date');
@@ -2315,6 +2349,18 @@
           var date = dateEl.getAttribute('data-date');
           dateEl.textContent = formatDateString(date);
         });
+        var totalCards = consultList.querySelectorAll('.consult-card').length;
+        var visibleCards = 0;
+        consultList.querySelectorAll('.consult-card').forEach(function (card) {
+          if (card.style.display !== 'none') visibleCards += 1;
+        });
+        if (totalCards === 0) {
+          updateEmptyStateMessage('No search results found.', true);
+        } else if (visibleCards === 0) {
+          updateEmptyStateMessage('Results found, but none match active filters.', true);
+        } else {
+          updateEmptyStateMessage('', false);
+        }
       }
 
       function updateStatusPills() {
@@ -2348,46 +2394,149 @@
         });
       });
 
-      function updateDatePills() {
-        consultList.parentElement.querySelectorAll('.date-pill[data-date-filter]').forEach(function (pill) {
-          var filter = pill.getAttribute('data-date-filter');
-          pill.classList.toggle('active', filter === currentDateQuickFilter);
+      if (providerMultiselectToggle) {
+        providerMultiselectToggle.addEventListener('click', function () {
+          var isHidden = providerMultiselectMenu ? providerMultiselectMenu.hasAttribute('hidden') : true;
+          if (!providerMultiselectMenu) return;
+          if (isHidden) {
+            providerMultiselectMenu.removeAttribute('hidden');
+            providerMultiselectToggle.setAttribute('aria-expanded', 'true');
+          } else {
+            providerMultiselectMenu.setAttribute('hidden', '');
+            providerMultiselectToggle.setAttribute('aria-expanded', 'false');
+          }
         });
       }
-      consultList.parentElement.querySelectorAll('.date-pill[data-date-filter]').forEach(function (pill) {
-        pill.addEventListener('click', function () {
-          currentDateQuickFilter = pill.getAttribute('data-date-filter');
-          updateDatePills();
+      if (providerMultiselectMenu) {
+        providerMultiselectMenu.addEventListener('change', function () {
+          currentProviderFilters = Array.prototype.slice.call(providerMultiselectMenu.querySelectorAll('input[type="checkbox"]:checked')).map(function (cb) {
+            return cb.getAttribute('data-provider-id');
+          });
+          updateProviderMultiselectLabel();
           applyListFilters(currentStateFilter);
-          if (currentDateQuickFilter === 'today') showToast('Showing today.');
-          else if (currentDateQuickFilter === 'tomorrow') showToast('Showing tomorrow.');
-          else showToast('Showing all dates.');
+          renderSecondaryFilterSummary();
+          if (currentProviderFilters.length === 0) showToast('Provider: All providers.');
+          else showToast('Provider: ' + currentProviderFilters.length + ' selected.');
         });
+      }
+      document.addEventListener('click', function (event) {
+        if (!providerMultiselectMenu || !providerMultiselectToggle) return;
+        var inside = event.target && event.target.closest && event.target.closest('#provider-multiselect');
+        if (inside) return;
+        providerMultiselectMenu.setAttribute('hidden', '');
+        providerMultiselectToggle.setAttribute('aria-expanded', 'false');
       });
 
-      if (timeFilterStartInput) {
-        timeFilterStartInput.addEventListener('input', function () {
-          var start = parseInt(timeFilterStartInput.value, 10);
-          var end = parseInt(timeFilterEndInput.value, 10);
-          if (start > end) timeFilterEndInput.value = start;
-          updateTimeFilterStrip();
+      if (assignedToMeOnlyCheckbox) {
+        assignedToMeOnlyCheckbox.addEventListener('change', function (event) {
+          assignedToMeOnly = !!event.target.checked;
           applyListFilters(currentStateFilter);
+          renderSecondaryFilterSummary();
+          showToast(assignedToMeOnly ? 'Showing consults assigned to me.' : 'Showing all assignments.');
         });
       }
-      if (timeFilterEndInput) {
-        timeFilterEndInput.addEventListener('input', function () {
-          var start = parseInt(timeFilterStartInput.value, 10);
-          var end = parseInt(timeFilterEndInput.value, 10);
-          if (end < start) timeFilterStartInput.value = end;
-          updateTimeFilterStrip();
+
+      if (moreFiltersToggle) {
+        moreFiltersToggle.addEventListener('click', function () {
+          setMoreFiltersExpanded(!isMoreFiltersExpanded);
+        });
+      }
+      if (btnMoreFilters) {
+        btnMoreFilters.addEventListener('click', function () {
+          setMoreFiltersExpanded(!isMoreFiltersExpanded);
+        });
+      }
+
+      if (secondaryFilterSummary) {
+        secondaryFilterSummary.addEventListener('click', function (event) {
+          var clearBtn = event.target && event.target.closest && event.target.closest('button[data-clear-secondary]');
+          if (!clearBtn) return;
+          var clearType = clearBtn.getAttribute('data-clear-secondary');
+          if (clearType === 'provider') {
+            currentProviderFilters = [];
+            if (providerMultiselectMenu) providerMultiselectMenu.querySelectorAll('input[type="checkbox"]').forEach(function (cb) { cb.checked = false; });
+            if (providerMultiselectMenu) providerMultiselectMenu.setAttribute('hidden', '');
+            if (providerMultiselectToggle) providerMultiselectToggle.setAttribute('aria-expanded', 'false');
+            updateProviderMultiselectLabel();
+          } else if (clearType === 'assigned') {
+            assignedToMeOnly = false;
+            if (assignedToMeOnlyCheckbox) assignedToMeOnlyCheckbox.checked = false;
+          }
+          applyListFilters(currentStateFilter);
+          renderSecondaryFilterSummary();
+        });
+      }
+
+      function updateDatePills() {
+        if (!dateBarList) return;
+        var centerDate = listMode === 'search_server'
+          ? new Date(focusReferenceDate)
+          : new Date(currentActiveDate + 'T00:00:00');
+        var chips = [];
+        for (var i = -2; i <= 2; i++) {
+          var d = new Date(centerDate);
+          d.setDate(d.getDate() + i);
+          var key = d.toISOString().slice(0, 10);
+          var isActive = listMode === 'search_server'
+            ? (searchSelectedDate === key)
+            : (i === 0);
+          chips.push('<button type="button" class="date-bar-chip' + (isActive ? ' active' : '') + '" data-date-value="' + key + '">' + formatDateString(key) + '</button>');
+        }
+        dateBarList.innerHTML = chips.join('');
+      }
+      if (dateBarList) {
+        dateBarList.addEventListener('click', function (e) {
+          var chip = e.target && e.target.closest && e.target.closest('.date-bar-chip');
+          if (!chip) return;
+          var selectedDate = chip.getAttribute('data-date-value');
+          if (listMode === 'search_server') {
+            searchSelectedDate = searchSelectedDate === selectedDate ? null : selectedDate;
+            updateDatePills();
+            applyListFilters(currentStateFilter);
+            return;
+          }
+          setActiveDate(selectedDate);
+        });
+      }
+      if (timeSegmentList) {
+        timeSegmentList.addEventListener('click', function (e) {
+          var chip = e.target && e.target.closest && e.target.closest('.time-segment-chip');
+          if (!chip) return;
+          var bucket = chip.getAttribute('data-time-bucket');
+          if (!bucket) return;
+          activeTimeBuckets[bucket] = !activeTimeBuckets[bucket];
+          if (!activeTimeBuckets.before_10 && !activeTimeBuckets.ten_to_two && !activeTimeBuckets.after_2) {
+            activeTimeBuckets[bucket] = true;
+          }
+          updateTimeSegmentChips();
           applyListFilters(currentStateFilter);
         });
       }
 
-      updateSyncStrip();
-      updateTimeFilterStrip();
-      applyListFilters(currentStateFilter);
+      consultList.addEventListener('click', function (event) {
+        var card = event.target && event.target.closest && event.target.closest('.consult-card');
+        if (!card) return;
+        consultList.querySelectorAll('.consult-card.selected').forEach(function (selected) {
+          selected.classList.remove('selected');
+        });
+        card.classList.add('selected');
+        if (listMode === 'search_server') {
+          var openedRecord = getCardRecord(card, 'search_server');
+          clickedSearchConsultMap[openedRecord.consultId] = Object.assign({}, openedRecord);
+          upsertIntoLocalDb(openedRecord);
+          showToast('Opened consult and saved to local DB.');
+        } else {
+          showToast('Opened consult.');
+        }
+      });
+
+      updateTimeSegmentChips();
       updateStatusPills();
+      updateProviderFilterVisibility();
+      populateProviderFilterOptions();
+      setMoreFiltersExpanded(false);
+      renderSecondaryFilterSummary();
+      setActiveDate(currentActiveDate, { suppressToast: true });
       updateDatePills();
     })();
   </script>
